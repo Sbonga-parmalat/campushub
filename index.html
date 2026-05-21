@@ -172,6 +172,17 @@
             font-weight: 600;
             outline: none;
         }
+        .calc-select {
+            width: 96%;
+            padding: 10px;
+            border: 1px solid rgba(0,0,0,0.1);
+            border-radius: 8px;
+            background: var(--calc-bg);
+            color: var(--card-text);
+            font-weight: 600;
+            outline: none;
+            margin-bottom: 15px;
+        }
         .calc-result-box {
             margin-top: 15px;
             padding: 12px;
@@ -387,28 +398,32 @@
 
             <div class="link-card accordion-btn" id="calcToggle">
                 <span style="display: flex; align-items: center; width: 100%; justify-content: center; gap: 8px;">
-                    <span>⚙️</span> Turn-Speed Calculator <span class="arrow" id="calcArrow">▼</span>
+                    <span>⚙️</span> Machining Calculator <span class="arrow" id="calcArrow">▼</span>
                 </span>
             </div>
 
             <div class="accordion-content" id="calcMenu">
                 <div class="accordion-inner-box">
-                    <p style="margin: 0 0 15px 0; font-size: 14px; font-weight: 600; text-align: left;">🔧 Lathe Spindle Speed (RPM)</p>
+                    <label style="display: block; text-align: left; font-size: 12px; font-weight: 700; margin-bottom: 5px; opacity: 0.9;">Choose Calculation Mode:</label>
+                    <select id="calcMode" class="calc-select">
+                        <option value="rpm">Lathe Spindle Speed (RPM)</option>
+                        <option value="vc">Cutting Speed (Vc in m/min)</option>
+                    </select>
                     
-                    <div class="calc-group">
-                        <label>Cutting Speed (Vc) in m/min:</label>
-                        <input type="number" id="cuttingSpeed" class="calc-input" placeholder="e.g., 180" value="150">
+                    <div class="calc-group" id="field1Group">
+                        <label id="field1Label">Cutting Speed (Vc) in m/min:</label>
+                        <input type="number" id="field1Input" class="calc-input" placeholder="e.g., 150" value="150">
                     </div>
 
                     <div class="calc-group">
                         <label>Workpiece Diameter (d) in mm:</label>
-                        <input type="number" id="diameter" class="calc-input" placeholder="e.g., 50" value="40">
+                        <input type="number" id="diameter" class="calc-input" placeholder="e.g., 40" value="40">
                     </div>
 
-                    <button class="action-button" id="calculateBtn">⚙️ Calculate Spindle RPM</button>
+                    <button class="action-button" id="calculateBtn">⚙️ Run Machining Formula</button>
 
                     <div class="calc-result-box">
-                        🚀 Recommended Speed: <span id="rpmResult" style="color: #00d4ff;">375 RPM</span>
+                        🚀 Calculated Output: <span id="rpmResult" style="color: #00d4ff;">375 RPM</span>
                     </div>
                 </div>
             </div>
@@ -487,6 +502,29 @@
             }
         }
 
+        // MODE TOGGLE EVENT HANDLER FOR ENGINE FORMS
+        var calcModeSelect = document.getElementById("calcMode");
+        if (calcModeSelect) {
+            calcModeSelect.addEventListener("change", function() {
+                var currentMode = this.value;
+                var label = document.getElementById("field1Label");
+                var input = document.getElementById("field1Input");
+                var outputBox = document.getElementById("rpmResult");
+                
+                if (currentMode === "rpm") {
+                    label.innerText = "Cutting Speed (Vc) in m/min:";
+                    input.placeholder = "e.g., 150";
+                    input.value = "150";
+                    outputBox.innerText = "375 RPM";
+                } else {
+                    label.innerText = "Spindle Rotational Speed (N) in RPM:";
+                    input.placeholder = "e.g., 400";
+                    input.value = "400";
+                    outputBox.innerText = "50.27 m/min";
+                }
+            });
+        }
+
         // DEEP SEARCH LOGIC
         var searchInput = document.getElementById("searchInput");
         if (searchInput) {
@@ -562,17 +600,26 @@
         setupAccordion("calcToggle", "calcMenu", "calcArrow");
         setupAccordion("aboutToggle", "aboutMenu", "aboutArrow");
 
+        // SMART MATHEMATICS RUN ENGINE FOR BOTH FORMULAS
         var calculateBtn = document.getElementById("calculateBtn");
         if (calculateBtn) {
             calculateBtn.addEventListener("click", function() {
-                var Vc = parseFloat(document.getElementById("cuttingSpeed").value);
+                var selectMode = document.getElementById("calcMode").value;
+                var inputVal = parseFloat(document.getElementById("field1Input").value);
                 var d = parseFloat(document.getElementById("diameter").value);
                 var resultSpan = document.getElementById("rpmResult");
                 var calcMenu = document.getElementById("calcMenu");
 
-                if (Vc > 0 && d > 0) {
-                    var rpm = (1000 * Vc) / (Math.PI * d);
-                    resultSpan.innerText = Math.round(rpm) + " RPM";
+                if (inputVal > 0 && d > 0) {
+                    if (selectMode === "rpm") {
+                        // Math Mode 1: Given Vc and d -> Find RPM
+                        var rpm = (1000 * inputVal) / (Math.PI * d);
+                        resultSpan.innerText = Math.round(rpm) + " RPM";
+                    } else {
+                        // Math Mode 2: Given RPM (N) and d -> Find Vc
+                        var vc = (Math.PI * d * inputVal) / 1000;
+                        resultSpan.innerText = vc.toFixed(2) + " m/min";
+                    }
                 } else {
                     resultSpan.innerText = "Please input valid numbers!";
                 }
