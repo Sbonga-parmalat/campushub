@@ -1,21 +1,21 @@
 {
   "short_name": "Campus Hub",
-  "name": "Student Campus Link Hub",
+  "name": "Mandeni Student Hub Dashboard",
   "icons": [
     {
-      "src": "app-icon.png",
+      "src": "mfolozi.png",
       "type": "image/png",
       "sizes": "192x192"
     },
     {
-      "src": "app-icon-large.png",
+      "src": "mfolozi.png",
       "type": "image/png",
       "sizes": "512x512"
     }
   ],
-  "start_url": "./My WebApp.html",
-  "background_color": "#05020c",
-  "theme_color": "#00d4ff",
+  "start_url": "/campushub/index.html",
+  "background_color": "#030107",
+  "theme_color": "#0056b3",
   "display": "standalone",
   "orientation": "portrait"
 }
