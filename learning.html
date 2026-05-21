@@ -3,62 +3,134 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Learning Management</title>
-    
+    <title>Learning Management - Campus Hub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet">
     <style>
         body {
-            background-color: #000000;
-            font-family: sans-serif;
+            background-color: #030107;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             text-align: center;
             margin: 0;
+            padding: 0;
+            color: #ffffff;
         }
         
         .container {
-            max-width: 400px;
-            margin: 50px auto;
-            padding: 20px;
+            max-width: 420px;
+            margin: 40px auto;
+            padding: 25px;
+            background: rgba(255, 255, 255, 0.06);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 24px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-sizing: border-box;
+            width: 90%;
+        }
+
+        h1 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 800;
+            color: #00d4ff;
+            font-size: 24px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-top: 5px;
+            text-shadow: 0 0 15px rgba(0,212,255,0.4);
+        }
+
+        h3 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            font-size: 15px;
+            color: #ffffff;
+            margin-top: 30px;
+            margin-bottom: 12px;
+            text-align: left;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            opacity: 0.95;
+            letter-spacing: 0.3px;
         }
 
         .link-card {
             display: block;
             text-align: center;
-            background: #0056b3;
+            background: rgba(255, 255, 255, 0.1);
             color: white;
-            padding: 15px;
-            margin: 10px 0;
+            padding: 14px 18px;
+            margin: 12px 0;
             text-decoration: none;
             border-radius: 50px;
-            font-weight: bold;
+            font-weight: 600;
+            font-size: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            transition: all 0.25s ease;
+        }
+
+        .link-card:transparent {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .link-card:active, .link-card:hover {
+            background: linear-gradient(135deg, #0056b3, #00d4ff);
+            box-shadow: 0 4px 15px rgba(0, 212, 255, 0.4);
+            transform: translateY(-2px);
+            border-color: transparent;
         }
 
         .back-btn {
-            color: #555;
-            text-decoration: underline;
-            display: block;
-            text-align: center;
-            margin-top: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.07);
+            color: #e0e0e0;
+            padding: 12px;
+            margin-top: 35px;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 13px;
+            font-family: 'Montserrat', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.25s ease;
+        }
+
+        .back-btn:active, .back-btn:hover {
+            background: #6c757d;
+            color: white;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
         }
     </style>
 </head>
 <body>
+
     <div class="container">
-        <h1 style="color: #0056b3;">Campus Hub - uMfolozi</h1>
+        <h1>Campus Hub</h1>
+        <p style="color: #00d4ff; font-weight: 600; font-size: 13px; margin: -5px 0 20px 0; opacity: 0.8; letter-spacing: 1px; text-transform: uppercase;">Learning Management</p>
         
-        <h3 style="color: #ffffff; margin-top: 20px;"> Official Portals</h3>
+        <h3>🌐 Official Portals</h3>
         <a href="https://yourcollege.moodle.com" class="link-card" target="_blank">Login to Moodle</a>
         
-        <h3 style="color: #ffffff; margin-top: 20px;">🛠️ Academic Tools</h3>
+        <h3>🛠️ Academic Tools</h3>
         <a href="https://www.canva.com/resumes/templates/" class="link-card" target="_blank">Professional CV Templates</a>
         <a href="https://smallpdf.com/" class="link-card" target="_blank">PDF Tools (Merge & Compress)</a>
         
-        <h3 style="color: #ffffff; margin-top: 20px;">📝 Study Help</h3>
+        <h3>📝 Study Help</h3>
         <a href="https://www.grammarly.com" class="link-card" target="_blank">Grammar & Spell Check</a>
         
-        <a href="index.html" class="back-btn" style="background-color: #6c757d; color: white; border-radius: 50px; padding: 12px; text-decoration: none; font-weight: bold;">⬅️ Back to Main Menu</a>
+        <a href="index.html" class="back-btn">⬅️ Back to Main Menu</a>
     </div>
 
-    <footer style="color: #00d4ff; text-align: center; margin-top: 20px; font-weight: bold;">
+    <footer style="color: #00d4ff; opacity: 0.6; text-align: center; margin-top: 30px; font-weight: bold; font-size: 12px; letter-spacing: 0.5px;">
         <p>&copy; 2026 Mwandla Sbongokuhle</p>
     </footer>
+
 </body>
 </html>
