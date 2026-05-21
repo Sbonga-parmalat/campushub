@@ -1,0 +1,21 @@
+{
+  "short_name": "Campus Hub",
+  "name": "Student Campus Link Hub",
+  "icons": [
+    {
+      "src": "app-icon.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "app-icon-large.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": "./My WebApp.html",
+  "background_color": "#05020c",
+  "theme_color": "#00d4ff",
+  "display": "standalone",
+  "orientation": "portrait"
+}

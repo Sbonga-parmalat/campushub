@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Link Hub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&display=swap" rel="stylesheet">
+	<link rel="manifest" href="manifest.json">
+    <style>
+        :root {
+            --bg-color: #f4f4f4;
+            --container-bg: rgba(255, 255, 255, 0.15);
+            --text-color: #ffffff;
+            --card-bg: #ffffff;
+            --card-text: #2c3e50;
+            --hub-title: #0056b3;
+            --btn-gradient: linear-gradient(135deg, #0056b3, #00d4ff);
+            --calc-bg: #f8f9fa;
+        }
+
+        [data-theme="dark"] {
+            --bg-color: #121212;
+            --container-bg: rgba(0, 0, 0, 0.6);
+            --text-color: #e0e0e0;
+            --card-bg: #1e1e1e;
+            --card-text: #ffffff;
+            --hub-title: #00d4ff;
+            --btn-gradient: linear-gradient(135deg, #7000ff, #00d4ff);
+            --calc-bg: #2d2d2d;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            text-align: center;
+            background-color: var(--bg-color);
+            margin: 0;
+            padding: 0;
+            transition: background-color 0.4s ease;
+        }
+        
+        .container {
+            max-width: 420px;
+            margin: 40px auto;
+            padding: 25px;
+            background: var(--container-bg);
+            backdrop-filter: blur(10px);
+            border-radius: 24px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+            position: relative;
+            transition: background 0.4s ease;
+        }
+
+        .search-bar {
+            width: 90%;
+            padding: 12px 15px;
+            margin: 15px 0 25px 0;
+            border: none;
+            border-radius: 50px;
+            background: var(--card-bg);
+            color: var(--card-text);
+            font-size: 14px;
+            font-weight: 500;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.05), 0 4px 6px rgba(0,0,0,0.05);
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .search-bar:focus { box-shadow: 0 0 0 3px #00d4ff; }
+
+        .links-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 15px;
+        }
+
+        .link-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: var(--card-bg);
+            padding: 20px 10px;
+            text-decoration: none;
+            color: var(--card-text);
+            border-radius: 18px;
+            font-weight: 600;
+            font-size: 14px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+            transition: transform 0.2s, background-color 0.4s ease, color 0.4s ease;
+        }
+
+        .link-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+        }
+
+        .accordion-btn {
+            grid-column: span 2;
+            cursor: pointer;
+        }
+
+        .accordion-btn .arrow {
+            margin-left: auto;
+            transition: transform 0.3s ease;
+        }
+
+        .accordion-content {
+            grid-column: span 2;
+            max-height: 0;
+            overflow: hidden;
+            background: var(--card-bg);
+            border-radius: 14px;
+            transition: max-height 0.3s ease-out, padding 0.3s ease;
+            box-shadow: inset 0 2px 8px rgba(0,0,0,0.1);
+            text-align: center;
+            color: var(--card-text);
+        }
+
+        .accordion-inner-box {
+            padding: 20px;
+        }
+
+        .action-button {
+            display: inline-block;
+            margin-top: 12px;
+            padding: 12px 24px;
+            background: var(--btn-gradient);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 13px;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 15px rgba(0,212,255,0.3);
+            transition: transform 0.2s, box-shadow 0.2s;
+            border: none;
+            cursor: pointer;
+            width: 80%;
+        }
+
+        .action-button:hover {
+            transform: scale(1.03);
+            box-shadow: 0 6px 20px rgba(0,212,255,0.5);
+        }
+
+        /* Calculator Styles */
+        .calc-group {
+            text-align: left;
+            margin-bottom: 12px;
+        }
+        .calc-group label {
+            display: block;
+            font-size: 12px;
+            font-weight: 700;
+            margin-bottom: 5px;
+            opacity: 0.9;
+        }
+        .calc-input {
+            width: 90%;
+            padding: 10px;
+            border: 1px solid rgba(0,0,0,0.1);
+            border-radius: 8px;
+            background: var(--calc-bg);
+            color: var(--card-text);
+            font-weight: 600;
+            outline: none;
+        }
+        .calc-result-box {
+            margin-top: 15px;
+            padding: 12px;
+            background: var(--calc-bg);
+            border-radius: 10px;
+            border-left: 4px solid #00d4ff;
+            font-weight: bold;
+            font-size: 14px;
+            text-align: left;
+        }
+
+        .theme-toggle {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: var(--card-bg);
+            color: var(--card-text);
+            border: none;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+
+        /* ==================== ADVANCED SMOKY GEMINI SPLASH SCREEN ==================== */
+        #splash-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #05020c; /* Deep space dark canvas base */
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999; 
+            transition: opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1), visibility 1.2s;
+        }
+
+        /* Ambient Smoky Gas Clouds Layer */
+        .smoke-container {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            filter: blur(60px); /* Smooths shapes into rolling smoke gases */
+            opacity: 0.75;
+            mix-blend-mode: screen;
+        }
+
+        .smoke-cloud {
+            position: absolute;
+            border-radius: 50%;
+            mix-blend-mode: screen;
+        }
+
+        /* Cloud 1: Cyan Gas */
+        .cloud-cyan {
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(0,212,255,0.8) 0%, rgba(0,212,255,0) 70%);
+            top: -10%;
+            left: -10%;
+            animation: smokeMoveOne 12s infinite alternate ease-in-out;
+        }
+
+        /* Cloud 2: Cosmic Indigo/Purple */
+        .cloud-purple {
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(112,0,255,0.7) 0%, rgba(112,0,255,0) 70%);
+            bottom: -20%;
+            right: -10%;
+            animation: smokeMoveTwo 16s infinite alternate ease-in-out;
+        }
+
+        /* Cloud 3: Bright Magenta Flare */
+        .cloud-magenta {
+            width: 450px;
+            height: 450px;
+            background: radial-gradient(circle, rgba(217,0,255,0.65) 0%, rgba(217,0,255,0) 70%);
+            top: 30%;
+            right: 15%;
+            animation: smokeMoveThree 14s infinite alternate ease-in-out;
+        }
+
+        /* Overlapping interlocking movement vectors to simulate fluid smoke currents */
+        @keyframes smokeMoveOne {
+            0% { transform: translate(0px, 0px) scale(1); }
+            50% { transform: translate(120px, 80px) scale(1.2); }
+            100% { transform: translate(-40px, 150px) scale(0.9); }
+        }
+
+        @keyframes smokeMoveTwo {
+            0% { transform: translate(0px, 0px) scale(1.1); }
+            50% { transform: translate(-150px, -100px) scale(0.85); }
+            100% { transform: translate(60px, -40px) scale(1.2); }
+        }
+
+        @keyframes smokeMoveThree {
+            0% { transform: translate(0px, 0px) rotate(0deg); }
+            50% { transform: translate(-80px, 120px) rotate(180deg); }
+            100% { transform: translate(100px, -60px) rotate(360deg); }
+        }
+
+        /* Text Layer floating cleanly on top of the smoke */
+        .splash-content { 
+            position: relative;
+            text-align: center; 
+            width: 90%; 
+            z-index: 2;
+        }
+
+        #welcome-msg {
+            color: #ffffff; 
+            font-family: 'Montserrat', sans-serif; 
+            font-size: 34px; 
+            font-weight: 800; 
+            text-transform: uppercase; 
+            letter-spacing: 1.5px; 
+            display: inline-block;
+            border-right: 4px solid #ffffff; 
+            white-space: nowrap;
+            margin: 0 auto;
+            padding-right: 6px;
+            text-shadow: 0 0 15px rgba(255,255,255,0.6), 0 0 25px #00d4ff; 
+            animation: blinkCursor 0.75s step-end infinite;
+        }
+
+        @keyframes blinkCursor {
+            from, to { border-color: transparent }
+            50% { border-color: #ffffff; }
+        }
+
+        .fade-out { opacity: 0 !important; visibility: hidden !important; }
+    </style>
+</head>
+<body style="background-image:url('mfolozi.png'); background-size: contain; background-repeat: no-repeat; background-attachment: fixed; background-position: center;">
+
+    <div id="splash-screen">
+        <div class="smoke-container">
+            <div class="smoke-cloud cloud-cyan"></div>
+            <div class="smoke-cloud cloud-purple"></div>
+            <div class="smoke-cloud cloud-magenta"></div>
+        </div>
+        <div class="splash-content">
+            <h1 id="welcome-msg"></h1>
+        </div>
+    </div>
+
+    <div class="container">
+        <button class="theme-toggle" id="themeBtn" title="Toggle Theme">🌓</button>
+
+        <h1 id="hubTitle" style="color: var(--hub-title); transition: color 0.4s ease; margin-top: 15px;">Campus Hub</h1>
+        <p style="color: var(--text-color); font-weight:500; text-shadow:1px 1px 3px rgba(0,0,0,0.3);">All your important links in one place !!</p>
+        
+        <input type="text" id="searchInput" class="search-bar" placeholder="🔍 Search dashboard resources...">
+
+        <div class="links-grid" id="linksContainer">
+            <a href="https://umfolozi.coltech.co.za/" class="link-card" target="_blank">
+                <span style="font-size: 24px; margin-bottom:6px;">🎓</span>
+                <span>Student Portal</span>
+            </a>
+            
+            <a href="learning.html" class="link-card" target="_blank">
+                <span style="font-size: 24px; margin-bottom:6px;">💻</span>
+                <span>LMS Portal</span>
+            </a>
+            
+            <a href="library.html" class="link-card" target="_blank">
+                <span style="font-size: 24px; margin-bottom:6px;">📚</span>
+                <span>Library Desk</span>
+            </a>
+
+            <a href="https://my.nsfas.org.za/" class="link-card" target="_blank">
+                <span style="font-size: 24px; margin-bottom:6px;">💰</span>
+                <span>NSFAS Tracking</span>
+            </a>
+            
+            <div class="link-card accordion-btn" id="timetableToggle">
+                <span style="display: flex; align-items: center; width: 100%; justify-content: center; gap: 8px;">
+                    <span>📅</span> Campus Timetables <span class="arrow" id="timetableArrow">▼</span>
+                </span>
+            </div>
+
+            <div class="accordion-content" id="timetableMenu">
+                <div class="accordion-inner-box">
+                    <p style="margin: 0 0 10px 0; font-size: 14px; font-weight: 600;">🏫 Mandeni Campus Notice Board</p>
+                    <p style="margin: 0 0 15px 0; font-size: 12px; opacity: 0.8; line-height: 1.4;">
+                        Click below to access the official college portal directory to view or download live timetables.
+                    </p>
+                    <a href="https://www.umfolozicollege.edu.za/" target="_blank" class="action-button" style="text-decoration:none;">
+                        🚀 View Official Timetable
+                    </a>
+                </div>
+            </div>
+
+            <div class="link-card accordion-btn" id="calcToggle">
+                <span style="display: flex; align-items: center; width: 100%; justify-content: center; gap: 8px;">
+                    <span>⚙️</span> Turn-Speed Calculator <span class="arrow" id="calcArrow">▼</span>
+                </span>
+            </div>
+
+            <div class="accordion-content" id="calcMenu">
+                <div class="accordion-inner-box">
+                    <p style="margin: 0 0 15px 0; font-size: 14px; font-weight: 600; text-align: left;">🔧 Lathe Spindle Speed (RPM)</p>
+                    
+                    <div class="calc-group">
+                        <label>Cutting Speed (Vc) in m/min:</label>
+                        <input type="number" id="cuttingSpeed" class="calc-input" placeholder="e.g., 180" value="150">
+                    </div>
+
+                    <div class="calc-group">
+                        <label>Workpiece Diameter (d) in mm:</label>
+                        <input type="number" id="diameter" class="calc-input" placeholder="e.g., 50" value="40">
+                    </div>
+
+                    <button class="action-button" id="calculateBtn">⚙️ Calculate Spindle RPM</button>
+
+                    <div class="calc-result-box">
+                        🚀 Recommended Speed: <span id="rpmResult" style="color: #00d4ff;">375 RPM</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <footer style="color:#00d4ff; text-align:center; margin-top:30px; font-weight:bold;">
+        <p>&copy; 2026 Mwandla Sbongokuhle</p>
+    </footer>
+
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // --- 1. System Time Greeting ---
+        var greeting = "Good Evening, Student!";
+        var time = new Date().getHours();
+        if (time < 12) { greeting = "Good Morning, Student!"; }
+        else if (time < 18) { greeting = "Good Afternoon, Student!"; }
+
+        var msgElement = document.getElementById("welcome-msg");
+        var index = 0;
+
+        function typeWriter() {
+            if (msgElement && index < greeting.length) {
+                msgElement.innerHTML += greeting.charAt(index);
+                index++;
+                setTimeout(typeWriter, 65); 
+            } else {
+                setTimeout(removeSplashScreen, 1400);
+            }
+        }
+
+        function removeSplashScreen() {
+            var splash = document.getElementById("splash-screen");
+            if (splash) { splash.classList.add("fade-out"); }
+        }
+
+        if (msgElement) { typeWriter(); } else { removeSplashScreen(); }
+
+        // --- 2. Live Search Filter ---
+        var searchInput = document.getElementById("searchInput");
+        if (searchInput) {
+            searchInput.addEventListener("keyup", function() {
+                var filter = searchInput.value.toLowerCase();
+                var cards = document.getElementsByClassName("link-card");
+                for (var i = 0; i < cards.length; i++) {
+                    var cardText = cards[i].textContent || cards[i].innerText;
+                    if (cardText.toLowerCase().indexOf(filter) > -1) {
+                        cards[i].style.display = "flex";
+                    } else {
+                        cards[i].style.display = "none";
+                    }
+                }
+            });
+        }
+
+        // --- 3. Dynamic Accordion Handles ---
+        function setupAccordion(toggleId, menuId, arrowId) {
+            var toggle = document.getElementById(toggleId);
+            var menu = document.getElementById(menuId);
+            var arrow = document.getElementById(arrowId);
+
+            if (toggle && menu && arrow) {
+                toggle.addEventListener("click", function() {
+                    if (!menu.style.maxHeight || menu.style.maxHeight === "0px") {
+                        menu.style.maxHeight = menu.scrollHeight + "px";
+                        arrow.style.transform = "rotate(180deg)";
+                    } else {
+                        menu.style.maxHeight = "0px";
+                        arrow.style.transform = "rotate(0deg)";
+                    }
+                });
+            }
+        }
+        
+        setupAccordion("timetableToggle", "timetableMenu", "timetableArrow");
+        setupAccordion("calcToggle", "calcMenu", "calcArrow");
+
+        // --- 4. Engineering Machining Calculator Engine ---
+        var calculateBtn = document.getElementById("calculateBtn");
+        if (calculateBtn) {
+            calculateBtn.addEventListener("click", function() {
+                var Vc = parseFloat(document.getElementById("cuttingSpeed").value);
+                var d = parseFloat(document.getElementById("diameter").value);
+                var resultSpan = document.getElementById("rpmResult");
+                var calcMenu = document.getElementById("calcMenu");
+
+                if (Vc > 0 && d > 0) {
+                    var rpm = (1000 * Vc) / (Math.PI * d);
+                    resultSpan.innerText = Math.round(rpm) + " RPM";
+                } else {
+                    resultSpan.innerText = "Please input valid numbers!";
+                }
+                calcMenu.style.maxHeight = calcMenu.scrollHeight + "px";
+            });
+        }
+
+        // --- 5. Dark/Light Mode Theme Toggle ---
+        var themeBtn = document.getElementById("themeBtn");
+        if (themeBtn) {
+            themeBtn.addEventListener("click", function() {
+                var currentTheme = document.documentElement.getAttribute("data-theme");
+                if (currentTheme === "dark") {
+                    document.documentElement.setAttribute("data-theme", "light");
+                } else {
+                    document.documentElement.setAttribute("data-theme", "dark");
+                }
+            });
+        }
+    });
+    </script>
+</body>
+</html>
