@@ -3,28 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Library Desk - Campus Hub</title>
+    <title>Learning Management</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet">
     <style>
         body {
-            background-color: #030107;
+            background-color: #000000;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             text-align: center;
             margin: 0;
-            padding: 0;
+            padding: 20px 0;
             color: #ffffff;
         }
         
-        .container {
-            max-width: 420px;
-            margin: 40px auto;
-            padding: 25px;
-            background: rgba(255, 255, 255, 0.06);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border-radius: 24px;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.4);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+        .wrapper {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 10px;
             box-sizing: border-box;
             width: 90%;
         }
@@ -33,102 +27,85 @@
             font-family: 'Montserrat', sans-serif;
             font-weight: 800;
             color: #00d4ff;
-            font-size: 24px;
-            text-transform: uppercase;
+            font-size: 26px;
             letter-spacing: 0.5px;
-            margin-top: 5px;
-            text-shadow: 0 0 15px rgba(0,212,255,0.4);
+            margin-bottom: 5px;
         }
 
-        h3 {
+        .subtitle {
+            color: #888888;
+            font-size: 14px;
+            font-weight: 500;
+            margin-top: 0;
+            margin-bottom: 35px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+        }
+
+        .section-title {
             font-family: 'Montserrat', sans-serif;
             font-weight: 700;
-            font-size: 15px;
-            color: #ffffff;
-            margin-top: 30px;
-            margin-bottom: 12px;
+            font-size: 14px;
+            color: #a0a0a0;
             text-align: left;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            opacity: 0.95;
-            letter-spacing: 0.3px;
+            margin-top: 25px;
+            margin-bottom: 10px;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
         }
 
         .link-card {
             display: block;
             text-align: center;
-            background: rgba(255, 255, 255, 0.1);
-            color: white;
-            padding: 14px 18px;
+            background: #0a0a0c;
+            color: #ffffff;
+            padding: 16px;
             margin: 12px 0;
             text-decoration: none;
-            border-radius: 50px;
+            border-radius: 14px;
             font-weight: 600;
-            font-size: 14px;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-            transition: all 0.25s ease;
+            font-size: 15px;
+            border: 1px solid #0056b3;
+            transition: all 0.2s ease-in-out;
         }
 
-        .link-card:active, .link-card:hover {
-            background: linear-gradient(135deg, #0056b3, #00d4ff);
-            box-shadow: 0 4px 15px rgba(0, 212, 255, 0.4);
-            transform: translateY(-2px);
-            border-color: transparent;
+        .link-card:active {
+            background: #0056b3;
+            box-shadow: 0 0 15px rgba(0, 86, 179, 0.6);
+            transform: scale(0.98);
         }
 
         .back-btn {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            background: rgba(255, 255, 255, 0.07);
-            color: #e0e0e0;
-            padding: 12px;
-            margin-top: 35px;
+            display: block;
+            text-align: center;
+            background: #16161a;
+            color: #ffffff;
+            padding: 14px;
+            margin-top: 40px;
             text-decoration: none;
-            border-radius: 50px;
+            border-radius: 14px;
             font-weight: 700;
             font-size: 13px;
             font-family: 'Montserrat', sans-serif;
-            text-transform: uppercase;
             letter-spacing: 0.5px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            transition: all 0.25s ease;
+            border: 1px solid #333333;
+            transition: background 0.2s;
         }
 
-        .back-btn:active, .back-btn:hover {
-            background: #6c757d;
-            color: white;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        .back-btn:active {
+            background: #333333;
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <h1>Campus Library</h1>
-        <p style="color: #00d4ff; font-weight: 600; font-size: 13px; margin: -5px 0 20px 0; opacity: 0.8; letter-spacing: 1px; text-transform: uppercase;">Knowledge & Research</p>
+    <div class="wrapper">
+        <h1>Campus Hub</h1>
+        <p class="subtitle">Learning Management</p>
         
-        <h3>🔍 Research & Facts</h3>
-        <a href="https://scholar.google.com" class="link-card" target="_blank">Google Scholar</a>
-        <a href="https://www.britannica.com" class="link-card" target="_blank">Encyclopedia Britannica</a>
+        <div class="section-title">🌐 Official Portals</div>
+        <a href="https://yourcollege.moodle.com" class="link-card" target="_blank">Login to Moodle</a>
         
-        <h3>📚 Digital Textbooks</h3>
-        <a href="https://openstax.org" class="link-card" target="_blank">OpenStax Free Textbooks</a>
-        <a href="https://www.gutenberg.org" class="link-card" target="_blank">Project Gutenberg (Free E-books)</a>
-        
-        <h3>🛠️ Essential Tools</h3>
-        <a href="https://www.google.com/search?q=scientific+calculator" class="link-card" target="_blank">Scientific Calculator</a>
-        <a href="https://pomofocus.io" class="link-card" target="_blank">Study Timer (Pomodoro)</a>
-        
-        <a href="index.html" class="back-btn">🏠 Back to Home</a>
-    </div>
-
-    <footer style="color: #00d4ff; opacity: 0.6; text-align: center; margin-top: 30px; font-weight: bold; font-size: 12px; letter-spacing: 0.5px;">
-        <p>&copy; 2026 Mwandla Sbongokuhle</p>
-    </footer>
-
-</body>
-</html>
+        <div class="section-title">🛠️ Academic Tools</div>
+        <a href="https://www.canva.com/resumes/templates/" class="link-card" target="_blank">Professional CV Templates</a>
+        <a href="https://smallpdf.
