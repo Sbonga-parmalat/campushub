@@ -408,16 +408,17 @@
                     <select id="calcMode" class="calc-select">
                         <option value="rpm">Lathe Spindle Speed (RPM)</option>
                         <option value="vc">Cutting Speed (Vc in m/min)</option>
+                        <option value="diameter">Workpiece Diameter (d in mm)</option>
                     </select>
                     
-                    <div class="calc-group" id="field1Group">
+                    <div class="calc-group">
                         <label id="field1Label">Cutting Speed (Vc) in m/min:</label>
                         <input type="number" id="field1Input" class="calc-input" placeholder="e.g., 150" value="150">
                     </div>
 
                     <div class="calc-group">
-                        <label>Workpiece Diameter (d) in mm:</label>
-                        <input type="number" id="diameter" class="calc-input" placeholder="e.g., 40" value="40">
+                        <label id="field2Label">Workpiece Diameter (d) in mm:</label>
+                        <input type="number" id="field2Input" class="calc-input" placeholder="e.g., 40" value="40">
                     </div>
 
                     <button class="action-button" id="calculateBtn">⚙️ Run Machining Formula</button>
@@ -502,25 +503,46 @@
             }
         }
 
-        // MODE TOGGLE EVENT HANDLER FOR ENGINE FORMS
+        // CONTROL ALL 3 INTERACTIVE MODES DYNAMICALLY
         var calcModeSelect = document.getElementById("calcMode");
         if (calcModeSelect) {
             calcModeSelect.addEventListener("change", function() {
                 var currentMode = this.value;
-                var label = document.getElementById("field1Label");
-                var input = document.getElementById("field1Input");
+                var lbl1 = document.getElementById("field1Label");
+                var inp1 = document.getElementById("field1Input");
+                var lbl2 = document.getElementById("field2Label");
+                var inp2 = document.getElementById("field2Input");
                 var outputBox = document.getElementById("rpmResult");
                 
                 if (currentMode === "rpm") {
-                    label.innerText = "Cutting Speed (Vc) in m/min:";
-                    input.placeholder = "e.g., 150";
-                    input.value = "150";
+                    lbl1.innerText = "Cutting Speed (Vc) in m/min:";
+                    inp1.placeholder = "e.g., 150";
+                    inp1.value = "150";
+                    
+                    lbl2.innerText = "Workpiece Diameter (d) in mm:";
+                    inp2.placeholder = "e.g., 40";
+                    inp2.value = "40";
                     outputBox.innerText = "375 RPM";
-                } else {
-                    label.innerText = "Spindle Rotational Speed (N) in RPM:";
-                    input.placeholder = "e.g., 400";
-                    input.value = "400";
+                } 
+                else if (currentMode === "vc") {
+                    lbl1.innerText = "Spindle Rotational Speed (N) in RPM:";
+                    inp1.placeholder = "e.g., 400";
+                    inp1.value = "400";
+                    
+                    lbl2.innerText = "Workpiece Diameter (d) in mm:";
+                    inp2.placeholder = "e.g., 40";
+                    inp2.value = "40";
                     outputBox.innerText = "50.27 m/min";
+                } 
+                else if (currentMode === "diameter") {
+                    lbl1.innerText = "Cutting Speed (Vc) in m/min:";
+                    inp1.placeholder = "e.g., 120";
+                    inp1.value = "120";
+                    
+                    lbl2.innerText = "Spindle Rotational Speed (N) in RPM:";
+                    inp2.placeholder = "e.g., 500";
+                    inp2.value = "500";
+                    outputBox.innerText = "76.39 mm";
                 }
             });
         }
@@ -600,25 +622,31 @@
         setupAccordion("calcToggle", "calcMenu", "calcArrow");
         setupAccordion("aboutToggle", "aboutMenu", "aboutArrow");
 
-        // SMART MATHEMATICS RUN ENGINE FOR BOTH FORMULAS
+        // 3-WAY COMPILATION EXECUTION ENGINE
         var calculateBtn = document.getElementById("calculateBtn");
         if (calculateBtn) {
             calculateBtn.addEventListener("click", function() {
                 var selectMode = document.getElementById("calcMode").value;
-                var inputVal = parseFloat(document.getElementById("field1Input").value);
-                var d = parseFloat(document.getElementById("diameter").value);
+                var val1 = parseFloat(document.getElementById("field1Input").value);
+                var val2 = parseFloat(document.getElementById("field2Input").value);
                 var resultSpan = document.getElementById("rpmResult");
                 var calcMenu = document.getElementById("calcMenu");
 
-                if (inputVal > 0 && d > 0) {
+                if (val1 > 0 && val2 > 0) {
                     if (selectMode === "rpm") {
-                        // Math Mode 1: Given Vc and d -> Find RPM
-                        var rpm = (1000 * inputVal) / (Math.PI * d);
+                        // Mode 1: (Vc * 1000) / (pi * d) -> Find RPM
+                        var rpm = (1000 * val1) / (Math.PI * val2);
                         resultSpan.innerText = Math.round(rpm) + " RPM";
-                    } else {
-                        // Math Mode 2: Given RPM (N) and d -> Find Vc
-                        var vc = (Math.PI * d * inputVal) / 1000;
+                    } 
+                    else if (selectMode === "vc") {
+                        // Mode 2: (pi * d * N) / 1000 -> Find Vc
+                        var vc = (Math.PI * val2 * val1) / 1000;
                         resultSpan.innerText = vc.toFixed(2) + " m/min";
+                    } 
+                    else if (selectMode === "diameter") {
+                        // Mode 3: (1000 * Vc) / (pi * N) -> Find Diameter (d)
+                        var d = (1000 * val1) / (Math.PI * val2);
+                        resultSpan.innerText = d.toFixed(2) + " mm";
                     }
                 } else {
                     resultSpan.innerText = "Please input valid numbers!";
