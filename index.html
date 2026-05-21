@@ -302,7 +302,7 @@
             border-right: 3px solid #ffffff; 
             white-space: normal; 
             word-break: break-word;
-            margin: 0Bits auto;
+            margin: 0 auto;
             padding-right: 6px;
             text-shadow: 0 0 15px rgba(255,255,255,0.6), 0 0 25px #00d4ff; 
             animation: blinkCursor 0.75s step-end infinite;
@@ -413,6 +413,25 @@
                 </div>
             </div>
 
+            <div class="link-card accordion-btn" id="aboutToggle">
+                <span style="display: flex; align-items: center; width: 100%; justify-content: center; gap: 8px;">
+                    <span>ℹ️</span> About this Hub <span class="arrow" id="aboutArrow">▼</span>
+                </span>
+            </div>
+
+            <div class="accordion-content" id="aboutMenu">
+                <div class="accordion-inner-box" style="text-align: left; font-size: 13px; line-height: 1.5;">
+                    <p style="margin: 0 0 6px 0; font-size: 14px; font-weight: 700; color: #00d4ff;">👤 Developer Profile</p>
+                    <p style="margin: 0 0 14px 0; opacity: 0.95; font-weight: 500;">
+                        I'm Sbongokuhle Mwandla, a student from uMfolozi TVET college.
+                    </p>
+                    <p style="margin: 0 0 6px 0; font-size: 14px; font-weight: 700; color: #00d4ff;">🚀 Project Purpose</p>
+                    <p style="margin: 0; opacity: 0.95;">
+                        I built a Student Link Hub to streamline academic workflow and accessibility & this Campus Hub app is designed specifically for students. It puts all our essential daily links—like the Student Portal, the Learning Management System (LMS), and NSFAS tracking—into one single, clean dashboard so we don't have to keep hunting for them across different browser tabs.
+                    </p>
+                </div>
+            </div>
+
         </div>
     </div>
 
@@ -468,7 +487,7 @@
             }
         }
 
-        // DEEP SEARCH UPGRADE
+        // DEEP SEARCH LOGIC
         var searchInput = document.getElementById("searchInput");
         if (searchInput) {
             searchInput.addEventListener("keyup", function() {
@@ -483,7 +502,11 @@
                     var associatedMenu = null;
                     
                     if (isAccordion) {
-                        var menuId = cards[i].id === "timetableToggle" ? "timetableMenu" : "calcMenu";
+                        var menuId = "";
+                        if (cards[i].id === "timetableToggle") menuId = "timetableMenu";
+                        else if (cards[i].id === "calcToggle") menuId = "calcMenu";
+                        else if (cards[i].id === "aboutToggle") menuId = "aboutMenu";
+                        
                         associatedMenu = document.getElementById(menuId);
                         
                         if (associatedMenu) {
@@ -499,7 +522,11 @@
                         
                         if (isAccordion && filter.length > 2 && associatedMenu) {
                             associatedMenu.style.maxHeight = associatedMenu.scrollHeight + "px";
-                            var arrowId = cards[i].id === "timetableToggle" ? "timetableArrow" : "calcArrow";
+                            var arrowId = "";
+                            if (cards[i].id === "timetableToggle") arrowId = "timetableArrow";
+                            else if (cards[i].id === "calcToggle") arrowId = "calcArrow";
+                            else if (cards[i].id === "aboutToggle") arrowId = "aboutArrow";
+                            
                             var arrow = document.getElementById(arrowId);
                             if (arrow) arrow.style.transform = "rotate(180deg)";
                         }
@@ -533,6 +560,7 @@
         
         setupAccordion("timetableToggle", "timetableMenu", "timetableArrow");
         setupAccordion("calcToggle", "calcMenu", "calcArrow");
+        setupAccordion("aboutToggle", "aboutMenu", "aboutArrow");
 
         var calculateBtn = document.getElementById("calculateBtn");
         if (calculateBtn) {
@@ -567,4 +595,3 @@
     </script>
 </body>
 </html>
-     
