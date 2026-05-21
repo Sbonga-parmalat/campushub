@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Student Link Hub</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght=700;800&display=swap" rel="stylesheet">
 	<link rel="manifest" href="manifest.json">
     <style>
         :root {
@@ -50,10 +50,10 @@
             transition: background 0.4s ease;
         }
 
-        /* Responsive spacing adjustment for native stand-alone mobile screens */
+        /* Responsive spacing adjustment for native mobile screens */
         @media (max-width: 480px) {
             .container {
-                margin: 60px auto 20px auto; /* Shifts dashboard down slightly to avoid front-facing camera cutouts */
+                margin: 60px auto 20px auto;
                 width: 85%;
             }
         }
@@ -212,7 +212,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: #05020c; 
+            background-color: #030107; /* Deeper black canvas base for maximum color pop */
             overflow: hidden;
             display: flex;
             justify-content: center;
@@ -221,14 +221,15 @@
             transition: opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1), visibility 1.2s;
         }
 
+        /* Ambient Smoky Gas Clouds Layer */
         .smoke-container {
             position: absolute;
             width: 100%;
             height: 100%;
             top: 0;
             left: 0;
-            filter: blur(60px); 
-            opacity: 0.75;
+            filter: blur(50px); /* Slightly sharper blur keeps the core glow intense */
+            opacity: 0.95; /* Boosted visibility */
             mix-blend-mode: screen;
         }
 
@@ -238,33 +239,37 @@
             mix-blend-mode: screen;
         }
 
+        /* Cloud 1: High-Intensity Cyan Gas */
         .cloud-cyan {
             width: 500px;
             height: 500px;
-            background: radial-gradient(circle, rgba(0,212,255,0.8) 0%, rgba(0,212,255,0) 70%);
+            background: radial-gradient(circle, rgba(0,212,255,1) 0%, rgba(0,212,255,0) 70%);
             top: -10%;
             left: -10%;
             animation: smokeMoveOne 12s infinite alternate ease-in-out;
         }
 
+        /* Cloud 2: Cosmic Neon Violet */
         .cloud-purple {
             width: 600px;
             height: 600px;
-            background: radial-gradient(circle, rgba(112,0,255,0.7) 0%, rgba(112,0,255,0) 70%);
+            background: radial-gradient(circle, rgba(130,0,255,1) 0%, rgba(130,0,255,0) 70%);
             bottom: -20%;
             right: -10%;
             animation: smokeMoveTwo 16s infinite alternate ease-in-out;
         }
 
+        /* Cloud 3: Vivid Hot Magenta Flare */
         .cloud-magenta {
             width: 450px;
             height: 450px;
-            background: radial-gradient(circle, rgba(217,0,255,0.65) 0%, rgba(217,0,255,0) 70%);
+            background: radial-gradient(circle, rgba(255,0,217,1) 0%, rgba(255,0,217,0) 70%);
             top: 30%;
             right: 15%;
             animation: smokeMoveThree 14s infinite alternate ease-in-out;
         }
 
+        /* Overlapping interlocking movement vectors to simulate fluid smoke currents */
         @keyframes smokeMoveOne {
             0% { transform: translate(0px, 0px) scale(1); }
             50% { transform: translate(120px, 80px) scale(1.2); }
@@ -283,24 +288,26 @@
             100% { transform: translate(100px, -60px) rotate(360deg); }
         }
 
+        /* Text Layer floating cleanly on top of the smoke */
         .splash-content { 
             position: relative;
             text-align: center; 
-            width: 85%; /* Constrains width slightly so text wraps beautifully inside mobile panels */
+            width: 85%; /* Fits beautifully inside mobile viewport constraints */
             z-index: 2;
-            padding: 20px;
+            background: transparent !important; /* Eliminates color washing fogs */
+            padding: 0;
         }
 
         #welcome-msg {
             color: #ffffff; 
             font-family: 'Montserrat', sans-serif; 
-            font-size: 26px; /* Slightly lowered sizing for cleaner processing across portrait phone displays */
+            font-size: 26px; /* Balanced mobile proportions */
             font-weight: 800; 
             text-transform: uppercase; 
             letter-spacing: 1.5px; 
             display: inline-block;
             border-right: 4px solid #ffffff; 
-            white-space: normal; /* FIXED: Overrides the old clipping behavior to allow text line breaks */
+            white-space: normal; /* Fixed cutting issue by letting words break smoothly */
             margin: 0 auto;
             padding-right: 6px;
             text-shadow: 0 0 15px rgba(255,255,255,0.6), 0 0 25px #00d4ff; 
@@ -513,3 +520,4 @@
     </script>
 </body>
 </html>
+
