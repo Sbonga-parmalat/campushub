@@ -302,7 +302,7 @@
             border-right: 3px solid #ffffff; 
             white-space: normal; 
             word-break: break-word;
-            margin: 0 auto;
+            margin: 0Bits auto;
             padding-right: 6px;
             text-shadow: 0 0 15px rgba(255,255,255,0.6), 0 0 25px #00d4ff; 
             animation: blinkCursor 0.75s step-end infinite;
@@ -360,6 +360,11 @@
             <a href="https://my.nsfas.org.za/" class="link-card" target="_blank">
                 <span style="font-size: 24px; margin-bottom:6px;">💰</span>
                 <span>NSFAS Tracking</span>
+            </a>
+
+            <a href="https://www.google.com/search?q=scientific+calculator" class="link-card" target="_blank">
+                <span style="font-size: 24px; margin-bottom:6px;">🧮</span>
+                <span>Scientific Calculator</span>
             </a>
             
             <div class="link-card accordion-btn" id="timetableToggle">
@@ -426,7 +431,6 @@
         var splashElement = document.getElementById("splash-screen");
         var index = 0;
 
-        // FIXED LOGIC: Clear splash screen layers if session flag is set
         if (sessionStorage.getItem("appHasGreeted")) {
             if (splashElement) {
                 splashElement.style.display = "none";
@@ -464,7 +468,7 @@
             }
         }
 
-        // DEEP SEARCH UPGRADE: Searches main items and tools hidden inside accordions
+        // DEEP SEARCH UPGRADE
         var searchInput = document.getElementById("searchInput");
         if (searchInput) {
             searchInput.addEventListener("keyup", function() {
@@ -493,7 +497,6 @@
                     if (matchFound) {
                         cards[i].style.display = "flex";
                         
-                        // Automatically slide accordion open if targeted keyword matches internal components
                         if (isAccordion && filter.length > 2 && associatedMenu) {
                             associatedMenu.style.maxHeight = associatedMenu.scrollHeight + "px";
                             var arrowId = cards[i].id === "timetableToggle" ? "timetableArrow" : "calcArrow";
@@ -564,3 +567,4 @@
     </script>
 </body>
 </html>
+     
