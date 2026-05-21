@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Student Link Hub</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&display=swap" rel="stylesheet">
-	<link rel="manifest" href="manifest.json">
+    <link rel="manifest" href="manifest.json">
     <style>
         :root {
             --bg-color: #f4f4f4;
@@ -50,10 +50,9 @@
             transition: background 0.4s ease;
         }
 
-        /* Responsive spacing adjustment for native stand-alone mobile screens */
         @media (max-width: 480px) {
             .container {
-                margin: 60px auto 20px auto; /* Shifts dashboard down slightly to avoid front-facing camera cutouts */
+                margin: 60px auto 20px auto;
                 width: 85%;
             }
         }
@@ -152,7 +151,6 @@
             box-shadow: 0 6px 20px rgba(0,212,255,0.5);
         }
 
-        /* Calculator Styles */
         .calc-group {
             text-align: left;
             margin-bottom: 12px;
@@ -205,14 +203,13 @@
             z-index: 10;
         }
 
-        /* ==================== ADVANCED SMOKY GEMINI SPLASH SCREEN ==================== */
         #splash-screen {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: #05020c; 
+            background-color: #030107;
             overflow: hidden;
             display: flex;
             justify-content: center;
@@ -227,8 +224,8 @@
             height: 100%;
             top: 0;
             left: 0;
-            filter: blur(60px); 
-            opacity: 0.75;
+            filter: blur(50px);
+            opacity: 0.95; 
             mix-blend-mode: screen;
         }
 
@@ -241,7 +238,7 @@
         .cloud-cyan {
             width: 500px;
             height: 500px;
-            background: radial-gradient(circle, rgba(0,212,255,0.8) 0%, rgba(0,212,255,0) 70%);
+            background: radial-gradient(circle, rgba(0,212,255,1) 0%, rgba(0,212,255,0) 70%);
             top: -10%;
             left: -10%;
             animation: smokeMoveOne 12s infinite alternate ease-in-out;
@@ -250,7 +247,7 @@
         .cloud-purple {
             width: 600px;
             height: 600px;
-            background: radial-gradient(circle, rgba(112,0,255,0.7) 0%, rgba(112,0,255,0) 70%);
+            background: radial-gradient(circle, rgba(130,0,255,1) 0%, rgba(130,0,255,0) 70%);
             bottom: -20%;
             right: -10%;
             animation: smokeMoveTwo 16s infinite alternate ease-in-out;
@@ -259,7 +256,7 @@
         .cloud-magenta {
             width: 450px;
             height: 450px;
-            background: radial-gradient(circle, rgba(217,0,255,0.65) 0%, rgba(217,0,255,0) 70%);
+            background: radial-gradient(circle, rgba(255,0,217,1) 0%, rgba(255,0,217,0) 70%);
             top: 30%;
             right: 15%;
             animation: smokeMoveThree 14s infinite alternate ease-in-out;
@@ -286,26 +283,29 @@
         .splash-content { 
             position: relative;
             text-align: center; 
-            width: 85%; /* Constrains width slightly so text wraps beautifully inside mobile panels */
+            width: 90%; 
+            max-width: 400px;
             z-index: 2;
-            padding: 20px;
+            background: transparent !important; 
+            padding: 10px;
+            box-sizing: border-box;
         }
 
         #welcome-msg {
             color: #ffffff; 
             font-family: 'Montserrat', sans-serif; 
-            font-size: 26px; /* Slightly lowered sizing for cleaner processing across portrait phone displays */
+            font-size: calc(18px + 1vw); 
             font-weight: 800; 
             text-transform: uppercase; 
-            letter-spacing: 1.5px; 
+            letter-spacing: 0.5px; 
             display: inline-block;
-            border-right: 4px solid #ffffff; 
-            white-space: normal; /* FIXED: Overrides the old clipping behavior to allow text line breaks */
+            border-right: 3px solid #ffffff; 
+            white-space: nowrap; 
             margin: 0 auto;
-            padding-right: 6px;
+            padding-right: 4px;
             text-shadow: 0 0 15px rgba(255,255,255,0.6), 0 0 25px #00d4ff; 
             animation: blinkCursor 0.75s step-end infinite;
-            line-height: 1.3;
+            line-height: 1.2;
         }
 
         @keyframes blinkCursor {
@@ -332,8 +332,11 @@
     <div class="container">
         <button class="theme-toggle" id="themeBtn" title="Toggle Theme">🌓</button>
 
-        <h1 id="hubTitle" style="color: var(--hub-title); transition: color 0.4s ease; margin-top: 15px;">Campus Hub</h1>
-        <p style="color: var(--text-color); font-weight:500; text-shadow:1px 1px 3px rgba(0,0,0,0.3);">All your important links in one place !!</p>
+        <div style="display: flex; align-items: center; justify-content: center; gap: 12px; margin-top: 15px;">
+            <img src="mfolozi.png" alt="School Logo" style="width: 42px; height: 42px; object-fit: contain; border-radius: 6px;">
+            <h1 id="hubTitle" style="color: var(--hub-title); transition: color 0.4s ease; margin: 0;">Campus Hub</h1>
+        </div>
+        <p style="color: var(--text-color); font-weight:500; text-shadow:1px 1px 3px rgba(0,0,0,0.3); margin-top: 8px;">All your important links in one place !!</p>
         
         <input type="text" id="searchInput" class="search-bar" placeholder="🔍 Search dashboard resources...">
 
@@ -413,7 +416,6 @@
 
     <script>
     document.addEventListener("DOMContentLoaded", function() {
-        // --- 1. System Time Greeting ---
         var greeting = "Good Evening, Student!";
         var time = new Date().getHours();
         if (time < 12) { greeting = "Good Morning, Student!"; }
@@ -439,7 +441,6 @@
 
         if (msgElement) { typeWriter(); } else { removeSplashScreen(); }
 
-        // --- 2. Live Search Filter ---
         var searchInput = document.getElementById("searchInput");
         if (searchInput) {
             searchInput.addEventListener("keyup", function() {
@@ -456,7 +457,6 @@
             });
         }
 
-        // --- 3. Dynamic Accordion Handles ---
         function setupAccordion(toggleId, menuId, arrowId) {
             var toggle = document.getElementById(toggleId);
             var menu = document.getElementById(menuId);
@@ -478,7 +478,6 @@
         setupAccordion("timetableToggle", "timetableMenu", "timetableArrow");
         setupAccordion("calcToggle", "calcMenu", "calcArrow");
 
-        // --- 4. Engineering Machining Calculator Engine ---
         var calculateBtn = document.getElementById("calculateBtn");
         if (calculateBtn) {
             calculateBtn.addEventListener("click", function() {
@@ -497,7 +496,6 @@
             });
         }
 
-        // --- 5. Dark/Light Mode Theme Toggle ---
         var themeBtn = document.getElementById("themeBtn");
         if (themeBtn) {
             themeBtn.addEventListener("click", function() {
