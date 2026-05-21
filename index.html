@@ -284,28 +284,29 @@
             position: relative;
             text-align: center; 
             width: 90%; 
-            max-width: 400px;
+            max-width: 420px;
             z-index: 2;
             background: transparent !important; 
-            padding: 10px;
+            padding: 15px;
             box-sizing: border-box;
         }
 
         #welcome-msg {
             color: #ffffff; 
             font-family: 'Montserrat', sans-serif; 
-            font-size: calc(18px + 1vw); 
+            font-size: 24px; 
             font-weight: 800; 
             text-transform: uppercase; 
             letter-spacing: 0.5px; 
             display: inline-block;
             border-right: 3px solid #ffffff; 
-            white-space: nowrap; 
+            white-space: normal; 
+            word-break: break-word;
             margin: 0 auto;
-            padding-right: 4px;
+            padding-right: 6px;
             text-shadow: 0 0 15px rgba(255,255,255,0.6), 0 0 25px #00d4ff; 
             animation: blinkCursor 0.75s step-end infinite;
-            line-height: 1.2;
+            line-height: 1.4;
         }
 
         @keyframes blinkCursor {
