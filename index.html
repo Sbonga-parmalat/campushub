@@ -426,11 +426,12 @@
         var splashElement = document.getElementById("splash-screen");
         var index = 0;
 
-        // FIXED LOGIC: Completely teardown splash screens if session greeting is active
+        // FIXED LOGIC: Clear splash screen layers if session flag is set
         if (sessionStorage.getItem("appHasGreeted")) {
             if (splashElement) {
                 splashElement.style.display = "none";
                 splashElement.style.visibility = "hidden";
+                splashElement.style.zIndex = "-1"; 
             }
         } else {
             if (msgElement) { 
@@ -456,24 +457,54 @@
                 splash.classList.add("fade-out"); 
                 sessionStorage.setItem("appHasGreeted", "true");
                 
-                // Completely swap display value to clear viewport once animation fades
                 setTimeout(() => {
                     splash.style.display = "none";
+                    splash.style.zIndex = "-1";
                 }, 1200);
             }
         }
 
+        // DEEP SEARCH UPGRADE: Searches main items and tools hidden inside accordions
         var searchInput = document.getElementById("searchInput");
         if (searchInput) {
             searchInput.addEventListener("keyup", function() {
                 var filter = searchInput.value.toLowerCase();
                 var cards = document.getElementsByClassName("link-card");
+                
                 for (var i = 0; i < cards.length; i++) {
                     var cardText = cards[i].textContent || cards[i].innerText;
-                    if (cardText.toLowerCase().indexOf(filter) > -1) {
+                    var matchFound = cardText.toLowerCase().indexOf(filter) > -1;
+                    
+                    var isAccordion = cards[i].classList.contains("accordion-btn");
+                    var associatedMenu = null;
+                    
+                    if (isAccordion) {
+                        var menuId = cards[i].id === "timetableToggle" ? "timetableMenu" : "calcMenu";
+                        associatedMenu = document.getElementById(menuId);
+                        
+                        if (associatedMenu) {
+                            var menuText = associatedMenu.textContent || associatedMenu.innerText;
+                            if (menuText.toLowerCase().indexOf(filter) > -1) {
+                                matchFound = true;
+                            }
+                        }
+                    }
+                    
+                    if (matchFound) {
                         cards[i].style.display = "flex";
+                        
+                        // Automatically slide accordion open if targeted keyword matches internal components
+                        if (isAccordion && filter.length > 2 && associatedMenu) {
+                            associatedMenu.style.maxHeight = associatedMenu.scrollHeight + "px";
+                            var arrowId = cards[i].id === "timetableToggle" ? "timetableArrow" : "calcArrow";
+                            var arrow = document.getElementById(arrowId);
+                            if (arrow) arrow.style.transform = "rotate(180deg)";
+                        }
                     } else {
                         cards[i].style.display = "none";
+                        if (isAccordion && associatedMenu) {
+                            associatedMenu.style.maxHeight = "0px";
+                        }
                     }
                 }
             });
