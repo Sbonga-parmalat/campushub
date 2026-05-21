@@ -8,12 +8,12 @@
       "sizes": "192x192"
     },
     {
-      "src": "app-icon.png",
+      "src": "app-icon-large.png",
       "type": "image/png",
       "sizes": "512x512"
     }
   ],
-  "start_url": "/campushub/index.html",
+  "start_url": "index.html",
   "background_color": "#030107",
   "theme_color": "#0056b3",
   "display": "standalone",
