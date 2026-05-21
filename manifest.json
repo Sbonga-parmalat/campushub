@@ -3,12 +3,12 @@
   "name": "Mandeni Student Hub Dashboard",
   "icons": [
     {
-      "src": "mfolozi.png",
+      "src": "app-icon-large.png",
       "type": "image/png",
       "sizes": "192x192"
     },
     {
-      "src": "mfolozi.png",
+      "src": "app-icon-large.png",
       "type": "image/png",
       "sizes": "512x512"
     }
