@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Student Link Hub</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&display=swap" rel="stylesheet">
-    <link rel="manifest" href="manifest.json">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght=700;800&display=swap" rel="stylesheet">
+	<link rel="manifest" href="manifest.json">
     <style>
         :root {
             --bg-color: #f4f4f4;
@@ -50,6 +50,7 @@
             transition: background 0.4s ease;
         }
 
+        /* Responsive spacing adjustment for native mobile screens */
         @media (max-width: 480px) {
             .container {
                 margin: 60px auto 20px auto;
@@ -151,6 +152,7 @@
             box-shadow: 0 6px 20px rgba(0,212,255,0.5);
         }
 
+        /* Calculator Styles */
         .calc-group {
             text-align: left;
             margin-bottom: 12px;
@@ -203,13 +205,14 @@
             z-index: 10;
         }
 
+        /* ==================== ADVANCED SMOKY GEMINI SPLASH SCREEN ==================== */
         #splash-screen {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: #030107;
+            background-color: #030107; /* Deeper black canvas base for maximum color pop */
             overflow: hidden;
             display: flex;
             justify-content: center;
@@ -218,14 +221,15 @@
             transition: opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1), visibility 1.2s;
         }
 
+        /* Ambient Smoky Gas Clouds Layer */
         .smoke-container {
             position: absolute;
             width: 100%;
             height: 100%;
             top: 0;
             left: 0;
-            filter: blur(50px);
-            opacity: 0.95; 
+            filter: blur(50px); /* Slightly sharper blur keeps the core glow intense */
+            opacity: 0.95; /* Boosted visibility */
             mix-blend-mode: screen;
         }
 
@@ -235,6 +239,7 @@
             mix-blend-mode: screen;
         }
 
+        /* Cloud 1: High-Intensity Cyan Gas */
         .cloud-cyan {
             width: 500px;
             height: 500px;
@@ -244,6 +249,7 @@
             animation: smokeMoveOne 12s infinite alternate ease-in-out;
         }
 
+        /* Cloud 2: Cosmic Neon Violet */
         .cloud-purple {
             width: 600px;
             height: 600px;
@@ -253,6 +259,7 @@
             animation: smokeMoveTwo 16s infinite alternate ease-in-out;
         }
 
+        /* Cloud 3: Vivid Hot Magenta Flare */
         .cloud-magenta {
             width: 450px;
             height: 450px;
@@ -262,6 +269,7 @@
             animation: smokeMoveThree 14s infinite alternate ease-in-out;
         }
 
+        /* Overlapping interlocking movement vectors to simulate fluid smoke currents */
         @keyframes smokeMoveOne {
             0% { transform: translate(0px, 0px) scale(1); }
             50% { transform: translate(120px, 80px) scale(1.2); }
@@ -280,31 +288,31 @@
             100% { transform: translate(100px, -60px) rotate(360deg); }
         }
 
+        /* Text Layer floating cleanly on top of the smoke */
         .splash-content { 
             position: relative;
             text-align: center; 
-            width: 85%; 
+            width: 85%; /* Fits beautifully inside mobile viewport constraints */
             z-index: 2;
-            background: transparent !important; 
+            background: transparent !important; /* Eliminates color washing fogs */
             padding: 0;
         }
 
         #welcome-msg {
             color: #ffffff; 
             font-family: 'Montserrat', sans-serif; 
-            font-size: 24px; 
+            font-size: 26px; /* Balanced mobile proportions */
             font-weight: 800; 
             text-transform: uppercase; 
-            letter-spacing: 1px; 
+            letter-spacing: 1.5px; 
             display: inline-block;
             border-right: 4px solid #ffffff; 
-            white-space: normal; 
-            word-wrap: break-word; 
+            white-space: normal; /* Fixed cutting issue by letting words break smoothly */
             margin: 0 auto;
             padding-right: 6px;
             text-shadow: 0 0 15px rgba(255,255,255,0.6), 0 0 25px #00d4ff; 
             animation: blinkCursor 0.75s step-end infinite;
-            line-height: 1.4;
+            line-height: 1.3;
         }
 
         @keyframes blinkCursor {
@@ -412,6 +420,7 @@
 
     <script>
     document.addEventListener("DOMContentLoaded", function() {
+        // --- 1. System Time Greeting ---
         var greeting = "Good Evening, Student!";
         var time = new Date().getHours();
         if (time < 12) { greeting = "Good Morning, Student!"; }
@@ -437,6 +446,7 @@
 
         if (msgElement) { typeWriter(); } else { removeSplashScreen(); }
 
+        // --- 2. Live Search Filter ---
         var searchInput = document.getElementById("searchInput");
         if (searchInput) {
             searchInput.addEventListener("keyup", function() {
@@ -453,4 +463,60 @@
             });
         }
 
+        // --- 3. Dynamic Accordion Handles ---
         function setupAccordion(toggleId, menuId, arrowId) {
+            var toggle = document.getElementById(toggleId);
+            var menu = document.getElementById(menuId);
+            var arrow = document.getElementById(arrowId);
+
+            if (toggle && menu && arrow) {
+                toggle.addEventListener("click", function() {
+                    if (!menu.style.maxHeight || menu.style.maxHeight === "0px") {
+                        menu.style.maxHeight = menu.scrollHeight + "px";
+                        arrow.style.transform = "rotate(180deg)";
+                    } else {
+                        menu.style.maxHeight = "0px";
+                        arrow.style.transform = "rotate(0deg)";
+                    }
+                });
+            }
+        }
+        
+        setupAccordion("timetableToggle", "timetableMenu", "timetableArrow");
+        setupAccordion("calcToggle", "calcMenu", "calcArrow");
+
+        // --- 4. Engineering Machining Calculator Engine ---
+        var calculateBtn = document.getElementById("calculateBtn");
+        if (calculateBtn) {
+            calculateBtn.addEventListener("click", function() {
+                var Vc = parseFloat(document.getElementById("cuttingSpeed").value);
+                var d = parseFloat(document.getElementById("diameter").value);
+                var resultSpan = document.getElementById("rpmResult");
+                var calcMenu = document.getElementById("calcMenu");
+
+                if (Vc > 0 && d > 0) {
+                    var rpm = (1000 * Vc) / (Math.PI * d);
+                    resultSpan.innerText = Math.round(rpm) + " RPM";
+                } else {
+                    resultSpan.innerText = "Please input valid numbers!";
+                }
+                calcMenu.style.maxHeight = calcMenu.scrollHeight + "px";
+            });
+        }
+
+        // --- 5. Dark/Light Mode Theme Toggle ---
+        var themeBtn = document.getElementById("themeBtn");
+        if (themeBtn) {
+            themeBtn.addEventListener("click", function() {
+                var currentTheme = document.documentElement.getAttribute("data-theme");
+                if (currentTheme === "dark") {
+                    document.documentElement.setAttribute("data-theme", "light");
+                } else {
+                    document.documentElement.setAttribute("data-theme", "dark");
+                }
+            });
+        }
+    });
+    </script>
+</body>
+</html>
