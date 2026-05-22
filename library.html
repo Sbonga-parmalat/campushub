@@ -3,122 +3,173 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Library Desk</title>
+    <title>Library Desk - Campus Hub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            /* LIGHT MODE CONFIGURATION */
+            /* LIGHT MODE PRESETS */
             --bg-color: #f4f4f4;
             --body-bg: url('light-bg.jpg'); 
-            --container-bg: rgba(44, 62, 80, 0.12);
-            --text-color: #1a252f;
-            --title-color: #0056b3;
-            --card-bg: #0044cc; /* Slightly brighter blue for light mode visibility */
+            --container-bg: rgba(44, 62, 80, 0.12); 
+            --container-border: rgba(0, 0, 0, 0.08);
+            --text-color: #1a252f; 
+            --heading-color: #0056b3;
+            --sub-heading: #2c3e50;
+            --card-bg: rgba(0, 86, 179, 0.85); 
             --card-text: #ffffff;
-            --back-btn-bg: #d1d5db;
-            --back-btn-text: #1a252f;
+            --card-border: rgba(0, 86, 179, 0.2);
+            --card-shadow: rgba(0, 86, 179, 0.2);
+            --back-btn-bg: rgba(0, 0, 0, 0.06);
+            --back-btn-text: #2c3e50;
+            --back-btn-border: rgba(0, 0, 0, 0.1);
         }
 
         [data-theme="dark"] {
-            /* DARK MODE CONFIGURATION */
-            --bg-color: #000000;
-            --body-bg: none; /* Keeps your clean dark look */
-            --container-bg: transparent;
-            --text-color: #ffffff;
-            --title-color: #33b5e5;
-            --card-bg: #002288;
-            --card-text: #ffffff;
-            --back-btn-bg: #0d1b2a;
-            --back-btn-text: #ffffff;
+            /* DARK MODE PRESETS (Matches your Learning Management layout exactly) */
+            --bg-color: #121212;
+            --body-bg: url('mfolozi.png'); 
+            --container-bg: rgba(0, 0, 0, 0.65); 
+            --container-border: rgba(255, 255, 255, 0.1); 
+            --text-color: #ffffff; 
+            --heading-color: #00d4ff; 
+            --sub-heading: #ffffff; 
+            --card-bg: rgba(0, 86, 179, 0.4); 
+            --card-text: #ffffff; 
+            --card-border: rgba(0, 212, 255, 0.6); 
+            --card-shadow: rgba(0, 212, 255, 0.2); 
+            --back-btn-bg: rgba(255, 255, 255, 0.15); 
+            --back-btn-text: #ffffff; 
+            --back-btn-border: rgba(255, 255, 255, 0.2); 
         }
 
         body {
-            background-color: var(--bg-color);
             background-image: var(--body-bg);
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-attachment: fixed;
-            font-family: sans-serif;
-            text-align: center;
-            margin: 0;
+            background-size: cover; 
+            background-position: center; 
+            background-repeat: no-repeat; 
+            background-attachment: fixed; 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
+            text-align: center; 
+            margin: 0; 
+            padding: 0; 
+            background-color: var(--bg-color);
             color: var(--text-color);
             transition: background-color 0.4s ease, background-image 0.4s ease, color 0.4s ease;
         }
         
         .container {
-            max-width: 400px;
-            margin: 50px auto;
-            padding: 20px;
+            max-width: 420px; 
+            margin: 40px auto; 
+            padding: 25px; 
             background: var(--container-bg);
-            border-radius: 24px;
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            transition: background 0.4s ease;
+            backdrop-filter: blur(15px); 
+            -webkit-backdrop-filter: blur(15px); 
+            border-radius: 24px; 
+            box-shadow: 0 8px 32px rgba(0,0,0,0.6);
+            border: 1px solid var(--container-border);
+            box-sizing: border-box; 
+            width: 90%; 
+            transition: background 0.4s ease, border-color 0.4s ease;
         }
 
-        .link-card {
-            display: block;
-            text-align: center;
-            background: var(--card-bg);
-            color: var(--card-text);
-            padding: 15px;
-            margin: 10px 0;
-            text-decoration: none;
-            border-radius: 50px;
-            font-weight: bold;
-            font-size: 16px;
-            transition: background 0.3s ease, color 0.3s ease;
-        }
-
-        .link-card:active {
-            opacity: 0.85;
-            transform: scale(0.98);
+        h1 {
+            font-family: 'Montserrat', sans-serif; 
+            font-weight: 800; 
+            color: var(--heading-color);
+            font-size: 24px; 
+            text-transform: uppercase;
+            letter-spacing: 0.5px; 
+            margin-top: 5px; 
+            text-shadow: 0 0 15px rgba(0,212,255,0.2);
+            transition: color 0.4s ease;
         }
 
         h3 {
-            font-size: 18px;
-            margin-top: 25px;
-            margin-bottom: 10px;
-            font-weight: normal;
+            font-family: 'Montserrat', sans-serif; 
+            font-weight: 700; 
+            font-size: 15px; 
+            color: var(--sub-heading);
+            margin-top: 30px; 
+            margin-bottom: 12px; 
+            text-align: left; 
+            display: flex; 
+            align-items: center; 
+            gap: 8px; 
+            opacity: 0.95; 
+            transition: color 0.4s ease;
+        }
+
+        .link-card {
+            display: block; 
+            text-align: center; 
+            background: var(--card-bg); 
+            color: var(--card-text);
+            padding: 14px 18px; 
+            margin: 12px 0;
+            text-decoration: none; 
+            border-radius: 50px; 
+            font-weight: 700; 
+            font-size: 14px; 
+            border: 1px solid var(--card-border);
+            box-shadow: 0 4px 15px var(--card-shadow);
+            transition: all 0.25s ease;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+        }
+
+        .link-card:active {
+            background: linear-gradient(135deg, #0056b3, #00d4ff); 
+            box-shadow: 0 4px 15px rgba(0, 212, 255, 0.6); 
+            transform: translateY(-2px); 
         }
 
         .back-btn {
-            display: block;
-            text-align: center;
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            gap: 8px; 
             background: var(--back-btn-bg);
             color: var(--back-btn-text);
-            padding: 12px;
-            margin-top: 30px;
-            text-decoration: none;
-            border-radius: 50px;
-            font-weight: bold;
-            transition: background 0.3s ease, color 0.3s ease;
+            padding: 12px; 
+            margin-top: 35px; 
+            text-decoration: none; 
+            border-radius: 50px; 
+            font-weight: 700; 
+            font-size: 13px; 
+            font-family: 'Montserrat', sans-serif; 
+            text-transform: uppercase; 
+            letter-spacing: 0.5px; 
+            border: 1px solid var(--back-btn-border);
+            transition: all 0.4s ease;
+        }
+
+        .back-btn:active {
+            background: #6c757d; 
         }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <h1 style="color: var(--title-color); font-size: 28px; margin-bottom: 5px; transition: color 0.4s ease;">Campus Library</h1>
-        <p style="margin: 0 0 20px 0; font-size: 16px; line-height: 1.4;">Knowledge &<br>Research for All<br>Courses</p>
+        <h1>Campus Hub</h1> 
+        <p style="color: #00d4ff; font-weight: 600; font-size: 13px; margin: -5px 0 20px 0; opacity: 0.8; letter-spacing: 1px; text-transform: uppercase;">Library Desk</p> 
         
-        <h3>🔍 Research & Facts</h3>
-        <a href="https://scholar.google.com" class="link-card" target="_blank">Google Scholar</a>
-        <a href="https://www.britannica.com" class="link-card" target="_blank">Encyclopedia Britannica</a>
+        <h3>🔍 Research & Facts</h3> 
+        <a href="https://scholar.google.com" class="link-card" target="_blank">Google Scholar</a> 
+        <a href="https://www.britannica.com" class="link-card" target="_blank">Encyclopedia Britannica</a> 
         
-        <h3>📚 Digital Textbooks</h3>
-        <a href="https://openstax.org" class="link-card" target="_blank">OpenStax Free Textbooks</a>
-        <a href="https://www.gutenberg.org" class="link-card" target="_blank">Project Gutenberg<br>(Free E-books)</a>
+        <h3>📚 Digital Textbooks</h3> 
+        <a href="https://openstax.org" class="link-card" target="_blank">OpenStax Free Textbooks</a> 
+        <a href="https://www.gutenberg.org" class="link-card" target="_blank">Project Gutenberg (Free E-books)</a> 
         
-        <h3>🛠️ Essential Tools</h3>
-        <a href="https://www.google.com/search?q=scientific+calculator" class="link-card" target="_blank">Scientific Calculator</a>
-        <a href="https://pomofocus.io" class="link-card" target="_blank">Study Timer<br>(Pomodoro)</a>
+        <h3>🛠️ Essential Tools</h3> 
+        <a href="https://www.google.com/search?q=scientific+calculator" class="link-card" target="_blank">Scientific Calculator</a> 
+        <a href="https://pomofocus.io" class="link-card" target="_blank">Study Timer (Pomodoro)</a> 
         
-        <a href="index.html" class="back-btn">🏠 Back to Home</a>
+        <a href="index.html" class="back-btn">⬅️ Back to Main Menu</a> 
     </div>
 
-    <footer style="color: #00d4ff; text-align: center; margin-top: 30px; font-weight: bold; font-size: 14px;">
-        <p>&copy; 2026 Mwandla Sbongokuhle</p>
+    <footer style="color: #00d4ff; opacity: 0.6; text-align: center; margin-top: 30px; font-weight: bold; font-size: 12px;"> 
+        <p>&copy; 2026 Mwandla Sbongokuhle</p> 
     </footer>
 
     <script>
