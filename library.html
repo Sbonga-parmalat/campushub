@@ -4,135 +4,129 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Library Desk</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&display=swap" rel="stylesheet">
     <style>
         :root {
+            /* LIGHT MODE CONFIGURATION */
             --bg-color: #f4f4f4;
             --body-bg: url('light-bg.jpg'); 
-            --container-bg: rgba(44, 62, 80, 0.12); 
-            --text-color: #1a252f; 
-            --card-bg: #ffffff;
-            --card-text: #2c3e50;
-            --hub-title: #0056b3;
-            --btn-gradient: linear-gradient(135deg, #0056b3, #00d4ff);
+            --container-bg: rgba(44, 62, 80, 0.12);
+            --text-color: #1a252f;
+            --title-color: #0056b3;
+            --card-bg: #0044cc; /* Slightly brighter blue for light mode visibility */
+            --card-text: #ffffff;
+            --back-btn-bg: #d1d5db;
+            --back-btn-text: #1a252f;
         }
 
         [data-theme="dark"] {
-            --bg-color: #121212;
-            --body-bg: url('mfolozi.png'); 
-            --container-bg: rgba(0, 0, 0, 0.6);
-            --text-color: #e0e0e0;
-            --card-bg: #1e1e1e;
+            /* DARK MODE CONFIGURATION */
+            --bg-color: #000000;
+            --body-bg: none; /* Keeps your clean dark look */
+            --container-bg: transparent;
+            --text-color: #ffffff;
+            --title-color: #33b5e5;
+            --card-bg: #002288;
             --card-text: #ffffff;
-            --hub-title: #00d4ff;
-            --btn-gradient: linear-gradient(135deg, #7000ff, #00d4ff);
+            --back-btn-bg: #0d1b2a;
+            --back-btn-text: #ffffff;
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            text-align: center;
             background-color: var(--bg-color);
-            background-image: var(--body-bg); 
-            background-size: contain; 
-            background-repeat: no-repeat; 
-            background-attachment: fixed; 
+            background-image: var(--body-bg);
+            background-size: cover;
             background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            font-family: sans-serif;
+            text-align: center;
             margin: 0;
-            padding: 0;
-            transition: background-color 0.4s ease, background-image 0.4s ease;
+            color: var(--text-color);
+            transition: background-color 0.4s ease, background-image 0.4s ease, color 0.4s ease;
         }
         
         .container {
-            max-width: 420px;
-            margin: 40px auto;
-            padding: 25px;
+            max-width: 400px;
+            margin: 50px auto;
+            padding: 20px;
             background: var(--container-bg);
-            backdrop-filter: blur(10px);
             border-radius: 24px;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
             transition: background 0.4s ease;
         }
 
-        @media (max-width: 480px) {
-            .container {
-                margin: 60px auto 20px auto;
-                width: 85%;
-            }
-        }
-
-        .portal-card {
+        .link-card {
+            display: block;
+            text-align: center;
             background: var(--card-bg);
-            padding: 30px 20px;
-            border-radius: 18px;
             color: var(--card-text);
-            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
-            transition: background-color 0.4s ease, color 0.4s ease;
-            margin-top: 20px;
-        }
-
-        .action-button {
-            display: inline-block;
-            margin-top: 20px;
-            padding: 12px 24px;
-            background: var(--btn-gradient);
-            color: white;
+            padding: 15px;
+            margin: 10px 0;
             text-decoration: none;
             border-radius: 50px;
             font-weight: bold;
-            font-size: 14px;
-            letter-spacing: 0.5px;
-            box-shadow: 0 4px 15px rgba(0,212,255,0.3);
-            transition: transform 0.2s, box-shadow 0.2s;
-            border: none;
-            cursor: pointer;
-            width: 80%;
+            font-size: 16px;
+            transition: background 0.3s ease, color 0.3s ease;
         }
 
-        .action-button:hover {
-            transform: scale(1.03);
-            box-shadow: 0 6px 20px rgba(0,212,255,0.5);
+        .link-card:active {
+            opacity: 0.85;
+            transform: scale(0.98);
         }
 
-        .back-link {
-            display: inline-block;
+        h3 {
+            font-size: 18px;
             margin-top: 25px;
-            color: var(--hub-title);
+            margin-bottom: 10px;
+            font-weight: normal;
+        }
+
+        .back-btn {
+            display: block;
+            text-align: center;
+            background: var(--back-btn-bg);
+            color: var(--back-btn-text);
+            padding: 12px;
+            margin-top: 30px;
             text-decoration: none;
-            font-weight: 600;
-            font-size: 14px;
-            transition: color 0.4s ease;
+            border-radius: 50px;
+            font-weight: bold;
+            transition: background 0.3s ease, color 0.3s ease;
         }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <div style="display: flex; align-items: center; justify-content: center; gap: 12px;">
-            <img src="mfolozi.png" alt="School Logo" style="width: 42px; height: 42px; object-fit: contain; border-radius: 6px;">
-            <h1 style="color: var(--hub-title); font-family: 'Montserrat', sans-serif; font-size: 24px; margin: 0; transition: color 0.4s ease;">Library Desk</h1>
-        </div>
-
-        <div class="portal-card">
-            <span style="font-size: 48px; display: block; margin-bottom: 15px;">📚</span>
-            <h2 style="margin: 0 0 10px 0; font-size: 18px;">Research & Textbook Catalogs</h2>
-            <p style="font-size: 13px; opacity: 0.85; line-height: 1.5; margin: 0;">
-                Search through available reference guidelines, study handbooks, and academic engineering literature resources.
-            </p>
-            
-            <a href="https://www.umfolozicollege.edu.za/" target="_blank" class="action-button">
-                🚀 Open Library Desk
-            </a>
-        </div>
-
-        <a href="index.html" class="back-link">⬅️ Back to Campus Hub</a>
+        <h1 style="color: var(--title-color); font-size: 28px; margin-bottom: 5px; transition: color 0.4s ease;">Campus Library</h1>
+        <p style="margin: 0 0 20px 0; font-size: 16px; line-height: 1.4;">Knowledge &<br>Research for All<br>Courses</p>
+        
+        <h3>🔍 Research & Facts</h3>
+        <a href="https://scholar.google.com" class="link-card" target="_blank">Google Scholar</a>
+        <a href="https://www.britannica.com" class="link-card" target="_blank">Encyclopedia Britannica</a>
+        
+        <h3>📚 Digital Textbooks</h3>
+        <a href="https://openstax.org" class="link-card" target="_blank">OpenStax Free Textbooks</a>
+        <a href="https://www.gutenberg.org" class="link-card" target="_blank">Project Gutenberg<br>(Free E-books)</a>
+        
+        <h3>🛠️ Essential Tools</h3>
+        <a href="https://www.google.com/search?q=scientific+calculator" class="link-card" target="_blank">Scientific Calculator</a>
+        <a href="https://pomofocus.io" class="link-card" target="_blank">Study Timer<br>(Pomodoro)</a>
+        
+        <a href="index.html" class="back-btn">🏠 Back to Home</a>
     </div>
 
+    <footer style="color: #00d4ff; text-align: center; margin-top: 30px; font-weight: bold; font-size: 14px;">
+        <p>&copy; 2026 Mwandla Sbongokuhle</p>
+    </footer>
+
     <script>
-        // Intercept page load and match master theme setting immediately
         document.addEventListener("DOMContentLoaded", function() {
             var savedTheme = localStorage.getItem("theme") || "dark";
             document.documentElement.setAttribute("data-theme", savedTheme);
         });
     </script>
+
 </body>
 </html>
