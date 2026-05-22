@@ -3,135 +3,136 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Library Desk - Campus Hub</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet">
+    <title>Library Desk</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --bg-color: #f4f4f4;
+            --body-bg: url('light-bg.jpg'); 
+            --container-bg: rgba(44, 62, 80, 0.12); 
+            --text-color: #1a252f; 
+            --card-bg: #ffffff;
+            --card-text: #2c3e50;
+            --hub-title: #0056b3;
+            --btn-gradient: linear-gradient(135deg, #0056b3, #00d4ff);
+        }
+
+        [data-theme="dark"] {
+            --bg-color: #121212;
+            --body-bg: url('mfolozi.png'); 
+            --container-bg: rgba(0, 0, 0, 0.6);
+            --text-color: #e0e0e0;
+            --card-bg: #1e1e1e;
+            --card-text: #ffffff;
+            --hub-title: #00d4ff;
+            --btn-gradient: linear-gradient(135deg, #7000ff, #00d4ff);
+        }
+
         body {
-            background-image: url('mfolozi.png');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-attachment: fixed;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             text-align: center;
+            background-color: var(--bg-color);
+            background-image: var(--body-bg); 
+            background-size: contain; 
+            background-repeat: no-repeat; 
+            background-attachment: fixed; 
+            background-position: center;
             margin: 0;
             padding: 0;
-            color: #ffffff;
+            transition: background-color 0.4s ease, background-image 0.4s ease;
         }
         
         .container {
             max-width: 420px;
             margin: 40px auto;
             padding: 25px;
-            background: rgba(0, 0, 0, 0.65); /* Darker glass tint for optimal readability */
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
+            background: var(--container-bg);
+            backdrop-filter: blur(10px);
             border-radius: 24px;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.6);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-sizing: border-box;
-            width: 90%;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+            transition: background 0.4s ease;
         }
 
-        h1 {
-            font-family: 'Montserrat', sans-serif;
-            font-weight: 800;
-            color: #00d4ff;
-            font-size: 24px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-top: 5px;
-            text-shadow: 0 0 15px rgba(0,212,255,0.4);
+        @media (max-width: 480px) {
+            .container {
+                margin: 60px auto 20px auto;
+                width: 85%;
+            }
         }
 
-        h3 {
-            font-family: 'Montserrat', sans-serif;
-            font-weight: 700;
-            font-size: 15px;
-            color: #ffffff;
-            margin-top: 30px;
-            margin-bottom: 12px;
-            text-align: left;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            opacity: 0.95;
+        .portal-card {
+            background: var(--card-bg);
+            padding: 30px 20px;
+            border-radius: 18px;
+            color: var(--card-text);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+            transition: background-color 0.4s ease, color 0.4s ease;
+            margin-top: 20px;
         }
 
-        .link-card {
-            display: block;
-            text-align: center;
-            /* Premium Blue Glass styling matching Learning page */
-            background: rgba(0, 86, 179, 0.4); 
-            color: #ffffff;
-            padding: 14px 18px;
-            margin: 12px 0;
+        .action-button {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 12px 24px;
+            background: var(--btn-gradient);
+            color: white;
             text-decoration: none;
             border-radius: 50px;
-            font-weight: 700;
+            font-weight: bold;
             font-size: 14px;
-            border: 1px solid rgba(0, 212, 255, 0.6);
-            box-shadow: 0 4px 15px rgba(0, 212, 255, 0.2);
-            transition: all 0.25s ease;
-            text-shadow: 0 1px 2px rgba(0,0,0,0.5);
-        }
-
-        .link-card:active, .link-card:hover {
-            background: linear-gradient(135deg, #0056b3, #00d4ff);
-            box-shadow: 0 4px 15px rgba(0, 212, 255, 0.6);
-            transform: translateY(-2px);
-            border-color: transparent;
-        }
-
-        .back-btn {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            background: rgba(255, 255, 255, 0.15);
-            color: #ffffff;
-            padding: 12px;
-            margin-top: 35px;
-            text-decoration: none;
-            border-radius: 50px;
-            font-weight: 700;
-            font-size: 13px;
-            font-family: 'Montserrat', sans-serif;
-            text-transform: uppercase;
             letter-spacing: 0.5px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            transition: all 0.25s ease;
+            box-shadow: 0 4px 15px rgba(0,212,255,0.3);
+            transition: transform 0.2s, box-shadow 0.2s;
+            border: none;
+            cursor: pointer;
+            width: 80%;
         }
 
-        .back-btn:active {
-            background: #6c757d;
+        .action-button:hover {
+            transform: scale(1.03);
+            box-shadow: 0 6px 20px rgba(0,212,255,0.5);
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 25px;
+            color: var(--hub-title);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            transition: color 0.4s ease;
         }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <h1>Campus Library</h1>
-        <p style="color: #00d4ff; font-weight: 600; font-size: 13px; margin: -5px 0 20px 0; opacity: 0.8; letter-spacing: 1px; text-transform: uppercase;">Knowledge & Research</p>
-        
-        <h3>🔍 Research & Facts</h3>
-        <a href="https://scholar.google.com" class="link-card" target="_blank">Google Scholar</a>
-        <a href="https://www.britannica.com" class="link-card" target="_blank">Encyclopedia Britannica</a>
-        
-        <h3>📚 Digital Textbooks</h3>
-        <a href="https://openstax.org" class="link-card" target="_blank">OpenStax Free Textbooks</a>
-        <a href="https://www.gutenberg.org" class="link-card" target="_blank">Project Gutenberg (Free E-books)</a>
-        
-        <h3>🛠️ Essential Tools</h3>
-        <a href="https://www.google.com/search?q=scientific+calculator" class="link-card" target="_blank">Scientific Calculator</a>
-        <a href="https://pomofocus.io" class="link-card" target="_blank">Study Timer (Pomodoro)</a>
-        
-        <a href="index.html" class="back-btn">🏠 Back to Home</a>
+        <div style="display: flex; align-items: center; justify-content: center; gap: 12px;">
+            <img src="mfolozi.png" alt="School Logo" style="width: 42px; height: 42px; object-fit: contain; border-radius: 6px;">
+            <h1 style="color: var(--hub-title); font-family: 'Montserrat', sans-serif; font-size: 24px; margin: 0; transition: color 0.4s ease;">Library Desk</h1>
+        </div>
+
+        <div class="portal-card">
+            <span style="font-size: 48px; display: block; margin-bottom: 15px;">📚</span>
+            <h2 style="margin: 0 0 10px 0; font-size: 18px;">Research & Textbook Catalogs</h2>
+            <p style="font-size: 13px; opacity: 0.85; line-height: 1.5; margin: 0;">
+                Search through available reference guidelines, study handbooks, and academic engineering literature resources.
+            </p>
+            
+            <a href="https://www.umfolozicollege.edu.za/" target="_blank" class="action-button">
+                🚀 Open Library Desk
+            </a>
+        </div>
+
+        <a href="index.html" class="back-link">⬅️ Back to Campus Hub</a>
     </div>
 
-    <footer style="color: #00d4ff; opacity: 0.6; text-align: center; margin-top: 30px; font-weight: bold; font-size: 12px;">
-        <p>&copy; 2026 Mwandla Sbongokuhle</p>
-    </footer>
-
+    <script>
+        // Intercept page load and match master theme setting immediately
+        document.addEventListener("DOMContentLoaded", function() {
+            var savedTheme = localStorage.getItem("theme") || "dark";
+            document.documentElement.setAttribute("data-theme", savedTheme);
+        });
+    </script>
 </body>
 </html>
