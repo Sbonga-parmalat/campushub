@@ -9,9 +9,7 @@
     <style>
         :root {
             --bg-color: #f4f4f4;
-            /* YOUR NEW LIGHT THEMED BACKGROUND IMAGE */
             --body-bg: url('light-bg.jpg'); 
-            /* Enhanced contrast container for readable cards over a light background */
             --container-bg: rgba(255, 255, 255, 0.9); 
             --text-color: #1a252f; 
             --card-bg: #ffffff;
@@ -23,7 +21,6 @@
 
         [data-theme="dark"] {
             --bg-color: #121212;
-            /* ORIGINAL DARK BACKGROUND IMAGE */
             --body-bg: url('mfolozi.png'); 
             --container-bg: rgba(0, 0, 0, 0.6);
             --text-color: #e0e0e0;
@@ -38,7 +35,6 @@
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             text-align: center;
             background-color: var(--bg-color);
-            /* ACTIVATES THE POWER OF THE CSS DYNAMIC VARIABLE SWAP */
             background-image: var(--body-bg); 
             background-size: contain; 
             background-repeat: no-repeat; 
@@ -434,7 +430,7 @@
                     <button class="action-button" id="calculateBtn">⚙️ Run Machining Formula</button>
 
                     <div class="calc-result-box">
-                        ⌛️ Calculated Output: <span id="rpmResult" style="color: #00d4ff;">375 RPM</span>
+                        🚀 Calculated Output: <span id="rpmResult" style="color: #00d4ff;">375 RPM</span>
                     </div>
                 </div>
             </div>
@@ -466,15 +462,13 @@
     </footer>
 
     <script>
-    // 1. CRITICAL ENGINE INTERCEPT: Checks storage instantly before layout rendering processes 
+    // 1. ENGINE INTERCEPT: Checks theme state storage instantly
     var savedTheme = localStorage.getItem("theme") || "dark";
     document.documentElement.setAttribute("data-theme", savedTheme);
 
     document.addEventListener("DOMContentLoaded", function() {
-        var greeting = "Good Evening, Student!";
-        var time = new Date().getHours();
-        if (time < 12) { greeting = "Good Morning, Student!"; }
-        else if (time < 18) { greeting = "Good Afternoon, Student!"; }
+        // FIXED TYPEWRITER TARGET STRING DIRECTLY FOR THE COLLEGE NAME
+        var greeting = "uMfolozi Student Hub Dashboard";
 
         var msgElement = document.getElementById("welcome-msg");
         var splashElement = document.getElementById("splash-screen");
@@ -517,7 +511,7 @@
             }
         }
 
-        // CONTROL ALL 3 INTERACTIVE MODES DYNAMICALLY
+        // ACCORDION CONTROL CALCULATOR
         var calcModeSelect = document.getElementById("calcMode");
         if (calcModeSelect) {
             calcModeSelect.addEventListener("change", function() {
@@ -561,7 +555,7 @@
             });
         }
 
-        // DEEP SEARCH LOGIC
+        // DEEP SEARCH SYSTEM LOGIC
         var searchInput = document.getElementById("searchInput");
         if (searchInput) {
             searchInput.addEventListener("keyup", function() {
@@ -636,7 +630,7 @@
         setupAccordion("calcToggle", "calcMenu", "calcArrow");
         setupAccordion("aboutToggle", "aboutMenu", "aboutArrow");
 
-        // 3-WAY COMPILATION EXECUTION ENGINE
+        // 3-WAY FORMULA EXECUTION ENGINE
         var calculateBtn = document.getElementById("calculateBtn");
         if (calculateBtn) {
             calculateBtn.addEventListener("click", function() {
@@ -666,7 +660,7 @@
             });
         }
 
-        // FIXED DYNAMIC SWAP LISTENER
+        // FIXED THEME TOGGLE LISTENER
         var themeBtn = document.getElementById("themeBtn");
         if (themeBtn) {
             themeBtn.addEventListener("click", function() {
