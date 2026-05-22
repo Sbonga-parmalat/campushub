@@ -467,8 +467,11 @@
     document.documentElement.setAttribute("data-theme", savedTheme);
 
     document.addEventListener("DOMContentLoaded", function() {
-        // FIXED TYPEWRITER TARGET STRING DIRECTLY FOR THE COLLEGE NAME
-        var greeting = "uMfolozi Student Hub Dashboard";
+        // BACK TO ORIGINAL DYNAMIC TIME GREETING LOGIC ONLY
+        var greeting = "Good Evening, Student!";
+        var time = new Date().getHours();
+        if (time < 12) { greeting = "Good Morning, Student!"; }
+        else if (time < 18) { greeting = "Good Afternoon, Student!"; }
 
         var msgElement = document.getElementById("welcome-msg");
         var splashElement = document.getElementById("splash-screen");
@@ -580,7 +583,7 @@
                         if (associatedMenu) {
                             var menuText = associatedMenu.textContent || associatedMenu.innerText;
                             if (menuText.toLowerCase().indexOf(filter) > -1) {
-                                matchFound = true;
+                                matchFound = matchFound || true;
                             }
                         }
                     }
