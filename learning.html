@@ -62,30 +62,32 @@
 
         .portal-card {
             background: var(--card-bg);
-            padding: 30px 20px;
+            padding: 22px 18px;
             border-radius: 18px;
             color: var(--card-text);
             box-shadow: 0 4px 10px rgba(0,0,0,0.08);
             transition: background-color 0.4s ease, color 0.4s ease;
-            margin-top: 20px;
+            margin-top: 15px;
+            text-align: left;
         }
 
         .action-button {
-            display: inline-block;
-            margin-top: 20px;
+            display: block;
+            margin: 15px auto 5px auto;
             padding: 12px 24px;
             background: var(--btn-gradient);
             color: white;
             text-decoration: none;
             border-radius: 50px;
             font-weight: bold;
-            font-size: 14px;
+            font-size: 13px;
             letter-spacing: 0.5px;
             box-shadow: 0 4px 15px rgba(0,212,255,0.3);
             transition: transform 0.2s, box-shadow 0.2s;
             border: none;
             cursor: pointer;
             width: 80%;
+            text-align: center;
         }
 
         .action-button:hover {
@@ -109,26 +111,31 @@
     <div class="container">
         <div style="display: flex; align-items: center; justify-content: center; gap: 12px;">
             <img src="mfolozi.png" alt="School Logo" style="width: 42px; height: 42px; object-fit: contain; border-radius: 6px;">
-            <h1 style="color: var(--hub-title); font-family: 'Montserrat', sans-serif; font-size: 24px; margin: 0; transition: color 0.4s ease;">LMS Portal</h1>
+            <h1 style="color: var(--hub-title); font-family: 'Montserrat', sans-serif; font-size: 22px; margin: 0; transition: color 0.4s ease;">LMS Dashboard</h1>
         </div>
 
         <div class="portal-card">
-            <span style="font-size: 48px; display: block; margin-bottom: 15px;">💻</span>
-            <h2 style="margin: 0 0 10px 0; font-size: 18px;">Online Classrooms & Assignments</h2>
-            <p style="font-size: 13px; opacity: 0.85; line-height: 1.5; margin: 0;">
-                Access your digital study materials, submit practical tasks, and track your engineering assignment modules here.
+            <span style="font-size: 32px; display: block; margin-bottom: 8px;">💻</span>
+            <h2 style="margin: 0 0 6px 0; font-size: 16px; color: var(--hub-title);">Online Learning Platform</h2>
+            <p style="font-size: 13px; margin: 0; opacity: 0.9; line-height: 1.4;">
+                Access your virtual classroom modules, study materials, and engineering notes.
             </p>
-            
-            <a href="https://www.umfolozicollege.edu.za/" target="_blank" class="action-button">
-                🚀 Launch LMS Dashboard
-            </a>
+            <a href="https://www.umfolozicollege.edu.za/" target="_blank" class="action-button">🚀 Open LMS Login</a>
+        </div>
+
+        <div class="portal-card">
+            <span style="font-size: 32px; display: block; margin-bottom: 8px;">📝</span>
+            <h2 style="margin: 0 0 6px 0; font-size: 16px; color: var(--hub-title);">Tasks & Assignments</h2>
+            <p style="font-size: 13px; margin: 0; opacity: 0.9; line-height: 1.4;">
+                Check assignment deadlines, upload assessment tasks, and view continuous evaluation marks.
+            </p>
+            <a href="https://umfolozi.coltech.co.za/" target="_blank" class="action-button">📅 View Assessment Deadlines</a>
         </div>
 
         <a href="index.html" class="back-link">⬅️ Back to Campus Hub</a>
     </div>
 
     <script>
-        // Intercept page load and match master theme setting immediately
         document.addEventListener("DOMContentLoaded", function() {
             var savedTheme = localStorage.getItem("theme") || "dark";
             document.documentElement.setAttribute("data-theme", savedTheme);
