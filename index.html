@@ -12,7 +12,7 @@
             /* YOUR NEW LIGHT THEMED BACKGROUND IMAGE */
             --body-bg: url('light-bg.jpg'); 
             /* Enhanced contrast container for readable cards over a light background */
-            --container-bg: rgba(44, 62, 80, 0.12); 
+            --container-bg: rgba(255, 255, 255, 0.9); 
             --text-color: #1a252f; 
             --card-bg: #ffffff;
             --card-text: #2c3e50;
@@ -339,7 +339,8 @@
         .fade-out { opacity: 0 !important; visibility: hidden !important; }
     </style>
 </head>
-<body> <div id="splash-screen">
+<body> 
+    <div id="splash-screen">
         <div class="smoke-container">
             <div class="smoke-cloud cloud-cyan"></div>
             <div class="smoke-cloud cloud-purple"></div>
@@ -465,6 +466,10 @@
     </footer>
 
     <script>
+    // 1. CRITICAL ENGINE INTERCEPT: Checks storage instantly before layout rendering processes 
+    var savedTheme = localStorage.getItem("theme") || "dark";
+    document.documentElement.setAttribute("data-theme", savedTheme);
+
     document.addEventListener("DOMContentLoaded", function() {
         var greeting = "Good Evening, Student!";
         var time = new Date().getHours();
@@ -661,15 +666,15 @@
             });
         }
 
+        // FIXED DYNAMIC SWAP LISTENER
         var themeBtn = document.getElementById("themeBtn");
         if (themeBtn) {
             themeBtn.addEventListener("click", function() {
                 var currentTheme = document.documentElement.getAttribute("data-theme");
-                if (currentTheme === "dark") {
-                    document.documentElement.setAttribute("data-theme", "light");
-                } else {
-                    document.documentElement.setAttribute("data-theme", "dark");
-                }
+                var targetTheme = (currentTheme === "dark") ? "light" : "dark";
+                
+                document.documentElement.setAttribute("data-theme", targetTheme);
+                localStorage.setItem("theme", targetTheme);
             });
         }
     });
