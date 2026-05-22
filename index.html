@@ -9,8 +9,11 @@
     <style>
         :root {
             --bg-color: #f4f4f4;
-            --container-bg: rgba(255, 255, 255, 0.15);
-            --text-color: #ffffff;
+            /* YOUR NEW LIGHT THEMED BACKGROUND IMAGE */
+            --body-bg: url('light-bg.jpg'); 
+            /* Enhanced contrast container for readable cards over a light background */
+            --container-bg: rgba(44, 62, 80, 0.12); 
+            --text-color: #1a252f; 
             --card-bg: #ffffff;
             --card-text: #2c3e50;
             --hub-title: #0056b3;
@@ -20,6 +23,8 @@
 
         [data-theme="dark"] {
             --bg-color: #121212;
+            /* ORIGINAL DARK BACKGROUND IMAGE */
+            --body-bg: url('mfolozi.png'); 
             --container-bg: rgba(0, 0, 0, 0.6);
             --text-color: #e0e0e0;
             --card-bg: #1e1e1e;
@@ -33,9 +38,15 @@
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             text-align: center;
             background-color: var(--bg-color);
+            /* ACTIVATES THE POWER OF THE CSS DYNAMIC VARIABLE SWAP */
+            background-image: var(--body-bg); 
+            background-size: contain; 
+            background-repeat: no-repeat; 
+            background-attachment: fixed; 
+            background-position: center;
             margin: 0;
             padding: 0;
-            transition: background-color 0.4s ease;
+            transition: background-color 0.4s ease, background-image 0.4s ease;
         }
         
         .container {
@@ -328,9 +339,7 @@
         .fade-out { opacity: 0 !important; visibility: hidden !important; }
     </style>
 </head>
-<body style="background-image:url('mfolozi.png'); background-size: contain; background-repeat: no-repeat; background-attachment: fixed; background-position: center;">
-
-    <div id="splash-screen">
+<body> <div id="splash-screen">
         <div class="smoke-container">
             <div class="smoke-cloud cloud-cyan"></div>
             <div class="smoke-cloud cloud-purple"></div>
@@ -348,7 +357,7 @@
             <img src="mfolozi.png" alt="School Logo" style="width: 42px; height: 42px; object-fit: contain; border-radius: 6px;">
             <h1 id="hubTitle" style="color: var(--hub-title); transition: color 0.4s ease; margin: 0;">Campus Hub</h1>
         </div>
-        <p style="color: var(--text-color); font-weight:500; text-shadow:1px 1px 3px rgba(0,0,0,0.3); margin-top: 8px;">All your important links in one place !!</p>
+        <p style="color: var(--text-color); font-weight:500; text-shadow:1px 1px 3px rgba(255,255,255,0.2); margin-top: 8px;">All your important links in one place !!</p>
         
         <input type="text" id="searchInput" class="search-bar" placeholder="🔍 Search dashboard resources...">
 
@@ -634,17 +643,14 @@
 
                 if (val1 > 0 && val2 > 0) {
                     if (selectMode === "rpm") {
-                        // Mode 1: (Vc * 1000) / (pi * d) -> Find RPM
                         var rpm = (1000 * val1) / (Math.PI * val2);
                         resultSpan.innerText = Math.round(rpm) + " RPM";
                     } 
                     else if (selectMode === "vc") {
-                        // Mode 2: (pi * d * N) / 1000 -> Find Vc
                         var vc = (Math.PI * val2 * val1) / 1000;
                         resultSpan.innerText = vc.toFixed(2) + " m/min";
                     } 
                     else if (selectMode === "diameter") {
-                        // Mode 3: (1000 * Vc) / (pi * N) -> Find Diameter (d)
                         var d = (1000 * val1) / (Math.PI * val2);
                         resultSpan.innerText = d.toFixed(2) + " mm";
                     }
