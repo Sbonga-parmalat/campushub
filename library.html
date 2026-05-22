@@ -10,22 +10,23 @@
             /* LIGHT MODE PRESETS */
             --bg-color: #f4f4f4;
             --body-bg: url('light-bg.jpg'); 
-            --container-bg: rgba(44, 62, 80, 0.12); 
-            --container-border: rgba(0, 0, 0, 0.08);
+            --container-bg: rgba(255, 255, 255, 0.9); 
+            --container-border: rgba(0, 0, 0, 0.1);
             --text-color: #1a252f; 
             --heading-color: #0056b3;
             --sub-heading: #2c3e50;
-            --card-bg: rgba(0, 86, 179, 0.85); 
+            --card-bg: #0056b3; 
             --card-text: #ffffff;
-            --card-border: rgba(0, 86, 179, 0.2);
+            --card-border: #004494;
             --card-shadow: rgba(0, 86, 179, 0.2);
             --back-btn-bg: rgba(0, 0, 0, 0.06);
             --back-btn-text: #2c3e50;
             --back-btn-border: rgba(0, 0, 0, 0.1);
+            --sub-text-color: #0056b3;
         }
 
         [data-theme="dark"] {
-            /* DARK MODE PRESETS (Matches your Learning Management layout exactly) */
+            /* DARK MODE PRESETS */
             --bg-color: #121212;
             --body-bg: url('mfolozi.png'); 
             --container-bg: rgba(0, 0, 0, 0.65); 
@@ -40,6 +41,7 @@
             --back-btn-bg: rgba(255, 255, 255, 0.15); 
             --back-btn-text: #ffffff; 
             --back-btn-border: rgba(255, 255, 255, 0.2); 
+            --sub-text-color: #00d4ff;
         }
 
         body {
@@ -65,7 +67,7 @@
             backdrop-filter: blur(15px); 
             -webkit-backdrop-filter: blur(15px); 
             border-radius: 24px; 
-            box-shadow: 0 8px 32px rgba(0,0,0,0.6);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
             border: 1px solid var(--container-border);
             box-sizing: border-box; 
             width: 90%; 
@@ -77,7 +79,7 @@
             font-weight: 800; 
             color: var(--heading-color);
             font-size: 24px; 
-            text-transform: uppercase;
+            text-transform: uppercase; 
             letter-spacing: 0.5px; 
             margin-top: 5px; 
             text-shadow: 0 0 15px rgba(0,212,255,0.2);
@@ -105,7 +107,7 @@
             background: var(--card-bg); 
             color: var(--card-text);
             padding: 14px 18px; 
-            margin: 12px 0;
+            margin: 12px 0; 
             text-decoration: none; 
             border-radius: 50px; 
             font-weight: 700; 
@@ -113,7 +115,6 @@
             border: 1px solid var(--card-border);
             box-shadow: 0 4px 15px var(--card-shadow);
             transition: all 0.25s ease;
-            text-shadow: 0 1px 2px rgba(0,0,0,0.3);
         }
 
         .link-card:active {
@@ -141,17 +142,13 @@
             border: 1px solid var(--back-btn-border);
             transition: all 0.4s ease;
         }
-
-        .back-btn:active {
-            background: #6c757d; 
-        }
     </style>
 </head>
 <body>
 
     <div class="container">
         <h1>Campus Hub</h1> 
-        <p style="color: #00d4ff; font-weight: 600; font-size: 13px; margin: -5px 0 20px 0; opacity: 0.8; letter-spacing: 1px; text-transform: uppercase;">Library Desk</p> 
+        <p style="color: var(--sub-text-color); font-weight: 600; font-size: 13px; margin: -5px 0 20px 0; opacity: 0.8; letter-spacing: 1px; text-transform: uppercase; transition: color 0.4s ease;">Library Desk</p> 
         
         <h3>🔍 Research & Facts</h3> 
         <a href="https://scholar.google.com" class="link-card" target="_blank">Google Scholar</a> 
@@ -168,7 +165,7 @@
         <a href="index.html" class="back-btn">⬅️ Back to Main Menu</a> 
     </div>
 
-    <footer style="color: #00d4ff; opacity: 0.6; text-align: center; margin-top: 30px; font-weight: bold; font-size: 12px;"> 
+    <footer style="color: var(--sub-text-color); opacity: 0.6; text-align: center; margin-top: 30px; font-weight: bold; font-size: 12px; transition: color 0.4s ease;"> 
         <p>&copy; 2026 Mwandla Sbongokuhle</p> 
     </footer>
 
@@ -178,6 +175,5 @@
             document.documentElement.setAttribute("data-theme", savedTheme);
         });
     </script>
-
 </body>
 </html>
