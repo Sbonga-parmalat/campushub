@@ -52,7 +52,7 @@
         }
         
         .container {
-            max-width: 1200px; /* Expanded from 420px to support landscape displays */
+            max-width: 1200px; 
             width: 90%;
             margin: 40px auto;
             padding: 25px;
@@ -66,7 +66,7 @@
 
         .search-bar {
             width: 90%;
-            max-width: 500px; /* Kept clean and centered on wider displays */
+            max-width: 500px; 
             padding: 12px 15px;
             margin: 15px 0 25px 0;
             border: none;
@@ -84,7 +84,6 @@
 
         .links-grid {
             display: grid;
-            /* Auto-adjusts column count responsively based on workspace orientation */
             grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
             gap: 16px;
             margin-bottom: 15px;
@@ -113,7 +112,7 @@
         }
 
         .accordion-btn {
-            grid-column: 1 / -1; /* Ensures buttons span full grid width on all screen sizes */
+            grid-column: 1 / -1; 
             cursor: pointer;
         }
 
@@ -123,7 +122,7 @@
         }
 
         .accordion-content {
-            grid-column: 1 / -1; /* Ensures expanded area spans full grid width on all screen sizes */
+            grid-column: 1 / -1; 
             max-height: 0;
             overflow: hidden;
             background: var(--card-bg);
@@ -205,7 +204,6 @@
             text-align: left;
         }
 
-        /* --- TOP RIGHT THEME TOGGLE SWITCH CSS --- */
         .theme-switch-wrapper {
             position: absolute;
             top: 25px;
@@ -264,7 +262,6 @@
             background-color: #121212;
         }
 
-        /* --- CAMPUS CALCULATOR POPUP CSS --- */
         .calc-overlay {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -384,7 +381,6 @@
             font-size: 14px;
         }
 
-        /* --- SPLASH SCREEN --- */
         #splash-screen {
             position: fixed;
             top: 0;
@@ -498,7 +494,6 @@
 
         .fade-out { opacity: 0 !important; visibility: hidden !important; }
 
-        /* --- MEDIA QUERY FOR SMARTPHONES (Strict mobile overrides) --- */
         @media (max-width: 500px) {
             .container {
                 margin: 60px auto 20px auto;
@@ -507,7 +502,7 @@
                 padding: 18px;
             }
             .links-grid {
-                grid-template-columns: 1fr 1fr; /* Locks layout to 2 columns on vertical mobile screens */
+                grid-template-columns: 1fr 1fr; 
                 gap: 12px;
             }
             .link-card {
@@ -721,11 +716,9 @@
     </footer>
 
     <script>
-    // 1. ENGINE INTERCEPT: Checks theme state storage instantly
     var savedTheme = localStorage.getItem("theme") || "dark";
     document.documentElement.setAttribute("data-theme", savedTheme);
 
-    // Keep checkbox switch layout state synchronized on fresh engine initialization
     document.addEventListener("DOMContentLoaded", function() {
         var themeCheckbox = document.getElementById("themeCheckbox");
         if (themeCheckbox) {
@@ -733,7 +726,6 @@
         }
     });
 
-    // CAMPUS CALCULATOR ACTIVE CONTROLLERS
     function toggleCalculator() {
         var modal = document.getElementById("calc-modal");
         if (modal) { modal.classList.toggle("active"); }
@@ -760,7 +752,6 @@
         }
     }
 
-    // --- MATH UNIT CONVERTER ENGINE DATABASE ---
     var UNIT_DATABASE = {
         mass: {
             units: ["Kilogram (kg)", "Gram (g)", "Pound (lb)", "Ounce (oz)"],
@@ -795,7 +786,6 @@
         }
     };
 
-    // Modal panel layout switcher interface logic
     function switchCalcMode() {
         var calcPanel = document.getElementById("calculator-panel");
         var convPanel = document.getElementById("converter-panel");
@@ -869,17 +859,14 @@
         resultDisplay.innerText = Number(convertedValue.toPrecision(7)).toString();
     }
 
-    // Outer Background Modal Interceptor to Close Calculator
     window.addEventListener('click', function(event) {
         var modal = document.getElementById("calc-modal");
         if (event.target === modal) { modal.classList.remove("active"); }
     });
 
     document.addEventListener("DOMContentLoaded", function() {
-        // Safe Emergency Timeout Bypass: If anything goes wrong, drop splash screen in 3 seconds flat
         setTimeout(removeSplashScreen, 3000);
 
-        // DYNAMIC TIME GREETING LOGIC
         var greeting = "Good Evening, Student!";
         var time = new Date().getHours();
         if (time < 12) { greeting = "Good Morning, Student!"; }
@@ -926,7 +913,6 @@
             }
         }
 
-        // ACCORDION CONTROL CALCULATOR
         var calcModeSelect = document.getElementById("calcMode");
         if (calcModeSelect) {
             calcModeSelect.addEventListener("change", function() {
@@ -970,7 +956,6 @@
             });
         }
 
-        // DEEP SEARCH SYSTEM LOGIC
         var searchInput = document.getElementById("searchInput");
         if (searchInput) {
             searchInput.addEventListener("keyup", function() {
@@ -1045,7 +1030,7 @@
         setupAccordion("calcToggle", "calcMenu", "calcArrow");
         setupAccordion("aboutToggle", "aboutMenu", "aboutArrow");
 
-        // 3-WAY FORMULA EXECUTION ENGINE
+        // 3-WAY FORMULA EXECUTION ENGINE (FULLY OPTIMIZED)
         var calculateBtn = document.getElementById("calculateBtn");
         if (calculateBtn) {
             calculateBtn.addEventListener("click", function() {
@@ -1055,14 +1040,19 @@
                 var resultSpan = document.getElementById("rpmResult");
                 var calcMenu = document.getElementById("calcMenu");
 
-                if (val1 > 0 && val2 > 0) {
+                if (!isNaN(val1) && !isNaN(val2) && val1 >= 0 && val2 >= 0) {
                     if (selectMode === "rpm") {
                         var rpm = (1000 * val1) / (Math.PI * val2);
                         resultSpan.innerText = Math.round(rpm) + " RPM";
                     } 
                     else if (selectMode === "vc") {
                         var vc = (Math.PI * val2 * val1) / 1000;
-                        resultSpan.innerText = vc.toFixed(2) + " m/min";
+                        
+                        if (vc < 0.1 && vc > 0) {
+                            resultSpan.innerText = vc.toFixed(5) + " m/min";
+                        } else {
+                            resultSpan.innerText = vc.toFixed(2) + " m/min";
+                        }
                     } 
                     else if (selectMode === "diameter") {
                         var d = (1000 * val1) / (Math.PI * val2);
@@ -1075,7 +1065,6 @@
             });
         }
 
-        // FIXED THEME TOGGLE LISTENER (SWITCH VERSION)
         var themeCheckbox = document.getElementById("themeCheckbox");
         if (themeCheckbox) {
             themeCheckbox.addEventListener("change", function() {
