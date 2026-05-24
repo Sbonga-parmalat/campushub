@@ -52,8 +52,9 @@
         }
         
         .container {
-            max-width: 420px;
-            margin: 20px auto;
+            max-width: 1200px; /* Expanded from 420px to support landscape displays */
+            width: 90%;
+            margin: 40px auto;
             padding: 25px;
             background: var(--container-bg);
             backdrop-filter: blur(10px);
@@ -63,15 +64,9 @@
             transition: background 0.4s ease;
         }
 
-        @media (max-width: 480px) {
-            .container {
-                margin: 60px auto 20px auto;
-                width: 85%;
-            }
-        }
-
         .search-bar {
             width: 90%;
+            max-width: 500px; /* Kept clean and centered on wider displays */
             padding: 12px 15px;
             margin: 15px 0 25px 0;
             border: none;
@@ -89,8 +84,9 @@
 
         .links-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
+            /* Auto-adjusts column count responsively based on workspace orientation */
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 16px;
             margin-bottom: 15px;
         }
 
@@ -117,7 +113,7 @@
         }
 
         .accordion-btn {
-            grid-column: span 2;
+            grid-column: 1 / -1; /* Ensures buttons span full grid width on all screen sizes */
             cursor: pointer;
         }
 
@@ -127,7 +123,7 @@
         }
 
         .accordion-content {
-            grid-column: span 2;
+            grid-column: 1 / -1; /* Ensures expanded area spans full grid width on all screen sizes */
             max-height: 0;
             overflow: hidden;
             background: var(--card-bg);
@@ -158,6 +154,7 @@
             border: none;
             cursor: pointer;
             width: 80%;
+            max-width: 280px;
         }
 
         .action-button:hover {
@@ -500,6 +497,24 @@
         }
 
         .fade-out { opacity: 0 !important; visibility: hidden !important; }
+
+        /* --- MEDIA QUERY FOR SMARTPHONES (Strict mobile overrides) --- */
+        @media (max-width: 500px) {
+            .container {
+                margin: 60px auto 20px auto;
+                width: 88%;
+                max-width: 420px;
+                padding: 18px;
+            }
+            .links-grid {
+                grid-template-columns: 1fr 1fr; /* Locks layout to 2 columns on vertical mobile screens */
+                gap: 12px;
+            }
+            .link-card {
+                padding: 18px 8px;
+                font-size: 13px;
+            }
+        }
     </style>
 </head>
 <body> 
