@@ -670,15 +670,23 @@
                         <option value="vc">(S) Cutting Speed (mm/s or m/min)</option>
                         <option value="diameter">(D) Workpiece Diameter (d in mm)</option>
                     </select>
+
+                    <div class="calc-group" id="speedUnitGroup">
+                        <label>Spindle Speed Input Format:</label>
+                        <select id="speedUnit" class="calc-select" style="margin-bottom: 10px;">
+                            <option value="rps">Revolutions Per Second (RPS / rev/s)</option>
+                            <option value="rpm" selected>Revolutions Per Minute (RPM / rev/min)</option>
+                        </select>
+                    </div>
                     
                     <div class="calc-group">
-                        <label id="field1Label">Cutting Speed (S) in m/min:</label>
-                        <input type="number" id="field1Input" class="calc-input" placeholder="e.g., 150" value="150">
+                        <label id="field1Label">Cutting Speed (Vc) in m/min:</label>
+                        <input type="number" step="any" id="field1Input" class="calc-input" placeholder="e.g., 150" value="150">
                     </div>
 
                     <div class="calc-group">
-                        <label id="field2Label">Workpiece Diameter (D) in mm:</label>
-                        <input type="number" id="field2Input" class="calc-input" placeholder="e.g., 40" value="40">
+                        <label id="field2Label">Workpiece Diameter (d) in mm:</label>
+                        <input type="number" step="any" id="field2Input" class="calc-input" placeholder="e.g., 40" value="40">
                     </div>
 
                     <button class="action-button" id="calculateBtn">⚙️ Run Machining Formula</button>
@@ -914,6 +922,8 @@
         }
 
         var calcModeSelect = document.getElementById("calcMode");
+        var speedUnitGroup = document.getElementById("speedUnitGroup");
+
         if (calcModeSelect) {
             calcModeSelect.addEventListener("change", function() {
                 var currentMode = this.value;
@@ -924,6 +934,7 @@
                 var outputBox = document.getElementById("rpmResult");
                 
                 if (currentMode === "rpm") {
+                    speedUnitGroup.style.display = "block";
                     lbl1.innerText = "Cutting Speed (Vc) in m/min:";
                     inp1.placeholder = "e.g., 150";
                     inp1.value = "150";
@@ -934,21 +945,23 @@
                     outputBox.innerText = "375 RPM";
                 } 
                 else if (currentMode === "vc") {
-                    lbl1.innerText = "Spindle Rotational Speed (N) in RPM:";
-                    inp1.placeholder = "e.g., 400";
-                    inp1.value = "400";
+                    speedUnitGroup.style.display = "block";
+                    lbl1.innerText = "Spindle Rotational Speed (N):";
+                    inp1.placeholder = "e.g., 2.42";
+                    inp1.value = "2.42";
                     
                     lbl2.innerText = "Workpiece Diameter (d) in mm:";
-                    inp2.placeholder = "e.g., 40";
-                    inp2.value = "40";
-                    outputBox.innerText = "50.27 m/min";
+                    inp2.placeholder = "e.g., 25";
+                    inp2.value = "25";
+                    outputBox.innerText = "190.1 m/min";
                 } 
                 else if (currentMode === "diameter") {
+                    speedUnitGroup.style.display = "block";
                     lbl1.innerText = "Cutting Speed (Vc) in m/min:";
                     inp1.placeholder = "e.g., 120";
                     inp1.value = "120";
                     
-                    lbl2.innerText = "Spindle Rotational Speed (N) in RPM:";
+                    lbl2.innerText = "Spindle Rotational Speed (N):";
                     inp2.placeholder = "e.g., 500";
                     inp2.value = "500";
                     outputBox.innerText = "76.39 mm";
@@ -1030,11 +1043,12 @@
         setupAccordion("calcToggle", "calcMenu", "calcArrow");
         setupAccordion("aboutToggle", "aboutMenu", "aboutArrow");
 
-        // 3-WAY FORMULA EXECUTION ENGINE (FULLY OPTIMIZED)
+        // 3-WAY FORMULA EXECUTION ENGINE (FULLY OPTIMIZED FOR TVET SYLLABUS)
         var calculateBtn = document.getElementById("calculateBtn");
         if (calculateBtn) {
             calculateBtn.addEventListener("click", function() {
                 var selectMode = document.getElementById("calcMode").value;
+                var speedUnit = document.getElementById("speedUnit").value;
                 var val1 = parseFloat(document.getElementById("field1Input").value);
                 var val2 = parseFloat(document.getElementById("field2Input").value);
                 var resultSpan = document.getElementById("rpmResult");
@@ -1042,20 +1056,32 @@
 
                 if (!isNaN(val1) && !isNaN(val2) && val1 >= 0 && val2 >= 0) {
                     if (selectMode === "rpm") {
+                        // val1 = Vc, val2 = d
                         var rpm = (1000 * val1) / (Math.PI * val2);
-                        resultSpan.innerText = Math.round(rpm) + " RPM";
-                    } 
-                    else if (selectMode === "vc") {
-                        var vc = (Math.PI * val2 * val1) / 1000;
-                        
-                        if (vc < 0.1 && vc > 0) {
-                            resultSpan.innerText = vc.toFixed(5) + " m/min";
+                        if (speedUnit === "rps") {
+                            var rps = rpm / 60;
+                            resultSpan.innerText = rps.toFixed(2) + " RPS";
                         } else {
-                            resultSpan.innerText = vc.toFixed(2) + " m/min";
+                            resultSpan.innerText = Math.round(rpm) + " RPM";
                         }
                     } 
+                    else if (selectMode === "vc") {
+                        // val1 = N, val2 = d
+                        let n_rpm = val1;
+                        if (speedUnit === "rps") {
+                            n_rpm = val1 * 60; // Convert RPS to RPM for standard calculation
+                        }
+                        
+                        var vc = (Math.PI * val2 * n_rpm) / 1000;
+                        resultSpan.innerText = vc.toFixed(1) + " m/min";
+                    } 
                     else if (selectMode === "diameter") {
-                        var d = (1000 * val1) / (Math.PI * val2);
+                        // val1 = Vc, val2 = N
+                        let n_rpm = val2;
+                        if (speedUnit === "rps") {
+                            n_rpm = val2 * 60;
+                        }
+                        var d = (1000 * val1) / (Math.PI * n_rpm);
                         resultSpan.innerText = d.toFixed(2) + " mm";
                     }
                 } else {
@@ -1069,7 +1095,6 @@
         if (themeCheckbox) {
             themeCheckbox.addEventListener("change", function() {
                 var targetTheme = this.checked ? "dark" : "light";
-                
                 document.documentElement.setAttribute("data-theme", targetTheme);
                 localStorage.setItem("theme", targetTheme);
             });
