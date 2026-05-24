@@ -17,6 +17,9 @@
             --hub-title: #0056b3;
             --btn-gradient: linear-gradient(135deg, #0056b3, #00d4ff);
             --calc-bg: #f8f9fa;
+            --overlay-bg: rgba(7, 15, 33, 0.4);
+            --keypad-btn: #eef2f7;
+            --keypad-text: #2c3e50;
         }
 
         [data-theme="dark"] {
@@ -29,6 +32,9 @@
             --hub-title: #00d4ff;
             --btn-gradient: linear-gradient(135deg, #7000ff, #00d4ff);
             --calc-bg: #2d2d2d;
+            --overlay-bg: rgba(0, 0, 0, 0.8);
+            --keypad-btn: #2d2d2d;
+            --keypad-text: #ffffff;
         }
 
         body {
@@ -101,6 +107,7 @@
             font-weight: 600;
             font-size: 14px;
             box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+            cursor: pointer;
             transition: transform 0.2s, background-color 0.4s ease, color 0.4s ease;
         }
 
@@ -221,6 +228,88 @@
             z-index: 10;
         }
 
+        /* --- CAMPUS CALCULATOR POPUP CSS --- */
+        .calc-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--overlay-bg);
+            backdrop-filter: blur(8px);
+            z-index: 10000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+        .calc-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        .calculator-box {
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            padding: 20px;
+            width: 300px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        }
+        .calc-popup-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--card-text);
+            margin-bottom: 15px;
+            font-family: 'Montserrat', sans-serif;
+        }
+        .close-calc {
+            background: none; border: none; color: var(--card-text);
+            font-size: 24px; cursor: pointer; opacity: 0.7;
+        }
+        .close-calc:hover { opacity: 1; }
+        #calc-screen {
+            width: 100%;
+            height: 55px;
+            background: var(--calc-bg);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            color: var(--card-text);
+            text-align: right;
+            padding: 10px 15px;
+            font-size: 22px;
+            font-family: monospace;
+            outline: none;
+            box-sizing: border-box;
+            margin-bottom: 15px;
+        }
+        .calc-buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+        .btn-input {
+            background: var(--keypad-btn);
+            border: none;
+            border-radius: 12px;
+            color: var(--keypad-text);
+            font-size: 16px;
+            font-weight: 700;
+            height: 45px;
+            cursor: pointer;
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+            transition: background 0.2s;
+        }
+        .btn-input:hover { opacity: 0.8; }
+        .btn-input.operator { color: #00d4ff; }
+        .btn-input.functional { color: #ac55ff; }
+        .btn-input.action-equal {
+            background: var(--btn-gradient);
+            color: #ffffff;
+        }
+
+        /* --- SPLASH SCREEN --- */
         #splash-screen {
             position: fixed;
             top: 0;
@@ -347,6 +436,42 @@
         </div>
     </div>
 
+    <div id="calc-modal" class="calc-overlay">
+        <div class="calculator-box">
+            <div class="calc-popup-header">
+                <span>Campus Calculator</span>
+                <button class="close-calc" onclick="toggleCalculator()">×</button>
+            </div>
+            <input type="text" id="calc-screen" readonly placeholder="0">
+            <div class="calc-buttons">
+                <button class="btn-input functional" onclick="clearScreen()">C</button>
+                <button class="btn-input functional" onclick="appendValue('(')">(</button>
+                <button class="btn-input functional" onclick="appendValue(')')">)</button>
+                <button class="btn-input operator" onclick="appendValue('/')">÷</button>
+
+                <button class="btn-input" onclick="appendValue('7')">7</button>
+                <button class="btn-input" onclick="appendValue('8')">8</button>
+                <button class="btn-input" onclick="appendValue('9')">9</button>
+                <button class="btn-input" onclick="appendValue('*')">×</button>
+
+                <button class="btn-input" onclick="appendValue('4')">4</button>
+                <button class="btn-input" onclick="appendValue('5')">5</button>
+                <button class="btn-input" onclick="appendValue('6')">6</button>
+                <button class="btn-input" onclick="appendValue('-')">-</button>
+
+                <button class="btn-input" onclick="appendValue('1')">1</button>
+                <button class="btn-input" onclick="appendValue('2')">2</button>
+                <button class="btn-input" onclick="appendValue('3')">3</button>
+                <button class="btn-input" onclick="appendValue('+')">+</button>
+
+                <button class="btn-input" onclick="appendValue('0')">0</button>
+                <button class="btn-input" onclick="appendValue('.')">.</button>
+                <button class="btn-input functional" onclick="backspace()">⌫</button>
+                <button class="btn-input action-equal" onclick="calculateResult()">=</button>
+            </div>
+        </div>
+    </div>
+
     <div class="container">
         <button class="theme-toggle" id="themeBtn" title="Toggle Theme">🌙</button>
 
@@ -379,10 +504,10 @@
                 <span>NSFAS Tracking</span>
             </a>
 
-            <a href="https://www.google.com/search?q=scientific+calculator" class="link-card" target="_blank">
+            <div class="link-card" onclick="toggleCalculator()">
                 <span style="font-size: 24px; margin-bottom:6px;">🧮</span>
                 <span>Scientific Calculator</span>
-            </a>
+            </div>
             
             <div class="link-card accordion-btn" id="timetableToggle">
                 <span style="display: flex; align-items: center; width: 100%; justify-content: center; gap: 8px;">
@@ -465,6 +590,39 @@
     // 1. ENGINE INTERCEPT: Checks theme state storage instantly
     var savedTheme = localStorage.getItem("theme") || "dark";
     document.documentElement.setAttribute("data-theme", savedTheme);
+
+    // CAMPUS CALCULATOR ACTIVE CONTROLLERS
+    function toggleCalculator() {
+        var modal = document.getElementById("calc-modal");
+        if (modal) { modal.classList.toggle("active"); }
+    }
+    
+    var calcScreen = document.getElementById("calc-screen");
+    function appendValue(val) {
+        if (calcScreen.value === "Error") calcScreen.value = "";
+        calcScreen.value += val;
+    }
+    function clearScreen() { calcScreen.value = ""; }
+    function backspace() { calcScreen.value = calcScreen.value.slice(0, -1); }
+    function calculateResult() {
+        try {
+            if (calcScreen.value.trim() === "") return;
+            var result = new Function("return " + calcScreen.value)();
+            if (result === undefined || isNaN(result)) {
+                calcScreen.value = "Error";
+            } else {
+                calcScreen.value = Number(result.toFixed(6)).toString();
+            }
+        } catch (e) {
+            calcScreen.value = "Error";
+        }
+    }
+
+    // Outer Background Modal Interceptor to Close Calculator
+    window.addEventListener('click', function(event) {
+        var modal = document.getElementById("calc-modal");
+        if (event.target === modal) { modal.classList.remove("active"); }
+    });
 
     document.addEventListener("DOMContentLoaded", function() {
         // BACK TO ORIGINAL DYNAMIC TIME GREETING LOGIC ONLY
