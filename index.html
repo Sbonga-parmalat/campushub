@@ -64,12 +64,29 @@
             transition: background 0.4s ease;
         }
 
+        .search-bar {
+            width: 90%;
+            max-width: 500px; 
+            padding: 12px 15px;
+            margin: 15px 0 25px 0;
+            border: none;
+            border-radius: 50px;
+            background: var(--card-bg);
+            color: var(--card-text);
+            font-size: 14px;
+            font-weight: 500;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.05), 0 4px 6px rgba(0,0,0,0.05);
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .search-bar:focus { box-shadow: 0 0 0 3px #00d4ff; }
+
         .links-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
             gap: 16px;
             margin-bottom: 15px;
-            margin-top: 25px;
         }
 
         .link-card {
@@ -487,7 +504,6 @@
             .links-grid {
                 grid-template-columns: 1fr 1fr; 
                 gap: 12px;
-                margin-top: 15px;
             }
             .link-card {
                 padding: 18px 8px;
@@ -593,6 +609,8 @@
             <h1 id="hubTitle" style="color: var(--hub-title); transition: color 0.4s ease; margin: 0;">Campus Hub</h1>
         </div>
         <p style="color: var(--text-color); font-weight:500; text-shadow:1px 1px 3px rgba(255,255,255,0.2); margin-top: 8px;">All your important links in one place !!</p>
+        
+        <input type="text" id="searchInput" class="search-bar" placeholder="🔍 Search dashboard resources...">
 
         <div class="links-grid" id="linksContainer">
             <a href="https://umfolozi.coltech.co.za/" class="link-card" target="_blank">
@@ -706,38 +724,157 @@
     </footer>
 
     <script>
+    // 1. Core Structural State & Themes Initialization (Runs instantly)
     var savedTheme = localStorage.getItem("theme") || "dark";
     document.documentElement.setAttribute("data-theme", savedTheme);
 
+    // 2. Safe Encapsulated Application Lifecycle Execution
     document.addEventListener("DOMContentLoaded", function() {
+        
+        // Sync theme checkbox toggle position state
         var themeCheckbox = document.getElementById("themeCheckbox");
         if (themeCheckbox) {
             themeCheckbox.checked = (savedTheme === "dark");
         }
-    });
 
-    function toggleCalculator() {
-        var modal = document.getElementById("calc-modal");
-        if (modal) { modal.classList.toggle("active"); }
-    }
-    
-    var calcScreen = document.getElementById("calc-screen");
-    function appendValue(val) {
-        if (calcScreen.value === "Error") calcScreen.value = "";
-        calcScreen.value += val;
-    }
-    function clearScreen() { calcScreen.value = ""; }
-    function backspace() { calcScreen.value = calcScreen.value.slice(0, -1); }
-    function calculateResult() {
-        try {
-            if (calcScreen.value.trim() === "") return;
-            var result = new Function("return " + calcScreen.value)();
-            if (result === undefined || isNaN(result)) {
+        // Safe Calculator Panel UI Actions
+        window.toggleCalculator = function() {
+            var modal = document.getElementById("calc-modal");
+            if (modal) { modal.classList.toggle("active"); }
+        };
+        
+        window.appendValue = function(val) {
+            var calcScreen = document.getElementById("calc-screen");
+            if (!calcScreen) return;
+            if (calcScreen.value === "Error") calcScreen.value = "";
+            calcScreen.value += val;
+        };
+
+        window.clearScreen = function() { 
+            var calcScreen = document.getElementById("calc-screen");
+            if (calcScreen) calcScreen.value = ""; 
+        };
+
+        window.backspace = function() { 
+            var calcScreen = document.getElementById("calc-screen");
+            if (calcScreen) calcScreen.value = calcScreen.value.slice(0, -1); 
+        };
+
+        window.calculateResult = function() {
+            var calcScreen = document.getElementById("calc-screen");
+            if (!calcScreen || calcScreen.value.trim() === "") return;
+            try {
+                var result = new Function("return " + calcScreen.value)();
+                if (result === undefined || isNaN(result)) {
+                    calcScreen.value = "Error";
+                } else {
+                    calcScreen.value = Number(result.toFixed(6)).toString();
+                }
+            } catch (e) {
                 calcScreen.value = "Error";
-            } else {
-                calcScreen.value = Number(result.toFixed(6)).toString();
             }
-        } catch (e) {
-            calcScreen.value = "Error";
-        }
-    }
+        };
+
+        // Unit Converter Logic Database Array Maps
+        var UNIT_DATABASE = {
+            mass: {
+                units: ["Kilogram (kg)", "Gram (g)", "Pound (lb)", "Ounce (oz)"],
+                factors: { "Kilogram (kg)": 1, "Gram (g)": 1000, "Pound (lb)": 2.20462, "Ounce (oz)": 35.274 }
+            },
+            volume: {
+                units: ["Litre (L)", "Millilitre (mL)", "Cubic Meter (m³)", "Gallon (gal)"],
+                factors: { "Litre (L)": 1, "Millilitre (mL)": 1000, "Cubic Meter (m³)": 0.001, "Gallon (gal)": 0.264172 }
+            },
+            temperature: {
+                units: ["Celsius (°C)", "Fahrenheit (°F)", "Kelvin (K)"]
+            },
+            data: {
+                units: ["Megabyte (MB)", "Gigabyte (GB)", "Terabyte (TB)", "Kilobyte (KB)"],
+                factors: { "Megabyte (MB)": 1, "Gigabyte (GB)": 0.0009765625, "Terabyte (TB)": 0.00000095367, "Kilobyte (KB)": 1024 }
+            },
+            speed: {
+                units: ["m/s", "km/h", "mph", "Knots"],
+                factors: { "m/s": 1, "km/h": 3.6, "mph": 2.23694, "Knots": 1.94384 }
+            },
+            time: {
+                units: ["Seconds (s)", "Minutes (min)", "Hours (h)", "Days"],
+                factors: { "Seconds (s)": 1, "Minutes (min)": 0.0166666667, "Hours (h)": 0.0002777778, "Days": 0.0000115741 }
+            },
+            area: {
+                units: ["Square Meter (m²)", "Square Kilometer (km²)", "Hectare (ha)", "Acre"],
+                factors: { "Square Meter (m²)": 1, "Square Kilometer (km²)": 0.000001, "Hectare (ha)": 0.0001, "Acre": 0.000247105 }
+            },
+            length: {
+                units: ["Meter (m)", "Millimeter (mm)", "Centimeter (cm)", "Kilometer (km)", "Inch (in)", "Foot (ft)"],
+                factors: { "Meter (m)": 1, "Millimeter (mm)": 1000, "Centimeter (cm)": 100, "Kilometer (km)": 0.001, "Inch (in)": 39.3701, "Foot (ft)": 3.28084 }
+            }
+        };
+
+        window.switchCalcMode = function() {
+            var calcPanel = document.getElementById("calculator-panel");
+            var convPanel = document.getElementById("converter-panel");
+            var toggleBtn = document.getElementById("panelToggleBtn");
+            var titleText = document.getElementById("popup-title");
+
+            if (calcPanel && convPanel) {
+                if (calcPanel.style.display === "none") {
+                    calcPanel.style.display = "block";
+                    convPanel.style.display = "none";
+                    if (toggleBtn) toggleBtn.innerText = "🔄 Convert";
+                    if (titleText) titleText.innerText = "Campus Calculator";
+                } else {
+                    calcPanel.style.display = "none";
+                    convPanel.style.display = "block";
+                    if (toggleBtn) toggleBtn.innerText = "🔢 Math";
+                    if (titleText) titleText.innerText = "Unit Converter";
+                    updateConverterUnits(); 
+                }
+            }
+        };
+
+        window.updateConverterUnits = function() {
+            var categorySelect = document.getElementById("convCategory");
+            var fromSelect = document.getElementById("convFromUnit");
+            var toSelect = document.getElementById("convToUnit");
+            
+            if (!categorySelect || !fromSelect || !toSelect) return;
+            
+            var category = categorySelect.value;
+            fromSelect.innerHTML = "";
+            toSelect.innerHTML = "";
+            
+            UNIT_DATABASE[category].units.forEach(function(unit, idx) {
+                fromSelect.innerHTML += '<option value="' + unit + '">' + unit + '</option>';
+                toSelect.innerHTML += '<option value="' + unit + '" ' + (idx === 1 ? 'selected' : '') + '>' + unit + '</option>';
+            });
+            
+            runUnitConversion();
+        };
+
+        window.runUnitConversion = function() {
+            var catElem = document.getElementById("convCategory");
+            var fromElem = document.getElementById("convFromUnit");
+            var toElem = document.getElementById("convToUnit");
+            var inputElem = document.getElementById("convInputVal");
+            var resultDisplay = document.getElementById("convOutputResult");
+
+            if (!catElem || !fromElem || !toElem || !inputElem || !resultDisplay) return;
+
+            var category = catElem.value;
+            var fromUnit = fromElem.value;
+            var toUnit = toElem.value;
+            var inputVal = parseFloat(inputElem.value);
+
+            if (isNaN(inputVal)) {
+                resultDisplay.innerText = "0";
+                return;
+            }
+
+            if (category === "temperature") {
+                let tempInC;
+                if (fromUnit === "Celsius (°C)") tempInC = inputVal;
+                else if (fromUnit === "Fahrenheit (°F)") tempInC = (inputVal - 32) * 5 / 9;
+                else if (fromUnit === "Kelvin (K)") tempInC = inputVal - 273.15;
+
+                let finalTemp;
+                if (toUnit === "Celsius (°
