@@ -1,12 +1,12 @@
-const CACHE_NAME = 'campus-hub-v1';
-// Add every single file you want to be available offline
+const CACHE_NAME = 'campus-hub-v2';
+// Absolute paths tailored specifically to your GitHub Pages repository structure
 const ASSETS_TO_CACHE = [
-    './',
-    './index.html',
-    './learning.html',
-    './library.html',
-    './mfolozi.png',
-    './manifest.json',
+    '/campushub/',
+    '/campushub/index.html',
+    '/campushub/learning.html',
+    '/campushub/library.html',
+    '/campushub/mfolozi.png',
+    '/campushub/manifest.json',
     'https://fonts.googleapis.com/css2?family=Montserrat:wght=700;800&display=swap'
 ];
 
