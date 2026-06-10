@@ -969,51 +969,67 @@
             });
         }
 
+        // UPGRADED GLOBAL SEARCH ENGINE
         var searchInput = document.getElementById("searchInput");
         if (searchInput) {
-            searchInput.addEventListener("keyup", function() {
+            searchInput.addEventListener("input", function() {
                 var filter = searchInput.value.toLowerCase();
                 var cards = document.getElementsByClassName("link-card");
                 
                 for (var i = 0; i < cards.length; i++) {
-                    var cardText = cards[i].textContent || cards[i].innerText;
-                    var matchFound = cardText.toLowerCase().indexOf(filter) > -1;
+                    var card = cards[i];
+                    var cardText = card.textContent || card.innerText;
                     
-                    var isAccordion = cards[i].classList.contains("accordion-btn");
+                    // Inject extensive internal sub-page keyword mappings
+                    var subPageKeywords = "";
+                    var hrefValue = card.getAttribute("href");
+                    
+                    if (hrefValue === "learning.html") {
+                        subPageKeywords = "moodle learning management system portal cv templates curriculum vitae pdf tools merge compress compress pdf word to pdf grammar check spell check dictionary tools write clean essays";
+                    } else if (hrefValue === "library.html") {
+                        subPageKeywords = "library desk open research facts engine search tools google scholar online encyclopedia britannica digital school textbooks openstax college library books free ebooks download project gutenberg online study timer countdown pomodoro focus method focus keeper tool clock";
+                    } else if (card.getAttribute("onclick") === "toggleCalculator()") {
+                        subPageKeywords = "scientific calculator pop-up math solver addition subtraction divide multiply calculation converter matrix unit conversions mass weight volume parameters data storage gigabytes measurement conversion area logic metric system calculation solver";
+                    }
+                    
+                    // Combine visible interface labels with mapped hidden keywords
+                    var searchableText = (cardText + " " + subPageKeywords).toLowerCase();
+                    var matchFound = searchableText.indexOf(filter) > -1;
+                    
+                    var isAccordion = card.classList.contains("accordion-btn");
                     var associatedMenu = null;
+                    var arrowId = "";
                     
                     if (isAccordion) {
                         var menuId = "";
-                        if (cards[i].id === "timetableToggle") menuId = "timetableMenu";
-                        else if (cards[i].id === "calcToggle") menuId = "calcMenu";
-                        else if (cards[i].id === "aboutToggle") menuId = "aboutMenu";
+                        if (card.id === "timetableToggle") { menuId = "timetableMenu"; arrowId = "timetableArrow"; }
+                        else if (card.id === "calcToggle") { menuId = "calcMenu"; arrowId = "calcArrow"; }
+                        else if (card.id === "aboutToggle") { menuId = "aboutMenu"; arrowId = "aboutArrow"; }
                         
                         associatedMenu = document.getElementById(menuId);
                         
                         if (associatedMenu) {
                             var menuText = associatedMenu.textContent || associatedMenu.innerText;
                             if (menuText.toLowerCase().indexOf(filter) > -1) {
-                                matchFound = matchFound || true;
+                                matchFound = true;
                             }
                         }
                     }
                     
                     if (matchFound) {
-                        cards[i].style.display = "flex";
+                        card.style.display = ""; // Safely unhides elements while respecting CSS Grid rules
                         
-                        if (isAccordion && filter.length > 2 && associatedMenu) {
+                        // Auto-expand hidden drop-down menus if query terms target internal layout contents
+                        if (isAccordion && filter.length > 1 && associatedMenu) {
+                            associatedMenu.style.display = "";
                             associatedMenu.style.maxHeight = associatedMenu.scrollHeight + "px";
-                            var arrowId = "";
-                            if (cards[i].id === "timetableToggle") arrowId = "timetableArrow";
-                            else if (cards[i].id === "calcToggle") arrowId = "calcArrow";
-                            else if (cards[i].id === "aboutToggle") arrowId = "aboutArrow";
-                            
                             var arrow = document.getElementById(arrowId);
                             if (arrow) arrow.style.transform = "rotate(180deg)";
                         }
                     } else {
-                        cards[i].style.display = "none";
+                        card.style.display = "none";
                         if (isAccordion && associatedMenu) {
+                            associatedMenu.style.display = "none";
                             associatedMenu.style.maxHeight = "0px";
                         }
                     }
@@ -1056,7 +1072,6 @@
 
                 if (!isNaN(val1) && !isNaN(val2) && val1 >= 0 && val2 >= 0) {
                     if (selectMode === "rpm") {
-                        // val1 = Vc, val2 = d
                         var rpm = (1000 * val1) / (Math.PI * val2);
                         if (speedUnit === "rps") {
                             var rps = rpm / 60;
@@ -1066,17 +1081,14 @@
                         }
                     } 
                     else if (selectMode === "vc") {
-                        // val1 = N, val2 = d
                         let n_rpm = val1;
                         if (speedUnit === "rps") {
-                            n_rpm = val1 * 60; // Convert RPS to RPM for standard calculation
+                            n_rpm = val1 * 60; 
                         }
-                        
                         var vc = (Math.PI * val2 * n_rpm) / 1000;
                         resultSpan.innerText = vc.toFixed(1) + " m/min";
                     } 
                     else if (selectMode === "diameter") {
-                        // val1 = Vc, val2 = N
                         let n_rpm = val2;
                         if (speedUnit === "rps") {
                             n_rpm = val2 * 60;
@@ -1102,4 +1114,4 @@
     });
     </script>
 </body>
-                        </html>
+</html>
