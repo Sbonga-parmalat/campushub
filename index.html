@@ -495,7 +495,6 @@
             box-sizing: border-box;
         }
 
-        /* SVG Line drawing style configuration for Signature Look */
         .signature-svg {
             width: 100%;
             height: auto;
@@ -506,16 +505,16 @@
             font-family: 'Caveat', cursive;
             font-size: 52px;
             fill: none;
-            stroke: #ffffff;
-            stroke-width: 2;
+            stroke: #ffffff; /* Explicit Pure White Font Stroke */
+            stroke-width: 2.2;
             stroke-linecap: round;
             stroke-linejoin: round;
-            /* Adjust path settings to generate drawing animation over a slower 3.5s sequence */
-            stroke-dasharray: 1200;
-            stroke-dashoffset: 1200;
-            animation: drawSignature 3.5s cubic-bezier(0.45, 0, 0.25, 1) forwards;
+            stroke-dasharray: 1400;
+            stroke-dashoffset: 1400;
+            /* Slowed down to 7.5 seconds for a true, steady signature-writing pace */
+            animation: drawSignature 7.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
             text-anchor: middle;
-            filter: drop-shadow(0 0 12px rgba(0, 212, 255, 0.6));
+            filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.35));
         }
 
         @keyframes drawSignature {
@@ -548,7 +547,6 @@
     </style>
 </head>
 <body> 
-    <!-- Click or finish drawing to close the splash screen smoothly -->
     <div id="splash-screen" onclick="this.classList.add('fade-out'); setTimeout(()=>{this.style.display='none';}, 1200);">
         <div class="smoke-container">
             <div class="smoke-cloud cloud-cyan"></div>
@@ -556,7 +554,6 @@
             <div class="smoke-cloud cloud-magenta"></div>
         </div>
         <div class="splash-content">
-            <!-- Smooth vector signature wrapper for authentic handwriting line growth -->
             <svg class="signature-svg" viewBox="0 0 500 150">
                 <text x="250" y="90" id="welcome-msg" class="signature-text"></text>
             </svg>
@@ -940,10 +937,9 @@
             }
         } else {
             if (msgElement) { 
-                // Set text directly inside the vector string framework so stroke filters match
                 msgElement.textContent = greeting;
-                // Leave the splash screen visible for 4.5 seconds to ensure the user sees the fluid signature write out fully
-                setTimeout(removeSplashScreen, 4500);
+                // Extended timeout to match the slower line drawing timeline perfectly
+                setTimeout(removeSplashScreen, 8500);
             } else { 
                 removeSplashScreen(); 
             }
