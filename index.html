@@ -419,7 +419,7 @@
             justify-content: center;
             align-items: center;
             z-index: 9999; 
-            transition: opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1), visibility 1.2s;
+            transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.8s;
         }
 
         .smoke-container {
@@ -495,26 +495,28 @@
             box-sizing: border-box;
         }
 
+        /* FIXED: Solid Pure White and Bold Cursive Signature Styling */
         .signature-display {
             font-family: 'Caveat', cursive;
-            font-size: 56px;
-            color: #ffffff; /* Explicit Pure Solid White */
+            font-size: 58px;
+            font-weight: 800 !important; /* Thick solid pen stroke appearance */
+            color: #ffffff !important; /* Force solid pure white layout */
             text-align: center;
-            letter-spacing: 2px;
+            letter-spacing: 1.5px;
             min-height: 80px;
             display: inline-block;
-            text-shadow: 0 0 15px rgba(255, 255, 255, 0.45), 0 0 4px rgba(255, 255, 255, 0.2);
-            border-right: 3px solid rgba(255,255,255,0.75); /* Simulated pen tip blinking cursor */
-            animation: blinkCursor 0.6s step-end infinite;
+            text-shadow: none !important; /* Removed blur artifacting to maintain sharp solid color */
+            border-right: 4px solid #ffffff; /* Thicker crisp ink cursor */
+            animation: blinkCursor 0.5s step-end infinite;
             white-space: nowrap;
         }
 
         @keyframes blinkCursor {
             from, to { border-color: transparent }
-            50% { border-color: rgba(255, 255, 255, 0.85); }
+            50% { border-color: #ffffff; }
         }
 
-        .fade-out { opacity: 0 !important; visibility: hidden !important; transition: opacity 1.2s ease, visibility 1.2s; }
+        .fade-out { opacity: 0 !important; visibility: hidden !important; transition: opacity 0.8s ease, visibility 0.8s; }
 
         @media (max-width: 500px) {
             .container {
@@ -532,20 +534,19 @@
                 font-size: 13px;
             }
             .signature-display {
-                font-size: 40px;
+                font-size: 42px;
             }
         }
     </style>
 </head>
 <body> 
-    <div id="splash-screen" onclick="this.classList.add('fade-out'); setTimeout(()=>{this.style.display='none';}, 1200);">
+    <div id="splash-screen" onclick="this.classList.add('fade-out'); setTimeout(()=>{this.style.display='none';}, 800);">
         <div class="smoke-container">
             <div class="smoke-cloud cloud-cyan"></div>
             <div class="smoke-cloud cloud-purple"></div>
             <div class="smoke-cloud cloud-magenta"></div>
         </div>
         <div class="splash-content">
-            <!-- Fixed Linear Handwritten Output Container -->
             <span id="welcome-msg" class="signature-display"></span>
         </div>
     </div>
@@ -927,25 +928,23 @@
             }
         } else {
             if (msgElement) { 
-                // CRUCIAL REWRITE: Incremental Handwritten script typing engine
                 let charIndex = 0;
                 msgElement.textContent = ""; 
                 
+                // FIXED: Balanced calculation makes text draw slower, landing precisely on target timeline
                 function drawLetterByLetter() {
                     if (charIndex < greeting.length) {
                         msgElement.textContent += greeting.charAt(charIndex);
                         charIndex++;
-                        // Controlled delay (260ms per letter) ensures a perfectly timed stroke rate
-                        setTimeout(drawLetterByLetter, 260); 
+                        setTimeout(drawLetterByLetter, 105); 
                     } else {
-                        // Hold completed text for 2.5 seconds before starting splash teardown
-                        setTimeout(removeSplashScreen, 2500);
-                        msgElement.style.borderRight = "none"; // Hide pointer cursor when complete
+                        // FIXED: Drop hold delay down completely to exit immediately after full string layout
+                        setTimeout(removeSplashScreen, 350);
+                        msgElement.style.borderRight = "none"; 
                     }
                 }
                 
-                // Kick off pen stroke after 600ms smoke settle window
-                setTimeout(drawLetterByLetter, 600);
+                setTimeout(drawLetterByLetter, 200);
             } else { 
                 removeSplashScreen(); 
             }
@@ -960,7 +959,7 @@
                 setTimeout(function() {
                     splash.style.display = "none";
                     splash.style.zIndex = "-1";
-                }, 1200);
+                }, 800);
             }
         }
 
