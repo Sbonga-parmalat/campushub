@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Student Link Hub</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&family=Syne:wght@800&display=swap" rel="stylesheet">
     <link rel="manifest" href="manifest.json">
     <style>
         :root {
@@ -495,13 +495,14 @@
             box-sizing: border-box;
         }
 
+        /* Swapped font-family to Syne & optimized weights/tracking for Qurova vibe */
         #welcome-msg {
             color: #ffffff; 
-            font-family: 'Montserrat', sans-serif; 
-            font-size: 24px; 
+            font-family: 'Syne', sans-serif; 
+            font-size: 26px; 
             font-weight: 800; 
             text-transform: uppercase; 
-            letter-spacing: 0.5px; 
+            letter-spacing: -0.2px; /* Pulls wide geometric tracking tight like Qurova */
             display: inline-block;
             border-right: 3px solid #ffffff; 
             white-space: normal; 
@@ -510,7 +511,7 @@
             padding-right: 6px;
             text-shadow: 0 0 15px rgba(255,255,255,0.6), 0 0 25px #00d4ff; 
             animation: blinkCursor 0.75s step-end infinite;
-            line-height: 1.4;
+            line-height: 1.3;
         }
 
         @keyframes blinkCursor {
@@ -750,7 +751,6 @@
     </footer>
 
     <script>
-    // Register the offline Service Worker
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', function() {
             navigator.serviceWorker.register('/campushub/sw.js')
@@ -1008,7 +1008,6 @@
             });
         }
 
-        // UPGRADED GLOBAL SEARCH ENGINE
         var searchInput = document.getElementById("searchInput");
         if (searchInput) {
             searchInput.addEventListener("input", function() {
