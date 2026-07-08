@@ -488,39 +488,30 @@
             position: relative;
             text-align: center; 
             width: 90%; 
-            max-width: 500px;
+            max-width: 600px;
             z-index: 2;
             background: transparent !important; 
             padding: 15px;
             box-sizing: border-box;
         }
 
-        .signature-svg {
-            width: 100%;
-            height: auto;
-            max-height: 140px;
-        }
-
-        .signature-text {
+        .signature-display {
             font-family: 'Caveat', cursive;
-            font-size: 52px;
-            fill: none;
-            stroke: #ffffff; /* Explicit Pure White Font Stroke */
-            stroke-width: 2.2;
-            stroke-linecap: round;
-            stroke-linejoin: round;
-            stroke-dasharray: 1400;
-            stroke-dashoffset: 1400;
-            /* Slowed down to 7.5 seconds for a true, steady signature-writing pace */
-            animation: drawSignature 7.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-            text-anchor: middle;
-            filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.35));
+            font-size: 56px;
+            color: #ffffff; /* Explicit Pure Solid White */
+            text-align: center;
+            letter-spacing: 2px;
+            min-height: 80px;
+            display: inline-block;
+            text-shadow: 0 0 15px rgba(255, 255, 255, 0.45), 0 0 4px rgba(255, 255, 255, 0.2);
+            border-right: 3px solid rgba(255,255,255,0.75); /* Simulated pen tip blinking cursor */
+            animation: blinkCursor 0.6s step-end infinite;
+            white-space: nowrap;
         }
 
-        @keyframes drawSignature {
-            to {
-                stroke-dashoffset: 0;
-            }
+        @keyframes blinkCursor {
+            from, to { border-color: transparent }
+            50% { border-color: rgba(255, 255, 255, 0.85); }
         }
 
         .fade-out { opacity: 0 !important; visibility: hidden !important; transition: opacity 1.2s ease, visibility 1.2s; }
@@ -540,8 +531,8 @@
                 padding: 22px 8px;
                 font-size: 13px;
             }
-            .signature-text {
-                font-size: 42px;
+            .signature-display {
+                font-size: 40px;
             }
         }
     </style>
@@ -554,9 +545,8 @@
             <div class="smoke-cloud cloud-magenta"></div>
         </div>
         <div class="splash-content">
-            <svg class="signature-svg" viewBox="0 0 500 150">
-                <text x="250" y="90" id="welcome-msg" class="signature-text"></text>
-            </svg>
+            <!-- Fixed Linear Handwritten Output Container -->
+            <span id="welcome-msg" class="signature-display"></span>
         </div>
     </div>
 
@@ -937,9 +927,25 @@
             }
         } else {
             if (msgElement) { 
-                msgElement.textContent = greeting;
-                // Extended timeout to match the slower line drawing timeline perfectly
-                setTimeout(removeSplashScreen, 8500);
+                // CRUCIAL REWRITE: Incremental Handwritten script typing engine
+                let charIndex = 0;
+                msgElement.textContent = ""; 
+                
+                function drawLetterByLetter() {
+                    if (charIndex < greeting.length) {
+                        msgElement.textContent += greeting.charAt(charIndex);
+                        charIndex++;
+                        // Controlled delay (260ms per letter) ensures a perfectly timed stroke rate
+                        setTimeout(drawLetterByLetter, 260); 
+                    } else {
+                        // Hold completed text for 2.5 seconds before starting splash teardown
+                        setTimeout(removeSplashScreen, 2500);
+                        msgElement.style.borderRight = "none"; // Hide pointer cursor when complete
+                    }
+                }
+                
+                // Kick off pen stroke after 600ms smoke settle window
+                setTimeout(drawLetterByLetter, 600);
             } else { 
                 removeSplashScreen(); 
             }
