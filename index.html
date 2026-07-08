@@ -4,8 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Student Link Hub</title>
-    <!-- Imported 'Chewy' for that retro, wavy, bubbly display aesthetic -->
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&family=Chewy&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&family=Chewy&family=Caveat:wght@700&display=swap" rel="stylesheet">
     <link rel="manifest" href="manifest.json">
     <style>
         :root {
@@ -489,36 +488,43 @@
             position: relative;
             text-align: center; 
             width: 90%; 
-            max-width: 420px;
+            max-width: 500px;
             z-index: 2;
             background: transparent !important; 
             padding: 15px;
             box-sizing: border-box;
         }
 
-        /* Swapped font-family to Chewy for the wavy, organic Regisa appearance */
-        #welcome-msg {
-            color: #ffffff; 
-            font-family: 'Chewy', cursive; 
-            font-size: 28px; /* Slightly bumped up since bubbly fonts look cleaner a bit larger */
-            letter-spacing: 1px;
-            display: inline-block;
-            border-right: 3px solid #ffffff; 
-            white-space: normal; 
-            word-break: break-word;
-            margin: 0 auto;
-            padding-right: 6px;
-            text-shadow: 0 0 12px rgba(255,255,255,0.4), 0 0 20px #00d4ff; 
-            animation: blinkCursor 0.75s step-end infinite;
-            line-height: 1.3;
+        /* SVG Line drawing style configuration for Signature Look */
+        .signature-svg {
+            width: 100%;
+            height: auto;
+            max-height: 140px;
         }
 
-        @keyframes blinkCursor {
-            from, to { border-color: transparent }
-            50% { border-color: #ffffff; }
+        .signature-text {
+            font-family: 'Caveat', cursive;
+            font-size: 52px;
+            fill: none;
+            stroke: #ffffff;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            /* Adjust path settings to generate drawing animation over a slower 3.5s sequence */
+            stroke-dasharray: 1200;
+            stroke-dashoffset: 1200;
+            animation: drawSignature 3.5s cubic-bezier(0.45, 0, 0.25, 1) forwards;
+            text-anchor: middle;
+            filter: drop-shadow(0 0 12px rgba(0, 212, 255, 0.6));
         }
 
-        .fade-out { opacity: 0 !important; visibility: hidden !important; }
+        @keyframes drawSignature {
+            to {
+                stroke-dashoffset: 0;
+            }
+        }
+
+        .fade-out { opacity: 0 !important; visibility: hidden !important; transition: opacity 1.2s ease, visibility 1.2s; }
 
         @media (max-width: 500px) {
             .container {
@@ -535,10 +541,14 @@
                 padding: 22px 8px;
                 font-size: 13px;
             }
+            .signature-text {
+                font-size: 42px;
+            }
         }
     </style>
 </head>
 <body> 
+    <!-- Click or finish drawing to close the splash screen smoothly -->
     <div id="splash-screen" onclick="this.classList.add('fade-out'); setTimeout(()=>{this.style.display='none';}, 1200);">
         <div class="smoke-container">
             <div class="smoke-cloud cloud-cyan"></div>
@@ -546,7 +556,10 @@
             <div class="smoke-cloud cloud-magenta"></div>
         </div>
         <div class="splash-content">
-            <h1 id="welcome-msg"></h1>
+            <!-- Smooth vector signature wrapper for authentic handwriting line growth -->
+            <svg class="signature-svg" viewBox="0 0 500 150">
+                <text x="250" y="90" id="welcome-msg" class="signature-text"></text>
+            </svg>
         </div>
     </div>
 
@@ -911,8 +924,6 @@
     });
 
     document.addEventListener("DOMContentLoaded", function() {
-        setTimeout(removeSplashScreen, 3000);
-
         var greeting = "Good Evening, Student!";
         var time = new Date().getHours();
         if (time < 12) { greeting = "Good Morning, Student!"; }
@@ -920,7 +931,6 @@
 
         var msgElement = document.getElementById("welcome-msg");
         var splashElement = document.getElementById("splash-screen");
-        var index = 0;
 
         if (sessionStorage.getItem("appHasGreeted")) {
             if (splashElement) {
@@ -930,19 +940,12 @@
             }
         } else {
             if (msgElement) { 
-                typeWriter(); 
+                // Set text directly inside the vector string framework so stroke filters match
+                msgElement.textContent = greeting;
+                // Leave the splash screen visible for 4.5 seconds to ensure the user sees the fluid signature write out fully
+                setTimeout(removeSplashScreen, 4500);
             } else { 
                 removeSplashScreen(); 
-            }
-        }
-
-        function typeWriter() {
-            if (msgElement && index < greeting.length) {
-                msgElement.innerHTML += greeting.charAt(index);
-                index++;
-                setTimeout(typeWriter, 65); 
-            } else {
-                setTimeout(removeSplashScreen, 1400);
             }
         }
 
