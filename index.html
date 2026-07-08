@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Student Link Hub</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&family=Chewy&family=Caveat:wght@700&display=swap" rel="stylesheet">
+    <!-- Updated font imports to include Homemade Apple -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&family=Chewy&family=Homemade+Apple&display=swap" rel="stylesheet">
     <link rel="manifest" href="manifest.json">
     <style>
         :root {
@@ -495,18 +496,18 @@
             box-sizing: border-box;
         }
 
-        /* FIXED: Solid Pure White and Bold Cursive Signature Styling */
+        /* UPDATED: Configured to use 'Homemade Apple' font layout cleanly */
         .signature-display {
-            font-family: 'Caveat', cursive;
-            font-size: 58px;
-            font-weight: 800 !important; /* Thick solid pen stroke appearance */
-            color: #ffffff !important; /* Force solid pure white layout */
+            font-family: 'Homemade Apple', cursive;
+            font-size: 40px; /* Adjusted slightly down because Homemade Apple reads taller natively */
+            font-weight: normal; /* Font inherits custom styling natively from image */
+            color: #ffffff !important; 
             text-align: center;
-            letter-spacing: 1.5px;
+            letter-spacing: 1px;
             min-height: 80px;
             display: inline-block;
-            text-shadow: none !important; /* Removed blur artifacting to maintain sharp solid color */
-            border-right: 4px solid #ffffff; /* Thicker crisp ink cursor */
+            text-shadow: none !important; 
+            border-right: 3px solid #ffffff; 
             animation: blinkCursor 0.5s step-end infinite;
             white-space: nowrap;
         }
@@ -534,7 +535,7 @@
                 font-size: 13px;
             }
             .signature-display {
-                font-size: 42px;
+                font-size: 28px;
             }
         }
     </style>
@@ -931,20 +932,19 @@
                 let charIndex = 0;
                 msgElement.textContent = ""; 
                 
-                // FIXED: Balanced calculation makes text draw slower, landing precisely on target timeline
+                // UPDATED: Typing speed tweaked down to 75ms for a crisper layout response
                 function drawLetterByLetter() {
                     if (charIndex < greeting.length) {
                         msgElement.textContent += greeting.charAt(charIndex);
                         charIndex++;
-                        setTimeout(drawLetterByLetter, 105); 
+                        setTimeout(drawLetterByLetter, 75); 
                     } else {
-                        // FIXED: Drop hold delay down completely to exit immediately after full string layout
-                        setTimeout(removeSplashScreen, 350);
+                        setTimeout(removeSplashScreen, 300);
                         msgElement.style.borderRight = "none"; 
                     }
                 }
                 
-                setTimeout(drawLetterByLetter, 200);
+                setTimeout(drawLetterByLetter, 150);
             } else { 
                 removeSplashScreen(); 
             }
