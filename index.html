@@ -4,8 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Student Link Hub</title>
-    <!-- Updated font imports to include Homemade Apple -->
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&family=Chewy&family=Homemade+Apple&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&family=Chewy&family=Caveat:wght@700&display=swap" rel="stylesheet">
     <link rel="manifest" href="manifest.json">
     <style>
         :root {
@@ -420,7 +419,7 @@
             justify-content: center;
             align-items: center;
             z-index: 9999; 
-            transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.8s;
+            transition: opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1), visibility 1.2s;
         }
 
         .smoke-container {
@@ -489,35 +488,43 @@
             position: relative;
             text-align: center; 
             width: 90%; 
-            max-width: 600px;
+            max-width: 500px;
             z-index: 2;
             background: transparent !important; 
             padding: 15px;
             box-sizing: border-box;
         }
 
-        /* UPDATED: Configured to use 'Homemade Apple' font layout cleanly */
-        .signature-display {
-            font-family: 'Homemade Apple', cursive;
-            font-size: 40px; /* Adjusted slightly down because Homemade Apple reads taller natively */
-            font-weight: normal; /* Font inherits custom styling natively from image */
-            color: #ffffff !important; 
-            text-align: center;
-            letter-spacing: 1px;
-            min-height: 80px;
-            display: inline-block;
-            text-shadow: none !important; 
-            border-right: 3px solid #ffffff; 
-            animation: blinkCursor 0.5s step-end infinite;
-            white-space: nowrap;
+        /* SVG Line drawing style configuration for Signature Look */
+        .signature-svg {
+            width: 100%;
+            height: auto;
+            max-height: 140px;
         }
 
-        @keyframes blinkCursor {
-            from, to { border-color: transparent }
-            50% { border-color: #ffffff; }
+        .signature-text {
+            font-family: 'Caveat', cursive;
+            font-size: 52px;
+            fill: none;
+            stroke: #ffffff;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            /* Adjust path settings to generate drawing animation over a slower 3.5s sequence */
+            stroke-dasharray: 1200;
+            stroke-dashoffset: 1200;
+            animation: drawSignature 3.5s cubic-bezier(0.45, 0, 0.25, 1) forwards;
+            text-anchor: middle;
+            filter: drop-shadow(0 0 12px rgba(0, 212, 255, 0.6));
         }
 
-        .fade-out { opacity: 0 !important; visibility: hidden !important; transition: opacity 0.8s ease, visibility 0.8s; }
+        @keyframes drawSignature {
+            to {
+                stroke-dashoffset: 0;
+            }
+        }
+
+        .fade-out { opacity: 0 !important; visibility: hidden !important; transition: opacity 1.2s ease, visibility 1.2s; }
 
         @media (max-width: 500px) {
             .container {
@@ -534,21 +541,25 @@
                 padding: 22px 8px;
                 font-size: 13px;
             }
-            .signature-display {
-                font-size: 28px;
+            .signature-text {
+                font-size: 42px;
             }
         }
     </style>
 </head>
 <body> 
-    <div id="splash-screen" onclick="this.classList.add('fade-out'); setTimeout(()=>{this.style.display='none';}, 800);">
+    <!-- Click or finish drawing to close the splash screen smoothly -->
+    <div id="splash-screen" onclick="this.classList.add('fade-out'); setTimeout(()=>{this.style.display='none';}, 1200);">
         <div class="smoke-container">
             <div class="smoke-cloud cloud-cyan"></div>
             <div class="smoke-cloud cloud-purple"></div>
             <div class="smoke-cloud cloud-magenta"></div>
         </div>
         <div class="splash-content">
-            <span id="welcome-msg" class="signature-display"></span>
+            <!-- Smooth vector signature wrapper for authentic handwriting line growth -->
+            <svg class="signature-svg" viewBox="0 0 500 150">
+                <text x="250" y="90" id="welcome-msg" class="signature-text"></text>
+            </svg>
         </div>
     </div>
 
@@ -929,22 +940,10 @@
             }
         } else {
             if (msgElement) { 
-                let charIndex = 0;
-                msgElement.textContent = ""; 
-                
-                // UPDATED: Typing speed tweaked down to 75ms for a crisper layout response
-                function drawLetterByLetter() {
-                    if (charIndex < greeting.length) {
-                        msgElement.textContent += greeting.charAt(charIndex);
-                        charIndex++;
-                        setTimeout(drawLetterByLetter, 75); 
-                    } else {
-                        setTimeout(removeSplashScreen, 300);
-                        msgElement.style.borderRight = "none"; 
-                    }
-                }
-                
-                setTimeout(drawLetterByLetter, 150);
+                // Set text directly inside the vector string framework so stroke filters match
+                msgElement.textContent = greeting;
+                // Leave the splash screen visible for 4.5 seconds to ensure the user sees the fluid signature write out fully
+                setTimeout(removeSplashScreen, 4500);
             } else { 
                 removeSplashScreen(); 
             }
@@ -959,7 +958,7 @@
                 setTimeout(function() {
                     splash.style.display = "none";
                     splash.style.zIndex = "-1";
-                }, 800);
+                }, 1200);
             }
         }
 
