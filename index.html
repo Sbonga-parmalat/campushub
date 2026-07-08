@@ -8,32 +8,34 @@
     <link rel="manifest" href="manifest.json">
     <style>
         :root {
-            --bg-color: #f4f4f4;
+            --bg-color: #f0f2f5;
             --body-bg: url('light-bg.jpg'); 
-            --container-bg: rgba(255, 255, 255, 0.9); 
+            --container-bg: rgba(255, 255, 255, 0.45); 
             --text-color: #1a252f; 
-            --card-bg: #ffffff;
+            --card-bg: rgba(255, 255, 255, 0.6);
+            --card-border: 1px solid rgba(255, 255, 255, 0.4);
             --card-text: #2c3e50;
             --hub-title: #0056b3;
             --btn-gradient: linear-gradient(135deg, #0056b3, #00d4ff);
-            --calc-bg: #f8f9fa;
-            --overlay-bg: rgba(7, 15, 33, 0.4);
-            --keypad-btn: #eef2f7;
+            --calc-bg: rgba(255, 255, 255, 0.5);
+            --overlay-bg: rgba(255, 255, 255, 0.3);
+            --keypad-btn: rgba(255, 255, 255, 0.7);
             --keypad-text: #2c3e50;
         }
 
         [data-theme="dark"] {
-            --bg-color: #121212;
+            --bg-color: #09090e;
             --body-bg: url('mfolozi.png'); 
-            --container-bg: rgba(0, 0, 0, 0.6);
-            --text-color: #e0e0e0;
-            --card-bg: #1e1e1e;
+            --container-bg: rgba(15, 15, 25, 0.55);
+            --text-color: #e2e8f0;
+            --card-bg: rgba(255, 255, 255, 0.07);
+            --card-border: 1px solid rgba(255, 255, 255, 0.12);
             --card-text: #ffffff;
             --hub-title: #00d4ff;
             --btn-gradient: linear-gradient(135deg, #7000ff, #00d4ff);
-            --calc-bg: #2d2d2d;
-            --overlay-bg: rgba(0, 0, 0, 0.8);
-            --keypad-btn: #2d2d2d;
+            --calc-bg: rgba(0, 0, 0, 0.3);
+            --overlay-bg: rgba(0, 0, 0, 0.7);
+            --keypad-btn: rgba(255, 255, 255, 0.1);
             --keypad-text: #ffffff;
         }
 
@@ -57,30 +59,37 @@
             margin: 40px auto;
             padding: 25px;
             background: var(--container-bg);
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(20px) saturate(160%);
+            -webkit-backdrop-filter: blur(20px) saturate(160%);
+            border: var(--card-border);
             border-radius: 24px;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
             position: relative;
-            transition: background 0.4s ease;
+            transition: background 0.4s ease, border 0.4s ease;
         }
 
         .search-bar {
             width: 90%;
             max-width: 500px; 
-            padding: 12px 15px;
+            padding: 14px 20px;
             margin: 15px 0 25px 0;
-            border: none;
+            border: var(--card-border);
             border-radius: 50px;
             background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
             color: var(--card-text);
             font-size: 14px;
             font-weight: 500;
-            box-shadow: inset 0 2px 4px rgba(0,0,0,0.05), 0 4px 6px rgba(0,0,0,0.05);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
             outline: none;
             transition: all 0.3s ease;
         }
 
-        .search-bar:focus { box-shadow: 0 0 0 3px #00d4ff; }
+        .search-bar:focus { 
+            box-shadow: 0 0 0 3px rgba(0, 212, 255, 0.4);
+            background: rgba(255, 255, 255, 0.15);
+        }
 
         .links-grid {
             display: grid;
@@ -95,20 +104,25 @@
             align-items: center;
             justify-content: center;
             background: var(--card-bg);
-            padding: 20px 10px;
+            border: var(--card-border);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            padding: 22px 12px;
             text-decoration: none;
             color: var(--card-text);
             border-radius: 18px;
             font-weight: 600;
             font-size: 14px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1);
             cursor: pointer;
-            transition: transform 0.2s, background-color 0.4s ease, color 0.4s ease;
+            transition: transform 0.2s, background-color 0.4s ease, border 0.4s ease, box-shadow 0.2s;
         }
 
         .link-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+            transform: translateY(-4px);
+            background: rgba(255, 255, 255, 0.18);
+            border: 1px solid rgba(0, 212, 255, 0.4);
+            box-shadow: 0 12px 20px rgba(0, 212, 255, 0.15);
         }
 
         .accordion-btn {
@@ -125,12 +139,17 @@
             grid-column: 1 / -1; 
             max-height: 0;
             overflow: hidden;
-            background: var(--card-bg);
+            background: rgba(0, 0, 0, 0.15);
             border-radius: 14px;
+            border: var(--card-border);
             transition: max-height 0.3s ease-out, padding 0.3s ease;
-            box-shadow: inset 0 2px 8px rgba(0,0,0,0.1);
+            box-shadow: inset 0 2px 8px rgba(0,0,0,0.15);
             text-align: center;
             color: var(--card-text);
+        }
+
+        [data-theme="light"] .accordion-content {
+            background: rgba(255, 255, 255, 0.3);
         }
 
         .accordion-inner-box {
@@ -175,7 +194,7 @@
         .calc-input {
             width: 90%;
             padding: 10px;
-            border: 1px solid rgba(0,0,0,0.1);
+            border: var(--card-border);
             border-radius: 8px;
             background: var(--calc-bg);
             color: var(--card-text);
@@ -185,7 +204,7 @@
         .calc-select {
             width: 96%;
             padding: 10px;
-            border: 1px solid rgba(0,0,0,0.1);
+            border: var(--card-border);
             border-radius: 8px;
             background: var(--calc-bg);
             color: var(--card-text);
@@ -199,6 +218,9 @@
             background: var(--calc-bg);
             border-radius: 10px;
             border-left: 4px solid #00d4ff;
+            border-top: var(--card-border);
+            border-right: var(--card-border);
+            border-bottom: var(--card-border);
             font-weight: bold;
             font-size: 14px;
             text-align: left;
@@ -267,6 +289,7 @@
             top: 0; left: 0; width: 100%; height: 100%;
             background: var(--overlay-bg);
             backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
             z-index: 10000;
             display: flex;
             justify-content: center;
@@ -280,8 +303,10 @@
             visibility: visible;
         }
         .calculator-box {
-            background: var(--card-bg);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: var(--container-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: var(--card-border);
             border-radius: 24px;
             padding: 20px;
             width: 310px;
@@ -331,7 +356,7 @@
             width: 100%;
             height: 55px;
             background: var(--calc-bg);
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            border: var(--card-border);
             border-radius: 12px;
             color: var(--card-text);
             text-align: right;
@@ -349,7 +374,7 @@
         }
         .btn-input {
             background: var(--keypad-btn);
-            border: none;
+            border: var(--card-border);
             border-radius: 12px;
             color: var(--keypad-text);
             font-size: 16px;
@@ -359,18 +384,19 @@
             font-family: -apple-system, BlinkMacSystemFont, sans-serif;
             transition: background 0.2s;
         }
-        .btn-input:hover { opacity: 0.8; }
+        .btn-input:hover { background: rgba(255,255,255,0.25); }
         .btn-input.operator { color: #00d4ff; }
         .btn-input.functional { color: #ac55ff; }
         .btn-input.action-equal {
             background: var(--btn-gradient);
             color: #ffffff;
+            border: none;
         }
 
         .conv-box-input {
             width: 100%;
             padding: 10px;
-            border: 1px solid rgba(0,0,0,0.1);
+            border: var(--card-border);
             border-radius: 8px;
             background: var(--calc-bg);
             color: var(--card-text);
@@ -506,7 +532,7 @@
                 gap: 12px;
             }
             .link-card {
-                padding: 18px 8px;
+                padding: 22px 8px;
                 font-size: 13px;
             }
         }
@@ -993,7 +1019,6 @@
                     var card = cards[i];
                     var cardText = card.textContent || card.innerText;
                     
-                    // Inject extensive internal sub-page keyword mappings
                     var subPageKeywords = "";
                     var hrefValue = card.getAttribute("href");
                     
@@ -1005,7 +1030,6 @@
                         subPageKeywords = "scientific calculator pop-up math solver addition subtraction divide multiply calculation converter matrix unit conversions mass weight volume parameters data storage gigabytes measurement conversion area logic metric system calculation solver";
                     }
                     
-                    // Combine visible interface labels with mapped hidden keywords
                     var searchableText = (cardText + " " + subPageKeywords).toLowerCase();
                     var matchFound = searchableText.indexOf(filter) > -1;
                     
@@ -1030,9 +1054,8 @@
                     }
                     
                     if (matchFound) {
-                        card.style.display = ""; // Safely unhides elements while respecting CSS Grid rules
+                        card.style.display = ""; 
                         
-                        // Auto-expand hidden drop-down menus if query terms target internal layout contents
                         if (isAccordion && filter.length > 1 && associatedMenu) {
                             associatedMenu.style.display = "";
                             associatedMenu.style.maxHeight = associatedMenu.scrollHeight + "px";
@@ -1072,7 +1095,6 @@
         setupAccordion("calcToggle", "calcMenu", "calcArrow");
         setupAccordion("aboutToggle", "aboutMenu", "aboutArrow");
 
-        // 3-WAY FORMULA EXECUTION ENGINE (FULLY OPTIMIZED FOR TVET SYLLABUS)
         var calculateBtn = document.getElementById("calculateBtn");
         if (calculateBtn) {
             calculateBtn.addEventListener("click", function() {
