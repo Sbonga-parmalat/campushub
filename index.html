@@ -53,7 +53,7 @@
             transition: background-color 0.4s ease, background-image 0.4s ease;
         }
 
-        /* --- INTERACTIVE AUTHENTICATED PANEL STYLES --- */
+        /* --- INTERACTIVE LAMP INTERFACE SCREEN --- */
         #login-auth-screen {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -62,7 +62,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: flex-start;
+            justify-content: center;
             transition: background-color 0.6s ease, opacity 0.6s ease, visibility 0.6s;
         }
 
@@ -77,6 +77,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            margin-top: -50px;
         }
 
         .lamp-cord {
@@ -145,84 +146,6 @@
         .pull-chain:active {
             transform: translateY(12px);
         }
-
-        .login-card-panel {
-            background: rgba(255, 255, 255, 0.06);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border-radius: 20px;
-            padding: 30px 24px;
-            width: 290px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
-            opacity: 0;
-            transform: translateY(20px) scale(0.95);
-            transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
-            color: white;
-            text-align: left;
-            margin-top: -10px;
-        }
-
-        .login-card-panel.active {
-            opacity: 1;
-            transform: translateY(0) scale(1);
-        }
-
-        .login-card-panel h2 {
-            margin: 0 0 20px 0;
-            font-size: 20px;
-            font-family: 'Montserrat', sans-serif;
-            text-align: center;
-        }
-
-        .login-field {
-            margin-bottom: 16px;
-        }
-
-        .login-field label {
-            display: block;
-            font-size: 11px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 6px;
-            color: #94a3b8;
-        }
-
-        .login-input {
-            width: 100%;
-            padding: 11px 14px;
-            background: rgba(255,255,255,0.08);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 10px;
-            color: white;
-            outline: none;
-            box-sizing: border-box;
-            font-size: 13px;
-        }
-
-        .login-input:focus {
-            border-color: #00d4ff;
-            background: rgba(255,255,255,0.12);
-        }
-
-        .login-submit-btn {
-            width: 100%;
-            padding: 12px;
-            background: linear-gradient(135deg, #ffd43b, #ff922b);
-            border: none;
-            border-radius: 10px;
-            color: #121417;
-            font-weight: bold;
-            font-size: 14px;
-            cursor: pointer;
-            margin-top: 8px;
-            transition: transform 0.2s;
-        }
-
-        .login-submit-btn:hover {
-            transform: scale(1.02);
-        }
-        /* --- END AUTHENTICATED PANEL STYLES --- */
         
         .container {
             max-width: 1200px; 
@@ -586,7 +509,7 @@
             height: 100%;
             background-color: #030107;
             overflow: hidden;
-            display: none; /* Initially hidden, triggered after login */
+            display: none; 
             justify-content: center;
             align-items: center;
             z-index: 9999; 
@@ -716,28 +639,17 @@
     </style>
 </head>
 <body> 
+    <!-- INTERACTIVE LAMP WALL INTERFACE (NO DIALOG BOX) -->
     <div id="login-auth-screen">
         <div class="lamp-container">
             <div class="lamp-cord"></div>
             <div class="lamp-shade"></div>
             <div class="lamp-light-beam"></div>
-            <div class="pull-chain" id="lampChainBtn" onclick="toggleLampSwitch()"></div>
-        </div>
-
-        <div class="login-card-panel" id="loginFormCard">
-            <h2>Welcome</h2>
-            <div class="login-field">
-                <label>Username</label>
-                <input type="text" class="login-input" placeholder="Enter name" value="Student">
-            </div>
-            <div class="login-field">
-                <label>Password</label>
-                <input type="password" class="login-input" placeholder="Enter Password" value="••••••••">
-            </div>
-            <button class="login-submit-btn" onclick="submitLoginSession()">Sign In</button>
+            <div class="pull-chain" id="lampChainBtn" onclick="triggerLampSequence()"></div>
         </div>
     </div>
 
+    <!-- SIGNATURE TYPING SCREEN -->
     <div id="splash-screen" onclick="this.classList.add('fade-out'); setTimeout(()=>{this.style.display='none';}, 1200);">
         <div class="smoke-container">
             <div class="smoke-cloud cloud-cyan"></div>
@@ -950,30 +862,20 @@
 
     <script>
     // --- LAMP SWITCH SEQUENCING ENGINE ---
-    let lampIsOn = false;
-
-    function toggleLampSwitch() {
+    function triggerLampSequence() {
         const screen = document.getElementById("login-auth-screen");
-        const card = document.getElementById("loginFormCard");
         
-        lampIsOn = !lampIsOn;
-        if(lampIsOn) {
-            screen.classList.add("lamp-on");
-            card.classList.add("active");
-        } else {
-            screen.classList.remove("lamp-on");
-            card.classList.remove("active");
-        }
-    }
-
-    function submitLoginSession() {
-        const authScreen = document.getElementById("login-auth-screen");
-        authScreen.classList.add("fade-out");
+        // Turn light on
+        screen.classList.add("lamp-on");
         
+        // Short physical switch delay, then fade out screen and show greetings
         setTimeout(() => {
-            authScreen.style.display = "none";
-            triggerSignatureSplash();
-        }, 600);
+            screen.classList.add("fade-out");
+            setTimeout(() => {
+                screen.style.display = "none";
+                triggerSignatureSplash();
+            }, 600);
+        }, 400);
     }
 
     function triggerSignatureSplash() {
