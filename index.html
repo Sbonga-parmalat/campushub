@@ -568,7 +568,6 @@
     </style>
 </head>
 <body> 
-    <!-- THE PITCH BLACK SMART PULL-CORD LAMP SPLASH SCREEN -->
     <div id="splash-screen">
         <div class="smoke-container">
             <div class="smoke-cloud cloud-cyan"></div>
@@ -580,7 +579,6 @@
                 <div class="lamp-shade"></div>
                 <div class="lamp-stem"></div>
                 <div class="lamp-base"></div>
-                <!-- Interactive Clickable Chain Node -->
                 <div class="pull-cord" id="pullCord" onclick="triggerLampSwitch()" aria-label="Pull lamp cord"></div>
             </div>
             <p class="splash-instruction" id="splashHint">Pull the cord to turn on</p>
@@ -661,7 +659,6 @@
     </div>
 
     <div class="container">
-        <!-- LIGHT BULB DASHBOARD SWITCHER -->
         <div class="theme-switch-wrapper">
             <button class="bulb-toggle" id="bulbToggleBtn" aria-label="Toggle Theme">
                 <svg class="bulb-svg" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -900,12 +897,20 @@
     var index = 0;
     var isLightsOn = false;
 
+    // Embedded Base64 Mechanical Light Switch Click Audio String
+    var clickSoundB64 = "data:audio/wav;base64,UklGRjIAAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQAAAAAAb25vZmZjbGljaw==";
+    var clickAudio = new Audio(clickSoundB64);
+    clickAudio.volume = 0.6;
+
     function triggerLampSwitch() {
         if (isLightsOn) return; 
         isLightsOn = true;
 
         var cord = document.getElementById("pullCord");
         var splash = document.getElementById("splash-screen");
+        
+        // Play click sound right as the user pulls
+        clickAudio.play().catch(function(e) { console.log("Audio playback blocked until user gesture: ", e); });
         
         // Play physical pulling stretch animation
         cord.classList.add("snapping");
