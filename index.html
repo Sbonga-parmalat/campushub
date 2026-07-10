@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Student Link Hub</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&family=Homemade+Apple&display=swap" rel="stylesheet">
     <link rel="manifest" href="manifest.json">
     <style>
         :root {
@@ -52,6 +52,177 @@
             padding: 0;
             transition: background-color 0.4s ease, background-image 0.4s ease;
         }
+
+        /* --- INTERACTIVE AUTHENTICATED PANEL STYLES --- */
+        #login-auth-screen {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-color: #121417;
+            z-index: 10000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            transition: background-color 0.6s ease, opacity 0.6s ease, visibility 0.6s;
+        }
+
+        #login-auth-screen.lamp-on {
+            background-color: #1c1f24;
+        }
+
+        .lamp-container {
+            position: relative;
+            width: 200px;
+            height: 280px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .lamp-cord {
+            width: 4px;
+            height: 120px;
+            background: #444;
+        }
+
+        .lamp-shade {
+            width: 90px;
+            height: 60px;
+            background: #e2e8f0;
+            border-radius: 40px 40px 10px 10px;
+            position: relative;
+            z-index: 2;
+            transition: background 0.4s;
+        }
+
+        #login-auth-screen.lamp-on .lamp-shade {
+            background: #fff9db;
+            box-shadow: 0 0 40px #ffd43b;
+        }
+
+        .lamp-light-beam {
+            position: absolute;
+            top: 175px;
+            width: 180px;
+            height: 180px;
+            background: radial-gradient(circle, rgba(255,212,59,0.25) 0%, rgba(255,212,59,0) 70%);
+            border-radius: 50%;
+            opacity: 0;
+            transform: scale(0.5);
+            transition: all 0.5s ease;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        #login-auth-screen.lamp-on .lamp-light-beam {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .pull-chain {
+            width: 3px;
+            height: 70px;
+            background: #888;
+            position: absolute;
+            top: 175px;
+            right: 75px;
+            cursor: pointer;
+            z-index: 3;
+            transition: transform 0.1s ease;
+        }
+
+        .pull-chain::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: -3px;
+            width: 9px;
+            height: 9px;
+            background: #aaa;
+            border-radius: 50%;
+        }
+
+        .pull-chain:active {
+            transform: translateY(12px);
+        }
+
+        .login-card-panel {
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-radius: 20px;
+            padding: 30px 24px;
+            width: 290px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            opacity: 0;
+            transform: translateY(20px) scale(0.95);
+            transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+            color: white;
+            text-align: left;
+            margin-top: -10px;
+        }
+
+        .login-card-panel.active {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        .login-card-panel h2 {
+            margin: 0 0 20px 0;
+            font-size: 20px;
+            font-family: 'Montserrat', sans-serif;
+            text-align: center;
+        }
+
+        .login-field {
+            margin-bottom: 16px;
+        }
+
+        .login-field label {
+            display: block;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 6px;
+            color: #94a3b8;
+        }
+
+        .login-input {
+            width: 100%;
+            padding: 11px 14px;
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 10px;
+            color: white;
+            outline: none;
+            box-sizing: border-box;
+            font-size: 13px;
+        }
+
+        .login-input:focus {
+            border-color: #00d4ff;
+            background: rgba(255,255,255,0.12);
+        }
+
+        .login-submit-btn {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #ffd43b, #ff922b);
+            border: none;
+            border-radius: 10px;
+            color: #121417;
+            font-weight: bold;
+            font-size: 14px;
+            cursor: pointer;
+            margin-top: 8px;
+            transition: transform 0.2s;
+        }
+
+        .login-submit-btn:hover {
+            transform: scale(1.02);
+        }
+        /* --- END AUTHENTICATED PANEL STYLES --- */
         
         .container {
             max-width: 1200px; 
@@ -415,11 +586,14 @@
             height: 100%;
             background-color: #030107;
             overflow: hidden;
-            display: flex;
+            display: none; /* Initially hidden, triggered after login */
             justify-content: center;
             align-items: center;
             z-index: 9999; 
             transition: opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1), visibility 1.2s;
+        }
+        #splash-screen.active {
+            display: flex;
         }
 
         .smoke-container {
@@ -497,10 +671,10 @@
 
         #welcome-msg {
             color: #ffffff; 
-            font-family: 'Montserrat', sans-serif; 
-            font-size: 24px; 
-            font-weight: 800; 
-            text-transform: uppercase; 
+            font-family: 'Homemade Apple', cursive; 
+            font-size: 32px; 
+            font-weight: normal; 
+            text-transform: none; 
             letter-spacing: 0.5px; 
             display: inline-block;
             border-right: 3px solid #ffffff; 
@@ -518,7 +692,7 @@
             50% { border-color: #ffffff; }
         }
 
-        .fade-out { opacity: 0 !important; visibility: hidden !important; }
+        .fade-out { opacity: 0 !important; visibility: hidden !important; transition: opacity 0.8s ease, visibility 0.8s; }
 
         @media (max-width: 500px) {
             .container {
@@ -535,10 +709,35 @@
                 padding: 22px 8px;
                 font-size: 13px;
             }
+            #welcome-msg {
+                font-size: 24px;
+            }
         }
     </style>
 </head>
 <body> 
+    <div id="login-auth-screen">
+        <div class="lamp-container">
+            <div class="lamp-cord"></div>
+            <div class="lamp-shade"></div>
+            <div class="lamp-light-beam"></div>
+            <div class="pull-chain" id="lampChainBtn" onclick="toggleLampSwitch()"></div>
+        </div>
+
+        <div class="login-card-panel" id="loginFormCard">
+            <h2>Welcome</h2>
+            <div class="login-field">
+                <label>Username</label>
+                <input type="text" class="login-input" placeholder="Enter name" value="Student">
+            </div>
+            <div class="login-field">
+                <label>Password</label>
+                <input type="password" class="login-input" placeholder="Enter Password" value="••••••••">
+            </div>
+            <button class="login-submit-btn" onclick="submitLoginSession()">Sign In</button>
+        </div>
+    </div>
+
     <div id="splash-screen" onclick="this.classList.add('fade-out'); setTimeout(()=>{this.style.display='none';}, 1200);">
         <div class="smoke-container">
             <div class="smoke-cloud cloud-cyan"></div>
@@ -750,6 +949,79 @@
     </footer>
 
     <script>
+    // --- LAMP SWITCH SEQUENCING ENGINE ---
+    let lampIsOn = false;
+
+    function toggleLampSwitch() {
+        const screen = document.getElementById("login-auth-screen");
+        const card = document.getElementById("loginFormCard");
+        
+        lampIsOn = !lampIsOn;
+        if(lampIsOn) {
+            screen.classList.add("lamp-on");
+            card.classList.add("active");
+        } else {
+            screen.classList.remove("lamp-on");
+            card.classList.remove("active");
+        }
+    }
+
+    function submitLoginSession() {
+        const authScreen = document.getElementById("login-auth-screen");
+        authScreen.classList.add("fade-out");
+        
+        setTimeout(() => {
+            authScreen.style.display = "none";
+            triggerSignatureSplash();
+        }, 600);
+    }
+
+    function triggerSignatureSplash() {
+        const splashElement = document.getElementById("splash-screen");
+        const msgElement = document.getElementById("welcome-msg");
+        
+        var greeting = "Good Evening, Student!";
+        var time = new Date().getHours();
+        if (time < 12) { greeting = "Good Morning, Student!"; }
+        else if (time < 18) { greeting = "Good Afternoon, Student!"; }
+
+        splashElement.classList.add("active");
+        let index = 0;
+        msgElement.innerHTML = "";
+
+        function typeWriter() {
+            if (msgElement && index < greeting.length) {
+                msgElement.innerHTML += greeting.charAt(index);
+                index++;
+                setTimeout(typeWriter, 65); 
+            } else {
+                setTimeout(removeSplashScreen, 1400);
+            }
+        }
+        setTimeout(typeWriter, 200);
+    }
+
+    function removeSplashScreen() {
+        var splash = document.getElementById("splash-screen");
+        if (splash && !splash.classList.contains("fade-out")) { 
+            splash.classList.add("fade-out"); 
+            sessionStorage.setItem("appHasGreeted", "true");
+            
+            setTimeout(function() {
+                splash.style.display = "none";
+                splash.style.zIndex = "-1";
+            }, 1200);
+        }
+    }
+
+    // Bypass screen sequence entirely on active refresh if authorized once per session context
+    document.addEventListener("DOMContentLoaded", function() {
+        if (sessionStorage.getItem("appHasGreeted")) {
+            document.getElementById("login-auth-screen").style.display = "none";
+            document.getElementById("splash-screen").style.display = "none";
+        }
+    });
+
     // Register the offline Service Worker
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', function() {
@@ -912,54 +1184,6 @@
     });
 
     document.addEventListener("DOMContentLoaded", function() {
-        setTimeout(removeSplashScreen, 3000);
-
-        var greeting = "Good Evening, Student!";
-        var time = new Date().getHours();
-        if (time < 12) { greeting = "Good Morning, Student!"; }
-        else if (time < 18) { greeting = "Good Afternoon, Student!"; }
-
-        var msgElement = document.getElementById("welcome-msg");
-        var splashElement = document.getElementById("splash-screen");
-        var index = 0;
-
-        if (sessionStorage.getItem("appHasGreeted")) {
-            if (splashElement) {
-                splashElement.style.display = "none";
-                splashElement.style.visibility = "hidden";
-                splashElement.style.zIndex = "-1"; 
-            }
-        } else {
-            if (msgElement) { 
-                typeWriter(); 
-            } else { 
-                removeSplashScreen(); 
-            }
-        }
-
-        function typeWriter() {
-            if (msgElement && index < greeting.length) {
-                msgElement.innerHTML += greeting.charAt(index);
-                index++;
-                setTimeout(typeWriter, 65); 
-            } else {
-                setTimeout(removeSplashScreen, 1400);
-            }
-        }
-
-        function removeSplashScreen() {
-            var splash = document.getElementById("splash-screen");
-            if (splash && !splash.classList.contains("fade-out")) { 
-                splash.classList.add("fade-out"); 
-                sessionStorage.setItem("appHasGreeted", "true");
-                
-                setTimeout(function() {
-                    splash.style.display = "none";
-                    splash.style.zIndex = "-1";
-                }, 1200);
-            }
-        }
-
         var calcModeSelect = document.getElementById("calcMode");
         var speedUnitGroup = document.getElementById("speedUnitGroup");
 
@@ -1149,4 +1373,4 @@
     });
     </script>
 </body>
-                        </html>
+</html>
