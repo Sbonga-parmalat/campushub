@@ -230,7 +230,7 @@
             text-align: left;
         }
 
-        /* DASHBOARD TOGGLE BUTTON */
+        /* DASHBOARD LIGHT BULB ICON TOGGLE */
         .theme-switch-wrapper {
             position: absolute;
             top: 25px;
@@ -384,109 +384,156 @@
             font-size: 14px;
         }
 
-        /* SPLASH SCREEN ENGINE WITH SWITCHABLE BULB */
+        /* PREMIUM MINIMAL LAMP SPLASH SCREEN ENGINE */
         #splash-screen {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background-color: #050409;
+            background-color: #111417; /* Slate dark box matches TikTok video */
             overflow: hidden;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             z-index: 9999; 
-            transition: opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1), visibility 1.2s;
+            transition: opacity 1s cubic-bezier(0.4, 0, 0.2, 1), visibility 1s;
         }
 
+        /* Beautiful glowing environment maps */
         .smoke-container {
             position: absolute;
             width: 100%; height: 100%; top: 0; left: 0;
-            filter: blur(60px);
-            opacity: 0; /* Starts hidden until switch turns on */
+            filter: blur(80px);
+            opacity: 0; 
             mix-blend-mode: screen;
-            transition: opacity 1.5s ease;
+            transition: opacity 1.2s ease;
         }
-
-        #splash-screen.lights-on .smoke-container {
-            opacity: 0.85;
-        }
+        #splash-screen.lights-on .smoke-container { opacity: 0.6; }
 
         .smoke-cloud { position: absolute; border-radius: 50%; mix-blend-mode: screen; }
-        .cloud-cyan {
-            width: 500px; height: 500px;
-            background: radial-gradient(circle, rgba(0,212,255,0.8) 0%, rgba(0,212,255,0) 70%);
-            top: -10%; left: -10%; animation: smokeMoveOne 12s infinite alternate ease-in-out;
-        }
-        .cloud-purple {
-            width: 600px; height: 600px;
-            background: radial-gradient(circle, rgba(130,0,255,0.8) 0%, rgba(130,0,255,0) 70%);
-            bottom: -20%; right: -10%; animation: smokeMoveTwo 16s infinite alternate ease-in-out;
-        }
-        .cloud-magenta {
-            width: 450px; height: 450px;
-            background: radial-gradient(circle, rgba(255,0,217,0.7) 0%, rgba(255,0,217,0) 70%);
-            top: 30%; right: 15%; animation: smokeMoveThree 14s infinite alternate ease-in-out;
-        }
-
-        @keyframes smokeMoveOne {
-            0% { transform: translate(0px, 0px) scale(1); }
-            50% { transform: translate(120px, 80px) scale(1.2); }
-            100% { transform: translate(-40px, 150px) scale(0.9); }
-        }
-        @keyframes smokeMoveTwo {
-            0% { transform: translate(0px, 0px) scale(1.1); }
-            50% { transform: translate(-150px, -100px) scale(0.85); }
-            100% { transform: translate(60px, -40px) scale(1.2); }
-        }
-        @keyframes smokeMoveThree {
-            0% { transform: translate(0px, 0px) rotate(0deg); }
-            50% { transform: translate(-80px, 120px) rotate(180deg); }
-            100% { transform: translate(100px, -60px) rotate(360deg); }
-        }
+        .cloud-cyan { width: 500px; height: 500px; background: radial-gradient(circle, rgba(0,212,255,0.6) 0%, rgba(0,212,255,0) 70%); top: -10%; left: -10%; }
+        .cloud-purple { width: 600px; height: 600px; background: radial-gradient(circle, rgba(130,0,255,0.5) 0%, rgba(130,0,255,0) 70%); bottom: -20%; right: -10%; }
 
         .splash-content { 
             position: relative;
             text-align: center; 
-            width: 90%; max-width: 420px;
+            width: 90%; max-width: 450px;
             z-index: 2;
-            background: transparent !important; 
-            padding: 15px;
-            box-sizing: border-box;
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 30px;
+            gap: 25px;
         }
 
-        /* Splash Light Bulb Specific */
-        .splash-bulb-btn {
-            background: none; border: none; outline: none; cursor: pointer;
-            padding: 10px; transition: transform 0.3s ease;
+        /* PULL CHAIN INTERACTIVE LAMP GRAPHICS */
+        .lamp-box {
+            position: relative;
+            width: 180px;
+            height: 240px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            margin-bottom: 10px;
         }
-        .splash-bulb-btn:hover { transform: scale(1.15); }
-        .splash-bulb-svg {
-            width: 75px; height: 75px;
-            fill: #2c3e50; /* Out/Dark at first */
-            filter: drop-shadow(0 0 2px rgba(0,0,0,0.5));
-            transition: fill 0.5s ease, filter 0.5s ease;
+
+        .lamp-shade {
+            width: 130px;
+            height: 65px;
+            background: #232a31;
+            border-radius: 60px 60px 12px 12px;
+            position: relative;
+            z-index: 10;
+            transition: background 0.25s, box-shadow 0.25s;
         }
-        #splash-screen.lights-on .splash-bulb-svg {
-            fill: #f1c40f;
-            filter: drop-shadow(0 0 25px #f1c40f) drop-shadow(0 0 50px #f39c12);
+        #splash-screen.lights-on .lamp-shade {
+            background: #fffdf0;
+            box-shadow: 0 -5px 25px rgba(255,235,160,0.4), 0 10px 40px #f1c40f;
+        }
+
+        .lamp-stem {
+            width: 6px;
+            height: 125px;
+            background: #4a5568;
+            position: relative;
+            z-index: 5;
+            transition: background 0.3s;
+        }
+        #splash-screen.lights-on .lamp-stem { background: #967134; }
+
+        .lamp-base {
+            width: 75px;
+            height: 10px;
+            background: #2d3748;
+            border-radius: 6px 6px 0 0;
+            z-index: 5;
+            transition: background 0.3s;
+        }
+        #splash-screen.lights-on .lamp-base { background: #735321; }
+
+        /* Elegant Pull Switch Chain Mechanism */
+        .pull-cord {
+            position: absolute;
+            top: 60px;
+            left: 105px; /* Offset right from the center stem */
+            width: 2px;
+            height: 75px;
+            background: #a0aec0;
+            z-index: 8;
+            cursor: pointer;
+            transform-origin: top center;
+            transition: transform 0.12s ease-out, background 0.3s;
+        }
+        .pull-cord::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: -3px;
+            width: 8px;
+            height: 8px;
+            background: #cbd5e0;
+            border-radius: 50%;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+        }
+        #splash-screen.lights-on .pull-cord { background: #d69e2e; }
+        #splash-screen.lights-on .pull-cord::after { background: #ecc94b; }
+
+        /* Simulated Spring Drag Animation on Pull click */
+        .pull-cord.snapping {
+            transform: scaleY(1.4);
+        }
+
+        /* Radiant Light Vector Cone */
+        .light-cone {
+            position: absolute;
+            top: 60px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0; height: 0;
+            border-left: 0 solid transparent;
+            border-right: 0 solid transparent;
+            border-bottom: 0 solid rgba(255, 235, 164, 0);
+            pointer-events: none;
+            z-index: 2;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.15);
+        }
+        #splash-screen.lights-on .light-cone {
+            width: 500px;
+            border-left: 170px solid transparent;
+            border-right: 170px solid transparent;
+            border-bottom: 240px solid rgba(255, 240, 180, 0.13);
+            filter: blur(4px);
         }
 
         .splash-instruction {
-            color: #7f8c8d;
+            color: #5c6975;
             font-family: 'Montserrat', sans-serif;
             font-size: 11px;
             text-transform: uppercase;
-            letter-spacing: 2px;
-            margin: -15px 0 0 0;
-            transition: opacity 0.4s ease;
+            letter-spacing: 2.5px;
+            margin: 0;
+            transition: opacity 0.3s ease;
         }
-        #splash-screen.lights-on .splash-instruction {
-            opacity: 0;
-        }
+        #splash-screen.lights-on .splash-instruction { opacity: 0; }
 
         #welcome-msg {
             color: #ffffff; 
@@ -496,12 +543,15 @@
             display: inline-block;
             border-right: 3px solid #ffffff; 
             white-space: normal; word-break: break-word;
-            margin: 0 auto; padding-right: 6px;
-            text-shadow: 0 0 15px rgba(255,255,255,0.6), 0 0 25px #00d4ff; 
+            margin: 10px auto 0 auto; padding-right: 6px;
+            text-shadow: 0 0 15px rgba(255,255,255,0.4), 0 0 25px #00d4ff; 
             animation: blinkCursor 0.75s step-end infinite;
             line-height: 1.4;
             min-height: 34px;
+            opacity: 0;
+            transition: opacity 0.3s;
         }
+        #splash-screen.lights-on #welcome-msg { opacity: 1; }
 
         @keyframes blinkCursor {
             from, to { border-color: transparent }
@@ -518,20 +568,22 @@
     </style>
 </head>
 <body> 
-    <!-- PITCH BLACK SPLASH SCREEN WITH INTERACTIVE HANGING BULB -->
+    <!-- THE PITCH BLACK SMART PULL-CORD LAMP SPLASH SCREEN -->
     <div id="splash-screen">
         <div class="smoke-container">
             <div class="smoke-cloud cloud-cyan"></div>
             <div class="smoke-cloud cloud-purple"></div>
-            <div class="smoke-cloud cloud-magenta"></div>
         </div>
         <div class="splash-content">
-            <button class="splash-bulb-btn" id="splashBulb" onclick="turnOnSplashLights()" aria-label="Turn on lights">
-                <svg class="splash-bulb-svg" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M12 2C7.58 2 4 5.58 4 10c0 2.76 1.4 5.19 3.54 6.61C8.42 17.2 9 18.05 9 19h6c0-.95.58-1.8 1.46-2.39C18.6 15.19 20 12.76 20 10c0-4.42-3.58-8-8-8zm-3 18c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-1H9v1z"/>
-                </svg>
-            </button>
-            <p class="splash-instruction" id="splashHint">Click light bulb to start dashboard</p>
+            <div class="lamp-box">
+                <div class="light-cone"></div>
+                <div class="lamp-shade"></div>
+                <div class="lamp-stem"></div>
+                <div class="lamp-base"></div>
+                <!-- Interactive Clickable Chain Node -->
+                <div class="pull-cord" id="pullCord" onclick="triggerLampSwitch()" aria-label="Pull lamp cord"></div>
+            </div>
+            <p class="splash-instruction" id="splashHint">Pull the cord to turn on</p>
             <h1 id="welcome-msg"></h1>
         </div>
     </div>
@@ -609,7 +661,7 @@
     </div>
 
     <div class="container">
-        <!-- MAIN DASHBOARD LIGHT BULB THEME SWITCHER -->
+        <!-- LIGHT BULB DASHBOARD SWITCHER -->
         <div class="theme-switch-wrapper">
             <button class="bulb-toggle" id="bulbToggleBtn" aria-label="Toggle Theme">
                 <svg class="bulb-svg" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -839,7 +891,7 @@
         if (event.target === modal) { modal.classList.remove("active"); }
     });
 
-    // ENGINE FOR INTERACTIVE SPLASH SCREEN
+    // TYPEWRITER ENGINE FOR MAIN SCREEN
     var greetingText = "Good Evening, Student!";
     var currentHour = new Date().getHours();
     if (currentHour < 12) { greetingText = "Good Morning, Student!"; }
@@ -848,19 +900,24 @@
     var index = 0;
     var isLightsOn = false;
 
-    function turnOnSplashLights() {
-        if (isLightsOn) return; // Prevent double trigger
+    function triggerLampSwitch() {
+        if (isLightsOn) return; 
         isLightsOn = true;
 
+        var cord = document.getElementById("pullCord");
         var splash = document.getElementById("splash-screen");
-        var splashHint = document.getElementById("splashHint");
         
-        // Step 1: Turn on the switch visuals & smoke animations
-        splash.classList.add("lights-on");
-        if(splashHint) splashHint.style.opacity = "0";
+        // Play physical pulling stretch animation
+        cord.classList.add("snapping");
 
-        // Step 2: Trigger typewriter effect after a small filament delay
-        setTimeout(typeWriterSplash, 400);
+        setTimeout(function() {
+            // Snap back up and switch lights on
+            cord.classList.remove("snapping");
+            splash.classList.add("lights-on");
+            
+            // Initiate greeting print engine
+            setTimeout(typeWriterSplash, 350);
+        }, 120);
     }
 
     function typeWriterSplash() {
@@ -868,10 +925,9 @@
         if (msgElement && index < greetingText.length) {
             msgElement.innerHTML += greetingText.charAt(index);
             index++;
-            setTimeout(typeWriterSplash, 65); 
+            setTimeout(typeWriterSplash, 60); 
         } else {
-            // Step 3: Wait after greeting finishes, then fade out splash screen to reveal app
-            setTimeout(removeSplashScreen, 1300);
+            setTimeout(removeSplashScreen, 1200);
         }
     }
 
@@ -883,14 +939,13 @@
             setTimeout(function() {
                 splash.style.display = "none";
                 splash.style.zIndex = "-1";
-            }, 1200);
+            }, 1000);
         }
     }
 
     document.addEventListener("DOMContentLoaded", function() {
         var splashElement = document.getElementById("splash-screen");
 
-        // Bypass splash screen structure if already encountered in session
         if (sessionStorage.getItem("appHasGreeted")) {
             if (splashElement) {
                 splashElement.style.display = "none";
