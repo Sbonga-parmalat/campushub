@@ -742,6 +742,32 @@
                 </div>
             </div>
 
+            <div class="link-card accordion-btn" id="icassToggle">
+                <span style="display: flex; align-items: center; width: 100%; justify-content: center; gap: 8px;">
+                    <span>📊</span> ICASS Exam Eligibility Calculator <span class="arrow" id="icassArrow">▼</span>
+                </span>
+            </div>
+
+            <div class="accordion-content" id="icassMenu">
+                <div class="accordion-inner-box">
+                    <label style="display: block; text-align: left; font-size: 12px; font-weight: 700; margin-bottom: 5px; opacity: 0.9;">Select Subject Stream Type:</label>
+                    <select id="icassSubjectStream" class="calc-select">
+                        <option value="vocational">🛠️ Vocational / General Courses (50% Sub-min Required)</option>
+                        <option value="maths">📐 Fundamental Mathematics (30% Sub-min Required)</option>
+                    </select>
+
+                    <div id="icassInputsContainer">
+                        </div>
+
+                    <button class="action-button" id="runIcassCalcBtn">📊 Evaluate Exam Qualification</button>
+
+                    <div class="calc-result-box" style="margin-top: 15px; border-left: 4px solid #00d4ff;">
+                        ⚖️ Continuous Assessment Score: <span id="icassScoreResult" style="color: #00d4ff; font-size: 16px;">0.0%</span>
+                        <div id="icassStatusBadge" style="margin-top: 8px; font-size: 13px; font-weight: 800;"></div>
+                    </div>
+                </div>
+            </div>
+
             <div class="link-card accordion-btn" id="calcToggle">
                 <span style="display: flex; align-items: center; width: 100%; justify-content: center; gap: 8px;">
                     <span>⚙️</span> Machining Calculator <span class="arrow" id="calcArrow">▼</span>
@@ -971,6 +997,45 @@
         }
     }
 
+    // INTERNAL DATA CONFIGURATION FOR ICASS CRITERIA
+    var ICASS_CONFIGS = {
+        vocational: {
+            subMinimum: 50,
+            fields: [
+                { id: "icass_v1", label: "Test 1 Mark (%)", weight: 0.10 },
+                { id: "icass_v2", label: "Practical Assignment 1 (%)", weight: 0.25 },
+                { id: "icass_v3", label: "Test 2 Mark (%)", weight: 0.10 },
+                { id: "icass_v4", label: "Practical Assignment 2 (%)", weight: 0.25 },
+                { id: "icass_v5", label: "Internal Trial Exam Mark (%)", weight: 0.30 }
+            ]
+        },
+        maths: {
+            subMinimum: 30,
+            fields: [
+                { id: "icass_m1", label: "Term 1 Written Tests Average (%)", weight: 0.15 },
+                { id: "icass_m2", label: "Term 2 Control Tests Average (%)", weight: 0.15 },
+                { id: "icass_m3", label: "Assignments & Class Tasks (%)", weight: 0.15 },
+                { id: "icass_m4", label: "Quarterly Math Project Mark (%)", weight: 0.25 },
+                { id: "icass_m5", label: "Internal Trial Assessment (%)", weight: 0.30 }
+            ]
+        }
+    };
+
+    function renderIcassInputs() {
+        var stream = document.getElementById("icassSubjectStream").value;
+        var container = document.getElementById("icassInputsContainer");
+        if (!container) return;
+        
+        container.innerHTML = "";
+        ICASS_CONFIGS[stream].fields.forEach(function(field) {
+            var html = '<div class="calc-group">' +
+                       '<label>' + field.label + ' (Weighted ' + (field.weight * 100) + '%):</label>' +
+                       '<input type="number" min="0" max="100" id="' + field.id + '" class="calc-input" placeholder="Enter mark out of 100" value="0">' +
+                       '</div>';
+            container.innerHTML += html;
+        });
+    }
+
     document.addEventListener("DOMContentLoaded", function() {
         var splashElement = document.getElementById("splash-screen");
 
@@ -980,6 +1045,61 @@
                 splashElement.style.visibility = "hidden";
                 splashElement.style.zIndex = "-1"; 
             }
+        }
+
+        // Initialize ICASS Dynamic Inputs
+        renderIcassInputs();
+        var icassStreamSelect = document.getElementById("icassSubjectStream");
+        if (icassStreamSelect) {
+            icassStreamSelect.addEventListener("change", function() {
+                renderIcassInputs();
+                document.getElementById("icassScoreResult").innerText = "0.0%";
+                document.getElementById("icassStatusBadge").innerHTML = "";
+                var menu = document.getElementById("icassMenu");
+                menu.style.maxHeight = menu.scrollHeight + "px";
+            });
+        }
+
+        // ICASS Processor Engine
+        var runIcassBtn = document.getElementById("runIcassCalcBtn");
+        if (runIcassBtn) {
+            runIcassBtn.addEventListener("click", function() {
+                var stream = document.getElementById("icassSubjectStream").value;
+                var config = ICASS_CONFIGS[stream];
+                var weightedTotal = 0;
+                var missingInput = false;
+
+                config.fields.forEach(function(field) {
+                    var inputEl = document.getElementById(field.id);
+                    var val = parseFloat(inputEl.value);
+                    if (isNaN(val) || val < 0 || val > 100) {
+                        missingInput = true;
+                    } else {
+                        weightedTotal += val * field.weight;
+                    }
+                });
+
+                var scoreResultSpan = document.getElementById("icassScoreResult");
+                var badgeEl = document.getElementById("icassStatusBadge");
+
+                if (missingInput) {
+                    scoreResultSpan.innerText = "Error";
+                    badgeEl.innerHTML = '<span style="color: #e74c3c;">⚠️ Enter accurate marks between 0 and 100!</span>';
+                    return;
+                }
+
+                var finalPercentage = Math.round(weightedTotal * 10) / 10;
+                scoreResultSpan.innerText = finalPercentage.toFixed(1) + "%";
+
+                if (finalPercentage >= config.subMinimum) {
+                    badgeEl.innerHTML = '<span style="color: #2ecc71; background: rgba(46,204,113,0.15); padding: 4px 12px; border-radius: 20px; display: inline-block;">🎉 Exam Qualified! (Sub-minimum met)</span>';
+                } else {
+                    badgeEl.innerHTML = '<span style="color: #e74c3c; background: rgba(231,76,60,0.15); padding: 4px 12px; border-radius: 20px; display: inline-block;">❌ Below Sub-minimum Requirement (' + config.subMinimum + '%)</span>';
+                }
+
+                var menu = document.getElementById("icassMenu");
+                menu.style.maxHeight = menu.scrollHeight + "px";
+            });
         }
 
         // Machining formulas selection logic
@@ -1011,7 +1131,7 @@
             });
         }
 
-        // Dashboard filtering system
+        // Dashboard filtering system (Includes ICASS keywords)
         var searchInput = document.getElementById("searchInput");
         if (searchInput) {
             searchInput.addEventListener("input", function() {
@@ -1026,6 +1146,7 @@
                     if (hrefValue === "learning.html") { subPageKeywords = "moodle learning management system portal cv templates curriculum vitae pdf tools merge compress compress pdf word to pdf grammar check spell check dictionary tools write clean essays"; } 
                     else if (hrefValue === "library.html") { subPageKeywords = "library desk open research facts engine search tools google scholar online encyclopedia britannica digital school textbooks openstax college library books free ebooks download project gutenberg online study timer countdown pomodoro focus method focus keeper tool clock"; } 
                     else if (card.getAttribute("onclick") === "toggleCalculator()") { subPageKeywords = "scientific calculator pop-up math solver matrix unit conversions mass weight volume parameters data storage gigabytes measurement conversion area logic metric system calculation solver"; }
+                    else if (card.id === "icassToggle") { subPageKeywords = "icass calculator continuous assessment internal marks subminimum eligibility exam entry qualifying test assignment trial exam criteria dhet"; }
                     
                     var searchableText = (cardText + " " + subPageKeywords).toLowerCase();
                     var matchFound = searchableText.indexOf(filter) > -1;
@@ -1037,6 +1158,7 @@
                         if (card.id === "timetableToggle") { menuId = "timetableMenu"; arrowId = "timetableArrow"; }
                         else if (card.id === "calcToggle") { menuId = "calcMenu"; arrowId = "calcArrow"; }
                         else if (card.id === "aboutToggle") { menuId = "aboutMenu"; arrowId = "aboutArrow"; }
+                        else if (card.id === "icassToggle") { menuId = "icassMenu"; arrowId = "icassArrow"; }
                         associatedMenu = document.getElementById(menuId);
                         if (associatedMenu && associatedMenu.textContent.toLowerCase().indexOf(filter) > -1) { matchFound = true; }
                     }
@@ -1070,6 +1192,7 @@
         setupAccordion("timetableToggle", "timetableMenu", "timetableArrow");
         setupAccordion("calcToggle", "calcMenu", "calcArrow");
         setupAccordion("aboutToggle", "aboutMenu", "aboutArrow");
+        setupAccordion("icassToggle", "icassMenu", "icassArrow");
 
         // Machining Formula Parser
         var calculateBtn = document.getElementById("calculateBtn");
