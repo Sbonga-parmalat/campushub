@@ -388,7 +388,7 @@
         #splash-screen {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background-color: #111417; /* Slate dark box matches TikTok video */
+            background-color: #000000; /* Pitch black canvas background as requested */
             overflow: hidden;
             display: flex;
             flex-direction: column;
@@ -407,33 +407,32 @@
             mix-blend-mode: screen;
             transition: opacity 1.2s ease;
         }
-        #splash-screen.lights-on .smoke-container { opacity: 0.6; }
+        #splash-screen.lights-on .smoke-container { opacity: 0.45; }
 
         .smoke-cloud { position: absolute; border-radius: 50%; mix-blend-mode: screen; }
-        .cloud-cyan { width: 500px; height: 500px; background: radial-gradient(circle, rgba(0,212,255,0.6) 0%, rgba(0,212,255,0) 70%); top: -10%; left: -10%; }
-        .cloud-purple { width: 600px; height: 600px; background: radial-gradient(circle, rgba(130,0,255,0.5) 0%, rgba(130,0,255,0) 70%); bottom: -20%; right: -10%; }
+        .cloud-cyan { width: 500px; height: 500px; background: radial-gradient(circle, rgba(0,212,255,0.4) 0%, rgba(0,212,255,0) 70%); top: -10%; left: -10%; }
+        .cloud-purple { width: 600px; height: 600px; background: radial-gradient(circle, rgba(130,0,255,0.3) 0%, rgba(130,0,255,0) 70%); bottom: -20%; right: -10%; }
 
         .splash-content { 
             position: relative;
             text-align: center; 
-            width: 90%; max-width: 450px;
+            width: 100%; max-width: 600px;
             z-index: 2;
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 25px;
+            gap: 0px;
         }
 
         /* PULL CHAIN INTERACTIVE LAMP GRAPHICS */
         .lamp-box {
             position: relative;
-            width: 180px;
-            height: 240px;
+            width: 100%;
+            height: 220px;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: flex-start;
-            margin-bottom: 10px;
         }
 
         .lamp-shade {
@@ -444,37 +443,29 @@
             position: relative;
             z-index: 10;
             transition: background 0.25s, box-shadow 0.25s;
+            margin-top: 20px;
         }
         #splash-screen.lights-on .lamp-shade {
             background: #fffdf0;
-            box-shadow: 0 -5px 25px rgba(255,235,160,0.4), 0 10px 40px #f1c40f;
+            box-shadow: 0 -5px 25px rgba(255,235,160,0.4), 0 5px 30px #f1c40f;
         }
 
         .lamp-stem {
             width: 6px;
             height: 125px;
             background: #4a5568;
-            position: relative;
+            position: absolute;
+            top: 0;
             z-index: 5;
             transition: background 0.3s;
         }
         #splash-screen.lights-on .lamp-stem { background: #967134; }
 
-        .lamp-base {
-            width: 75px;
-            height: 10px;
-            background: #2d3748;
-            border-radius: 6px 6px 0 0;
-            z-index: 5;
-            transition: background 0.3s;
-        }
-        #splash-screen.lights-on .lamp-base { background: #735321; }
-
         /* Elegant Pull Switch Chain Mechanism */
         .pull-cord {
             position: absolute;
-            top: 60px;
-            left: 105px; /* Offset right from the center stem */
+            top: 85px;
+            left: calc(50% + 40px); /* Offset perfectly to the right side of the lamp */
             width: 2px;
             height: 75px;
             background: #a0aec0;
@@ -502,26 +493,44 @@
             transform: scaleY(1.4);
         }
 
-        /* Radiant Light Vector Cone */
+        /* PERFECT TRAPEZOID LIGHT CONE BEAM 
+           Shines flawlessly downwards from directly beneath the lampshade base 
+        */
         .light-cone {
             position: absolute;
-            top: 60px;
+            top: 85px; /* Aligned precisely with the bottom rim of the lampshade */
             left: 50%;
             transform: translateX(-50%);
-            width: 0; height: 0;
-            border-left: 0 solid transparent;
-            border-right: 0 solid transparent;
-            border-bottom: 0 solid rgba(255, 235, 164, 0);
+            width: 550px; 
+            height: 320px; 
+            opacity: 0;
             pointer-events: none;
             z-index: 2;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.15);
+            
+            /* Sharp cutting geometric edge mapping matching your drawing angle */
+            clip-path: polygon(42% 0%, 58% 0%, 100% 100%, 0% 100%);
+            
+            /* Warm realistic lighting gradient filtering downwards into the code text layout */
+            background: linear-gradient(
+                to bottom,
+                rgba(255, 245, 200, 0.45) 0%,
+                rgba(255, 240, 180, 0.22) 55%,
+                rgba(255, 240, 180, 0.04) 90%,
+                rgba(255, 240, 180, 0) 100%
+            );
+            filter: blur(5px);
+            transition: opacity 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
         }
         #splash-screen.lights-on .light-cone {
-            width: 500px;
-            border-left: 170px solid transparent;
-            border-right: 170px solid transparent;
-            border-bottom: 240px solid rgba(255, 240, 180, 0.13);
-            filter: blur(4px);
+            opacity: 1;
+        }
+
+        .instruction-box {
+            height: 30px;
+            margin-top: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .splash-instruction {
@@ -531,9 +540,19 @@
             text-transform: uppercase;
             letter-spacing: 2.5px;
             margin: 0;
-            transition: opacity 0.3s ease;
+            transition: opacity 0.25s ease;
         }
         #splash-screen.lights-on .splash-instruction { opacity: 0; }
+
+        .greeting-box {
+            width: 100%;
+            height: 60px;
+            margin-top: 15px;
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            z-index: 3;
+        }
 
         #welcome-msg {
             color: #ffffff; 
@@ -543,7 +562,7 @@
             display: inline-block;
             border-right: 3px solid #ffffff; 
             white-space: normal; word-break: break-word;
-            margin: 10px auto 0 auto; padding-right: 6px;
+            margin: 0 auto; padding-right: 6px;
             text-shadow: 0 0 15px rgba(255,255,255,0.4), 0 0 25px #00d4ff; 
             animation: blinkCursor 0.75s step-end infinite;
             line-height: 1.4;
@@ -564,6 +583,7 @@
             .container { margin: 60px auto 20px auto; width: 88%; max-width: 420px; padding: 18px; }
             .links-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
             .link-card { padding: 22px 8px; font-size: 13px; }
+            .light-cone { width: 440px; height: 320px; }
         }
     </style>
 </head>
@@ -576,13 +596,16 @@
         <div class="splash-content">
             <div class="lamp-box">
                 <div class="light-cone"></div>
-                <div class="lamp-shade"></div>
                 <div class="lamp-stem"></div>
-                <div class="lamp-base"></div>
+                <div class="lamp-shade"></div>
                 <div class="pull-cord" id="pullCord" onclick="triggerLampSwitch()" aria-label="Pull lamp cord"></div>
             </div>
-            <p class="splash-instruction" id="splashHint">Pull the cord to turn on</p>
-            <h1 id="welcome-msg"></h1>
+            <div class="instruction-box">
+                <p class="splash-instruction" id="splashHint">Pull the cord to turn on</p>
+            </div>
+            <div class="greeting-box">
+                <h1 id="welcome-msg"></h1>
+            </div>
         </div>
     </div>
 
@@ -932,7 +955,7 @@
             index++;
             setTimeout(typeWriterSplash, 60); 
         } else {
-            setTimeout(removeSplashScreen, 1200);
+            setTimeout(removeSplashScreen, 1500);
         }
     }
 
