@@ -493,12 +493,10 @@
             transform: scaleY(1.4);
         }
 
-        /* PERFECT TRAPEZOID LIGHT CONE BEAM 
-           Shines flawlessly downwards from directly beneath the lampshade base 
-        */
+        /* PERFECT TRAPEZOID LIGHT CONE BEAM */
         .light-cone {
             position: absolute;
-            top: 85px; /* Aligned precisely with the bottom rim of the lampshade */
+            top: 85px; 
             left: 50%;
             transform: translateX(-50%);
             width: 550px; 
@@ -507,10 +505,8 @@
             pointer-events: none;
             z-index: 2;
             
-            /* Sharp cutting geometric edge mapping matching your drawing angle */
             clip-path: polygon(42% 0%, 58% 0%, 100% 100%, 0% 100%);
             
-            /* Warm realistic lighting gradient filtering downwards into the code text layout */
             background: linear-gradient(
                 to bottom,
                 rgba(255, 245, 200, 0.45) 0%,
@@ -653,14 +649,14 @@
                 <div class="calc-group">
                     <label>Measurement Category:</label>
                     <select id="convCategory" class="calc-select" onchange="updateConverterUnits()">
-                        <option value="mass">⚖️ Mass</option>
-                        <option value="volume">🧪 Volume</option>
-                        <option value="temperature">🌡️ Temperature</option>
-                        <option value="data">💾 Data Storage</option>
-                        <option value="speed">⚡ Speed</option>
-                        <option value="time">⏱️ Time</option>
-                        <option value="area">📐 Area</option>
-                        <option value="length">📏 Length</option>
+                        <option value="mass"> Mass</option>
+                        <option value="volume"> Volume</option>
+                        <option value="temperature"> Temperature</option>
+                        <option value="data"> Data Storage</option>
+                        <option value="speed"> Speed</option>
+                        <option value="time"> Time</option>
+                        <option value="area"> Area</option>
+                        <option value="length"> Length</option>
                     </select>
                 </div>
 
@@ -674,7 +670,7 @@
                     <label>To:</label>
                     <select id="convToUnit" class="calc-select" style="margin-bottom: 8px;" onchange="runUnitConversion()"></select>
                     <div class="calc-result-box" style="margin-top: 5px;">
-                        🎯 Result: <span id="convOutputResult" style="color: #00d4ff;">1</span>
+                         Result: <span id="convOutputResult" style="color: #00d4ff;">1</span>
                     </div>
                 </div>
             </div>
@@ -756,8 +752,7 @@
                         <option value="maths">📐 Fundamental Mathematics (30% Sub-min Required)</option>
                     </select>
 
-                    <div id="icassInputsContainer">
-                        </div>
+                    <div id="icassInputsContainer"></div>
 
                     <button class="action-button" id="runIcassCalcBtn">📊 Evaluate Exam Qualification</button>
 
@@ -792,7 +787,7 @@
                     </div>
                     
                     <div class="calc-group">
-                        <label id="field1Label">Cutting Speed (Vc) in m/min:</label>
+                        <label id="field1Label">Cutting Speed (S) in m/min:</label>
                         <input type="number" step="any" id="field1Input" class="calc-input" placeholder="e.g., 150" value="150">
                     </div>
 
@@ -804,7 +799,7 @@
                     <button class="action-button" id="calculateBtn">⚙️ Run Machining Formula</button>
 
                     <div class="calc-result-box">
-                        🚀 Calculated Output: <span id="rpmResult" style="color: #00d4ff;">375 RPM</span>
+                        🚀 Calculated Output: <span id="rpmResult" style="color: #00d4ff;">375.13 RPM</span>
                     </div>
                 </div>
             </div>
@@ -832,7 +827,7 @@
     </div>
 
     <footer style="color:#00d4ff; text-align:center; margin-top:30px; font-weight:bold;">
-        <p>&copy; 2026 Mwandla Sbongokuhle. All rights reserved</p>
+        <p>&copy; 2026 . All rights reserved</p>
     </footer>
 
     <script>
@@ -937,16 +932,14 @@
         if (event.target === modal) { modal.classList.remove("active"); }
     });
 
-    // TYPEWRITER ENGINE FOR MAIN SCREEN
-    var greetingText = "Good Evening, Student!";
+    var greetingText = "Good Evening,</br> Student!";
     var currentHour = new Date().getHours();
-    if (currentHour < 12) { greetingText = "Good Morning, Student!"; }
-    else if (currentHour < 18) { greetingText = "Good Afternoon, Student!"; }
+    if (currentHour < 12) { greetingText = "Good Morning,</br> Student!"; }
+    else if (currentHour < 18) { greetingText = "Good Afternoon,</br> Student!"; }
 
     var index = 0;
     var isLightsOn = false;
 
-    // Embedded Base64 Mechanical Light Switch Click Audio String
     var clickSoundB64 = "data:audio/wav;base64,UklGRjIAAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQAAAAAAb25vZmZjbGljaw==";
     var clickAudio = new Audio(clickSoundB64);
     clickAudio.volume = 0.6;
@@ -958,18 +951,13 @@
         var cord = document.getElementById("pullCord");
         var splash = document.getElementById("splash-screen");
         
-        // Play click sound right as the user pulls
         clickAudio.play().catch(function(e) { console.log("Audio playback blocked until user gesture: ", e); });
         
-        // Play physical pulling stretch animation
         cord.classList.add("snapping");
 
         setTimeout(function() {
-            // Snap back up and switch lights on
             cord.classList.remove("snapping");
             splash.classList.add("lights-on");
-            
-            // Initiate greeting print engine
             setTimeout(typeWriterSplash, 350);
         }, 120);
     }
@@ -997,7 +985,6 @@
         }
     }
 
-    // INTERNAL DATA CONFIGURATION FOR ICASS CRITERIA
     var ICASS_CONFIGS = {
         vocational: {
             subMinimum: 50,
@@ -1047,7 +1034,6 @@
             }
         }
 
-        // Initialize ICASS Dynamic Inputs
         renderIcassInputs();
         var icassStreamSelect = document.getElementById("icassSubjectStream");
         if (icassStreamSelect) {
@@ -1060,7 +1046,6 @@
             });
         }
 
-        // ICASS Processor Engine
         var runIcassBtn = document.getElementById("runIcassCalcBtn");
         if (runIcassBtn) {
             runIcassBtn.addEventListener("click", function() {
@@ -1102,7 +1087,6 @@
             });
         }
 
-        // Machining formulas selection logic
         var calcModeSelect = document.getElementById("calcMode");
         var speedUnitGroup = document.getElementById("speedUnitGroup");
         if (calcModeSelect) {
@@ -1114,24 +1098,23 @@
                 
                 if (currentMode === "rpm") {
                     speedUnitGroup.style.display = "block";
-                    lbl1.innerText = "Cutting Speed (Vc) in m/min:"; inp1.value = "150";
+                    lbl1.innerText = "Cutting Speed (S) in m/min:"; inp1.value = "150";
                     lbl2.innerText = "Workpiece Diameter (d) in mm:"; inp2.value = "40";
-                    outputBox.innerText = "375 RPM";
+                    outputBox.innerText = "1193.66 RPM";
                 } else if (currentMode === "vc") {
                     speedUnitGroup.style.display = "block";
                     lbl1.innerText = "Spindle Rotational Speed (N):"; inp1.value = "2.42";
                     lbl2.innerText = "Workpiece Diameter (d) in mm:"; inp2.value = "25";
-                    outputBox.innerText = "190.1 m/min";
+                    outputBox.innerText = "0.19 m/min";
                 } else if (currentMode === "diameter") {
                     speedUnitGroup.style.display = "block";
-                    lbl1.innerText = "Cutting Speed (Vc) in m/min:"; inp1.value = "120";
+                    lbl1.innerText = "Cutting Speed (S) in m/min:"; inp1.value = "120";
                     lbl2.innerText = "Spindle Rotational Speed (N):"; inp2.value = "500";
                     outputBox.innerText = "76.39 mm";
                 }
             });
         }
 
-        // Dashboard filtering system (Includes ICASS keywords)
         var searchInput = document.getElementById("searchInput");
         if (searchInput) {
             searchInput.addEventListener("input", function() {
@@ -1194,7 +1177,7 @@
         setupAccordion("aboutToggle", "aboutMenu", "aboutArrow");
         setupAccordion("icassToggle", "icassMenu", "icassArrow");
 
-        // Machining Formula Parser
+        // Machining Formula Parser (Updated with .toFixed(2) rounding accuracy)
         var calculateBtn = document.getElementById("calculateBtn");
         if (calculateBtn) {
             calculateBtn.addEventListener("click", function() {
@@ -1208,10 +1191,10 @@
                 if (!isNaN(val1) && !isNaN(val2) && val1 >= 0 && val2 >= 0) {
                     if (selectMode === "rpm") {
                         var rpm = (1000 * val1) / (Math.PI * val2);
-                        resultSpan.innerText = (speedUnit === "rps") ? (rpm / 60).toFixed(2) + " RPS" : Math.round(rpm) + " RPM";
+                        resultSpan.innerText = (speedUnit === "rps") ? (rpm / 60).toFixed(2) + " RPS" : rpm.toFixed(2) + " RPM";
                     } else if (selectMode === "vc") {
                         let n_rpm = (speedUnit === "rps") ? val1 * 60 : val1;
-                        resultSpan.innerText = ((Math.PI * val2 * n_rpm) / 1000).toFixed(1) + " m/min";
+                        resultSpan.innerText = ((Math.PI * val2 * n_rpm) / 1000).toFixed(2) + " m/min";
                     } else if (selectMode === "diameter") {
                         let n_rpm = (speedUnit === "rps") ? val2 * 60 : val2;
                         resultSpan.innerText = ((1000 * val1) / (Math.PI * n_rpm)).toFixed(2) + " mm";
@@ -1221,7 +1204,6 @@
             });
         }
 
-        // Theme Toggle Button Handler
         var bulbToggleBtn = document.getElementById("bulbToggleBtn");
         if (bulbToggleBtn) {
             bulbToggleBtn.addEventListener("click", function() {
